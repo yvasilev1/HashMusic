@@ -13,6 +13,7 @@ import com.datastax.driver.core.Session;
 import com.datastax.driver.core.Statement;
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
+import java.util.UUID;
 
 /**
  *
@@ -24,11 +25,9 @@ public class Users {
     
     Cluster cluster;
     
-    public void setCluster(Cluster cluster)
-    {  this.cluster = cluster;}
-    
+
    
- public boolean registerUser(String email, String username, String password)
+ public boolean registerUser(UUID userId,String email, String username, String password)
  {
      //java.util.UUID userId = dsadasdad;
      
@@ -49,6 +48,8 @@ public class Users {
      return false;
  }
     
-            
+    public void setCluster(Cluster cluster) {
+        this.cluster = cluster;
+    }        
             
 }
