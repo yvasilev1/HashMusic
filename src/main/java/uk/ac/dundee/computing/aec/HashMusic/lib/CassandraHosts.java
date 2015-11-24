@@ -1,4 +1,4 @@
-package uk.ac.dundee.computing.aec.instagrim.lib;
+package uk.ac.dundee.computing.aec.HashMusic.lib;
 
 import com.datastax.driver.core.*;
 

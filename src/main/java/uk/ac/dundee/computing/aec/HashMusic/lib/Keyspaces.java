@@ -1,4 +1,4 @@
-package uk.ac.dundee.computing.aec.instagrim.lib;
+package uk.ac.dundee.computing.aec.HashMusic.lib;
 
 import java.util.ArrayList;
 import java.util.List;
