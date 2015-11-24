@@ -18,14 +18,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import uk.ac.dundee.computing.aec.HashMusic.lib.CassandraHosts;
-import uk.ac.dundee.computing.aec.HashMusic.lib.Convertors;
 
 /**
  *
- * @author Connor
+ * @author Yulian
  */
-@WebServlet(name = "Register", urlPatterns = {"Register"})
-public class Register extends HttpServlet {
+@WebServlet(name = "Login", urlPatterns = {"/Login"})
+public class Login extends HttpServlet {
 
     Cluster cluster = null;
 
@@ -34,48 +33,30 @@ public class Register extends HttpServlet {
         cluster = CassandraHosts.getCluster();
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         HttpSession session = request.getSession();
-        Convertors convertor = new Convertors();
-        java.util.UUID userId = convertor.getTimeUUID();
 
-        String email = request.getParameter("email");
-        String username = request.getParameter("uname");
+        String username = request.getParameter("username");
         String password = request.getParameter("password");
 
         Users us = new Users();
         us.setCluster(cluster);
-        if (us.registerUser(userId, email, username, password)) {
-            boolean loggedIn = true;
-            session.setAttribute("userStatus", loggedIn);
-        } else {
 
+        boolean isUserValid = us.isUserValid(username, password);
+
+        if (isUserValid) {
+
+            System.out.println("Success");
+            RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
+            rd.forward(request, response);
+
+        } else {
+            response.sendRedirect("/HashMusic/login.jsp");
         }
 
-        RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
-        rd.forward(request, response);
-
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 
 }

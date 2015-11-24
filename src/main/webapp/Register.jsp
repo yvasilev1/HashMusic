@@ -13,13 +13,15 @@
     </head>
     <body>
         <h1>Les Register boiz</h1></br>
-        
+
         <form method ="post" action ="Register">
-        Email <input type = "text" name ="email">
-        Username <input type ="text" name ="uname">
-        Password <input type ="password" name ="password">
-        
-        <input type="submit" value ="Register">
+            
+            <li>Username <input type ="text" name ="uname"></li>
+            <li>Password <input type ="password" name ="password"></li>
+            <li> Email <input type = "text" name ="email"></li>
+
+
+            <input type="submit" value ="Register">
         </form>
     </body>
 </html>

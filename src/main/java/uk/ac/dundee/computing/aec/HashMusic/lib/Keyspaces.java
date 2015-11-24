@@ -30,6 +30,7 @@ public final class Keyspaces {
                     + "userid uuid, "
                     + "username text, "
                     + "password text, "
+                    + "email text, "
                     + "PRIMARY KEY (userid)"
                     + ")";
 

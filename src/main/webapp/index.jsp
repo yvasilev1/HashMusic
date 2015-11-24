@@ -12,9 +12,9 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
-        
-        <h2><a href = "Register.jsp">Register</a></h2>
-        <h2><a href = "Login.jsp"></a></h2>
+        <h1>Hash Music </h1>
+
+        <h2><li><a href = "Register.jsp">Register</a></li></h2>
+        <h2><li><a href = "Login.jsp">Login</a></li></h2>
     </body>
 </html>
