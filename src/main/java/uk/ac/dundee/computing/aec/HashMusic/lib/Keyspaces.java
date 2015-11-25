@@ -40,6 +40,15 @@ public final class Keyspaces {
                     + "username text, "
                     + "PRIMARY KEY (playList)"
                     + ")";
+            
+            String CreatePostsTable = "CREATE TABLE if not exists HashMusic.Posts (\n"
+                   + "post_id uuid, "
+                   + "user_id uuid, "
+                   + "content text, "
+                   + "date_posted timestamp, "
+                   + "receiver_id uuid, "
+                   + "PRIMARY KEY (post_id)"
+                   + ")";
 
             String CreateHashList = "CREATE TABLE if not exists HashMusic.HashList (\n"
                     + "user_id uuid, "
@@ -63,6 +72,13 @@ public final class Keyspaces {
                 System.out.println("created HashMusic ");
             } catch (Exception et) {
                 System.out.println("Can't create HashMusic " + et);
+            }
+            
+             try {
+                SimpleStatement cqlQuery = new SimpleStatement(CreateSecondaryIndex);
+                session.execute(cqlQuery);
+            } catch (Exception et) {
+                System.out.println("Can't create secondary index for PlayList table " + et);
             }
 
             try {
@@ -91,6 +107,13 @@ public final class Keyspaces {
                 session.execute(cqlQuery);
             } catch (Exception et) {
                 System.out.println("Can't create HashList table " + et);
+            }
+            
+            try {
+                SimpleStatement cqlQuery = new SimpleStatement(CreatePostsTable);
+                session.execute(cqlQuery);
+            } catch (Exception et) {
+                System.out.println("Can't create PostsTable table " + et);
             }
 
         } catch (Exception et) {

@@ -45,13 +45,13 @@ public class Users {
     public boolean isUserValid(String userName, String password) {
 
         Session session = cluster.connect("HashMusic");
-
+   
         Statement statement = QueryBuilder.select()
                 .all()
                 .from("HashMusic", "users");
         ResultSet rs = session.execute(statement);
         if (rs.isExhausted()) {
-            System.out.println("No Images returned");
+            System.out.println("No users returned");
             return false;
         } else {
             for (Row row : rs) {
