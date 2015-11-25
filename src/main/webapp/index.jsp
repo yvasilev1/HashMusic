@@ -16,7 +16,7 @@
 
         <h2><li><a href = "Register.jsp">Register</a></li></h2>
         <h2><li><a href = "Login.jsp">Login</a></li></h2>
-                <c:if test="${sessionScope.loggedIn == true}">
+                <c:if test="${sessionScope.userStatus == true}">
          <h2><li><a href = "index.jsp">Logout</a></li></h2>  
         </c:if>
 
