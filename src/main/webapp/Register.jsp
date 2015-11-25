@@ -18,7 +18,7 @@
             
             <li>Username <input type ="text" name ="uname"></li>
             <li>Password <input type ="password" name ="password"></li>
-            <li> Email <input type = "text" name ="email"></li>
+            <li>Email <input type = "text" name ="email"></li>
 
 
             <input type="submit" value ="Register">

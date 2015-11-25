@@ -37,7 +37,7 @@ public class Login extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        HttpSession session = request.getSession();
+       
 
         String username = request.getParameter("username");
         String password = request.getParameter("password");
@@ -48,13 +48,16 @@ public class Login extends HttpServlet {
         boolean isUserValid = us.isUserValid(username, password);
 
         if (isUserValid) {
-
+             HttpSession session = request.getSession(true);
+            boolean loggedIn = true;
+            session.setAttribute("userStatus", loggedIn);
             System.out.println("Success");
             RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
             rd.forward(request, response);
 
         } else {
-            response.sendRedirect("/HashMusic/login.jsp");
+            System.out.println("Wrong Password");
+            response.sendRedirect("/HashMusic/Login.jsp");
         }
 
     }
