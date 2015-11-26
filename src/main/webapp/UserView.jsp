@@ -21,6 +21,9 @@
             <input type ="submit" value ="Search">
         </form>
         
+         <c:if test="${sessionScope.userStatus == true}">
+         <h2><li><a href = "LogoutServlet">Logout</a></li></h2>  
+        </c:if>
         
     </body>
 </html>
