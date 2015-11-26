@@ -21,6 +21,14 @@
             <input type ="submit" value ="Search">
         </form>
         
+        <form name="input" action="Followers" method="POST">
+        <input type="text" name="user" value="${sessionScope.user}" hidden>
+        <input type="text" name="user1" value="" hidden>
+        <input type="submit" value="Follow">
+        </form>
+        
+        
+        
          <c:if test="${sessionScope.userStatus == true}">
          <h2><li><a href = "LogoutServlet">Logout</a></li></h2>  
         </c:if>

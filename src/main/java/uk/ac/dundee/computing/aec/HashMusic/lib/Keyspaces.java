@@ -57,6 +57,12 @@ public final class Keyspaces {
                     + "playList_id uuid, "
                     + "PRIMARY KEY (user_id, hash)"
                     + ")";
+         String CreateFollowerList = "CREATE TABLE if not exists HashMusic.followers (\n"
+                    + " followerUser_ID uuid, "
+                    + " followingUser_ID uuid, "
+                    + "date_followed timestamp,"
+                    + "PRIMARY KEY (followerUser_ID, followingUser_ID, date_followed)\n"
+                    + ") WITH CLUSTERING ORDER BY (followingUser_ID asc, date_followed desc);";
 
             String CreateSecondaryIndex = "CREATE INDEX user ON HashMusic.PlayList (username);";
 
@@ -114,6 +120,12 @@ public final class Keyspaces {
                 session.execute(cqlQuery);
             } catch (Exception et) {
                 System.out.println("Can't create PostsTable table " + et);
+            }
+              try {
+                SimpleStatement cqlQuery = new SimpleStatement(CreateFollowerList);
+                session.execute(cqlQuery);
+            } catch (Exception et) {
+                System.out.println("Can't create CreateFollowerList table " + et);
             }
 
         } catch (Exception et) {

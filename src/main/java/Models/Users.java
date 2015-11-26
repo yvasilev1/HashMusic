@@ -14,7 +14,7 @@ import com.datastax.driver.core.Session;
 import com.datastax.driver.core.Statement;
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
-import java.util.UUID;
+import java.util.*;
 
 /**
  *
@@ -38,7 +38,6 @@ public class Users {
                 .value("email", email);
         session.execute(statement);
         session.close();
-
         return false;
     }
 
@@ -74,6 +73,19 @@ public class Users {
             }
         }
         return storedUUID;
+    }
+
+    public void addFollower(UUID user, UUID user1, Date dateFollowed) {
+        
+        Session session = cluster.connect("HashMusic");
+        /*
+        Statement statement = QueryBuilder.insertInto("followers")
+                .value("followerUserID", user)
+                .value("followingUserID", user1)
+                .value("date_followed", dateFollowed);
+        session.execute(statement);
+        session.close();
+    */  
     }
 
     public void setCluster(Cluster cluster) {
