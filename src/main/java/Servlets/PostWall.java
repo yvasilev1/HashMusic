@@ -5,9 +5,11 @@
  */
 package Servlets;
 
+import Models.Feed;
 import com.datastax.driver.core.Cluster;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -17,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import uk.ac.dundee.computing.aec.HashMusic.lib.CassandraHosts;
+import uk.ac.dundee.computing.aec.HashMusic.lib.Convertors;
 
 /**
  *
@@ -45,10 +48,25 @@ public class PostWall extends HttpServlet {
             throws ServletException, IOException {
         
         String comment = request.getParameter("postContent");
-        
+        Date datePosted = new Date();
+        //Need to get postedTo ID. Set as usersID for sake of it working. Will change it so it takes the ID of the user being viewed.
         HttpSession session = request.getSession(true);
         
-        RequestDispatcher rd = request.getRequestDispatcher("UserView.jsp");
+        Convertors convertor = new Convertors();
+        java.util.UUID postID = convertor.getTimeUUID();
+        
+        java.util.UUID postedBy = (java.util.UUID)session.getAttribute("userID");
+        java.util.UUID postedTo = (java.util.UUID)session.getAttribute("userID");
+        
+        Feed feed = new Feed();
+        feed.setCluster(cluster);
+        
+        if(!comment.equals(""))
+        {
+             feed.insertPost(postID, postedTo, postedBy, datePosted, comment);
+        }
+         
+        RequestDispatcher rd = request.getRequestDispatcher("/HashMusic/UserView.jsp");
         rd.forward(request, response);
         
     }

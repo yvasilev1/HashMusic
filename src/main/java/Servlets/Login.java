@@ -53,6 +53,7 @@ public class Login extends HttpServlet {
             HttpSession session = request.getSession(true);
             boolean loggedIn = true;
             session.setAttribute("userStatus", loggedIn);
+            session.setAttribute("userID", isUserValid);
             session.setAttribute("user", username);
             System.out.println("Success");
             response.sendRedirect("populateUserView");

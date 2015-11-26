@@ -28,21 +28,26 @@ public class Feed {
        
        public Feed(){}
        
-       public void insertPost(String comment, String user, java.util.UUID userUUID, Date datePosted, String postedTo)
+       //Inserting posts
+       public void insertPost(java.util.UUID postID, java.util.UUID postedTo, java.util.UUID postedBy, Date datePosted, String postContent)
        {
-           Date date = new Date();
-           
-           Session session = cluster.connect("HashMusic");
+     
+        Session session = cluster.connect("HashMusic");
 
-       //  Statement statement = QueryBuilder.insertInto("Posts")
-       //         .value("post_id", postId)
-       //         .value("user_id", userId)
-       //         .value("content", content)
-       //         .value("date_posted", datePosted)
-       //         .value("receiver_id", receiverId);
-       //  session.execute(statement);
-       //  session.close();
+         Statement statement = QueryBuilder.insertInto("Posts")
+                .value("post_id", postID)
+                .value("postedTo_id", postedTo)
+                .value("postedBy_id", postedBy)
+                .value("date_posted", datePosted)
+                .value("content", postContent);
+         session.execute(statement);
+         session.close();
        }
+       
+          public void setCluster(Cluster cluster) {
+        this.cluster = cluster;
+    }
+
 }
 
 
