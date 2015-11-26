@@ -42,29 +42,38 @@ public class Users {
         return false;
     }
 
-    public boolean isUserValid(String userName, String password) {
+    public UUID isUserValid(String userName, String password) {
 
         Session session = cluster.connect("HashMusic");
-   
+        UUID storedUUID = null;
         Statement statement = QueryBuilder.select()
                 .all()
                 .from("HashMusic", "users");
         ResultSet rs = session.execute(statement);
         if (rs.isExhausted()) {
             System.out.println("No users returned");
-            return false;
+            return null;
         } else {
             for (Row row : rs) {
                 String username = row.getString("username");
+
                 if (username.equals(userName)) {
                     String storedPassword = row.getString("password");
-                    if (storedPassword.equals(password)) {
-                        return true;
+                    if (password.equals(storedPassword)) {
+                        storedUUID = row.getUUID("userid");
+                        if (storedUUID != null) {
+                            return storedUUID;
+                        } else {
+                            System.out.println("Wrong password!");
+                            return null;
+
+                        }
                     }
+
                 }
             }
         }
-        return false;
+        return storedUUID;
     }
 
     public void setCluster(Cluster cluster) {

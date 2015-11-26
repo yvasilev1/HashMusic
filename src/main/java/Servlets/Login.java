@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import uk.ac.dundee.computing.aec.HashMusic.lib.CassandraHosts;
+import java.util.*;
 
 /**
  *
@@ -45,9 +46,9 @@ public class Login extends HttpServlet {
         Users us = new Users();
         us.setCluster(cluster);
 
-        boolean isUserValid = us.isUserValid(username, password);
-        
-        if (isUserValid) {
+        UUID isUserValid = us.isUserValid(username,password);
+        System.out.println(isUserValid);
+        if (isUserValid != null) {
                       
             HttpSession session = request.getSession(true);
             boolean loggedIn = true;
