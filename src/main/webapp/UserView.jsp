@@ -39,9 +39,13 @@
             <input type ="submit" value ="Post">
         </form>
          <c:if test="${sessionScope.userWall == true}">
-             
-             
+            
          </c:if>
+         
+         <form method ="GET" action ="Search">
+            <input type ="text" name ="user">
+            <input type ="submit" value ="Search">
+        </form>
         
     </body>
 </html>

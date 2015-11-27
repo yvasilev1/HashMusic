@@ -5,9 +5,9 @@
  */
 package Servlets;
 
-import Models.Users;
 import com.datastax.driver.core.Cluster;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -17,17 +17,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import uk.ac.dundee.computing.aec.HashMusic.lib.CassandraHosts;
-import java.util.*;
 
 /**
  *
  * @author Yulian
  */
-@WebServlet(name = "Followers", urlPatterns = {"/Followers"})
-public class Followers extends HttpServlet {
+@WebServlet(name = "Search", urlPatterns = {"/Search"})
+public class Search extends HttpServlet {
 
     Cluster cluster = null;
-    
+
     public void init(ServletConfig config) throws ServletException {
         // TODO Auto-generated method stub
         cluster = CassandraHosts.getCluster();
@@ -44,34 +43,16 @@ public class Followers extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-    }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        String searchedUser = request.getParameter("user");
+        System.out.println(searchedUser);
         
-        HttpSession session = request.getSession(true);
-        UUID user = (UUID) session.getAttribute("userID");
-        UUID user1 = (UUID) session.getAttribute("userID");
-        System.out.println(user);
-        Users us = new Users();
-        us.setCluster(cluster);
-        Date dateFollowed = new Date();
-        System.out.println(dateFollowed);
-        us.addFollower(user, user1, dateFollowed);
         
+
         RequestDispatcher rd = request.getRequestDispatcher("UserView.jsp");
         rd.forward(request, response);
-        
+
     }
-    
+
 }

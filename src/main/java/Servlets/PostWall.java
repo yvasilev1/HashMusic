@@ -66,7 +66,7 @@ public class PostWall extends HttpServlet {
              feed.insertPost(postID, postedTo, postedBy, datePosted, comment);
         }
          
-        RequestDispatcher rd = request.getRequestDispatcher("/HashMusic/UserView.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/UserView.jsp");
         rd.forward(request, response);
         
     }
