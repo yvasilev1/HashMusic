@@ -18,7 +18,7 @@
         
         
         <form name="input" action="Followers" method="POST">
-        <input type="text" name="user" value="${sessionScope.user}" hidden>
+        <input type="text" name="user" value="${sessionScope.userID}" hidden>
         <input type="text" name="user1" value="" hidden>
         <input type="submit" value="Follow">
         </form>

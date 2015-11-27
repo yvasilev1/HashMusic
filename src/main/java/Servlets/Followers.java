@@ -5,6 +5,7 @@
  */
 package Servlets;
 
+import Models.Users;
 import com.datastax.driver.core.Cluster;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import uk.ac.dundee.computing.aec.HashMusic.lib.CassandraHosts;
+import java.util.*;
 
 /**
  *
@@ -57,10 +59,16 @@ public class Followers extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
          
-        String user1 = request.getParameter("user");
-        System.out.println(user1);
-        
+       
         HttpSession session = request.getSession(true);
+        UUID user = (UUID)session.getAttribute("userID");
+        UUID user1 = (UUID)session.getAttribute("userID");
+        System.out.println(user);
+        Users us = new Users();
+        us.setCluster(cluster);
+        Date dateFollowed = new Date();
+        System.out.println(dateFollowed);
+        us.addFollower(user, user1, dateFollowed);
         
         RequestDispatcher rd = request.getRequestDispatcher("UserView.jsp");
         rd.forward(request, response);

@@ -41,7 +41,7 @@ public class Users {
         return false;
     }
 
-    public UUID isUserValid(String userName, String password) {
+    public UUID isUserValid(String userName) {
 
         Session session = cluster.connect("HashMusic");
         UUID storedUUID = null;
@@ -57,8 +57,6 @@ public class Users {
                 String username = row.getString("username");
 
                 if (username.equals(userName)) {
-                    String storedPassword = row.getString("password");
-                    if (password.equals(storedPassword)) {
                         storedUUID = row.getUUID("userid");
                         if (storedUUID != null) {
                             return storedUUID;
@@ -67,7 +65,7 @@ public class Users {
                             return null;
 
                         }
-                    }
+                    
 
                 }
             }
@@ -78,14 +76,14 @@ public class Users {
     public void addFollower(UUID user, UUID user1, Date dateFollowed) {
         
         Session session = cluster.connect("HashMusic");
-        /*
+        
         Statement statement = QueryBuilder.insertInto("followers")
-                .value("followerUserID", user)
-                .value("followingUserID", user1)
+                .value("followerUser_ID", user)
+                .value("followingUser_ID", user1)
                 .value("date_followed", dateFollowed);
         session.execute(statement);
         session.close();
-    */  
+   
     }
 
     public void setCluster(Cluster cluster) {
