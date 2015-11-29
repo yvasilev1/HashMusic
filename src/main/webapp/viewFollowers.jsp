@@ -14,16 +14,16 @@
     </head>
     <body>
         <p>Following</p>
-        <c:set var = "usersForFollowers" value = "${sessionScope.Followers}"/>
-        <c:forEach items="${usersForFollowers}" var = "usersForFollowers">
-            <h2><c:out value = "${usersForFollowers}"/></h2></br>
+        <c:set var = "uNamesOfFollowing" value = "${sessionScope.Followers}"/>
+        <c:forEach items="${uNamesOfFollowing}" var = "uNamesOfFollowing">
+            <h2><c:out value = "${uNamesOfFollowing}"/></h2></br>
   
             </br></br>
         </c:forEach>
           <p>Followers</p>
-           <c:set var = "followersForUsers" value = "${sessionScope.Followers}"/>
-        <c:forEach items="${followersForUsers}" var = "followersForUsers">
-            <h2><c:out value = "${followersForUsers}"/></h2></br>
+           <c:set var = "uNamesofFollowers" value = "${sessionScope.Followers}"/>
+        <c:forEach items="${uNamesofFollowers}" var = "uNamesofFollowers">
+            <h2><c:out value = "${uNamesofFollowers}"/></h2></br>
   
             </br></br>
         </c:forEach>
