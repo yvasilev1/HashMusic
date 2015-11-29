@@ -26,7 +26,8 @@
         
         
          <c:if test="${sessionScope.userStatus == true}">
-         <h2><li><a href = "LogoutServlet">Logout</a></li></h2>  
+         <h2><li><a href = "LogoutServlet">Logout</a></li></h2>
+         <h2><li><a href = "Followers">Followers</a></li></h2>  
         </c:if>
          
          

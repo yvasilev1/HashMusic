@@ -5,6 +5,7 @@
  */
 package Models;
 
+import Stores.Song;
 import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.PreparedStatement;
@@ -14,6 +15,7 @@ import com.datastax.driver.core.Session;
 import com.datastax.driver.core.Statement;
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
+import static com.datastax.driver.core.querybuilder.QueryBuilder.eq;
 import java.util.*;
 
 /**
@@ -57,15 +59,14 @@ public class Users {
                 String username = row.getString("username");
 
                 if (username.equals(userName)) {
-                        storedUUID = row.getUUID("userid");
-                        if (storedUUID != null) {
-                            return storedUUID;
-                        } else {
-                            System.out.println("Wrong password!");
-                            return null;
+                    storedUUID = row.getUUID("userid");
+                    if (storedUUID != null) {
+                        return storedUUID;
+                    } else {
+                        System.out.println("Wrong password!");
+                        return null;
 
-                        }
-                    
+                    }
 
                 }
             }
@@ -74,16 +75,90 @@ public class Users {
     }
 
     public void addFollower(UUID user, UUID user1, Date dateFollowed) {
-        
+
         Session session = cluster.connect("HashMusic");
-        
+
         Statement statement = QueryBuilder.insertInto("followers")
                 .value("followerUser_ID", user)
                 .value("followingUser_ID", user1)
                 .value("date_followed", dateFollowed);
         session.execute(statement);
         session.close();
-   
+
+    }
+
+    public boolean doesUserFollow(UUID user, UUID user1) {
+        if (user1.equals(user)) {
+            return true;
+        }
+        java.util.LinkedList<UUID> follows = new java.util.LinkedList<>();
+        Session session = cluster.connect("yvinstagrim");
+
+        Statement statement = QueryBuilder.select("followingUser_ID")
+                .from("HashMusic", "followers")
+                .where(eq("followerUser_ID", user));
+        ResultSet rs = session.execute(statement);
+        if (rs.isExhausted()) {
+            System.out.println("No followers returned");
+            return false;
+        } else {
+            for (Row row : rs) {
+
+                follows.add(row.getUUID("followingUser_ID"));
+            }
+            for (int i = 0; i < follows.size(); i++) {
+                System.out.println("looping");
+                if (user1.compareTo(follows.get(i)) == 0) {
+                    return true;
+                }
+
+            }
+            return false;
+        }
+
+    }
+
+    public java.util.LinkedList<UUID> getUserForFollower(UUID user) {
+        java.util.LinkedList<UUID> usersForFollowers = new java.util.LinkedList<>();
+        Session session = cluster.connect("yvinstagrim");
+
+        Statement statement = QueryBuilder.select("followingUser_ID")
+                .from("HashMusic", "followers")
+                .where(eq("followerUser_ID", user));
+        ResultSet rs = session.execute(statement);
+        if (rs.isExhausted()) {
+            System.out.println("No followers returned");
+            return null;
+        } else {
+            for (Row row : rs) {
+
+                usersForFollowers.add(row.getUUID("followingUser_ID"));
+            }
+        }
+
+        return usersForFollowers;
+    }
+
+    public java.util.LinkedList<UUID> getFollowerForUser(UUID user1) {
+        java.util.LinkedList<UUID> followerForUser = new java.util.LinkedList<>();
+        Session session = cluster.connect("yvinstagrim");
+
+        Statement statement = QueryBuilder.select("followerUser_ID")
+                .from("HashMusic", "followers")
+                .allowFiltering()
+                .where(eq("followingUser_ID", user1));
+        ResultSet rs = session.execute(statement);
+        if (rs.isExhausted()) {
+            System.out.println("No followers returned");
+            return null;
+        } else {
+            for (Row row : rs) {
+
+                followerForUser.add(row.getUUID("followerUser_ID"));
+            }
+        }
+
+        return followerForUser;
     }
 
     public void setCluster(Cluster cluster) {

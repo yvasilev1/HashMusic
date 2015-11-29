@@ -45,6 +45,20 @@ public class Followers extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        HttpSession session = request.getSession();
+        Users us = new Users();
+        us.setCluster(cluster);
+        UUID user = (UUID) session.getAttribute("userID");
+         System.out.println(user);
+        java.util.LinkedList<UUID> usersForFollowers = us.getUserForFollower(user);
+        java.util.LinkedList<UUID> followersForUser = us.getFollowerForUser(user);
+
+        session.setAttribute("Followers",usersForFollowers);
+        session.setAttribute("Followers",followersForUser );
+        //System.out.println(usersForFollowers.size());
+        RequestDispatcher rd = request.getRequestDispatcher("viewFollowers.jsp");
+        rd.forward(request, response);
+        
     }
 
     /**
@@ -68,6 +82,8 @@ public class Followers extends HttpServlet {
         Date dateFollowed = new Date();
         System.out.println(dateFollowed);
         us.addFollower(user, user1, dateFollowed);
+        
+
         
         RequestDispatcher rd = request.getRequestDispatcher("UserView.jsp");
         rd.forward(request, response);
