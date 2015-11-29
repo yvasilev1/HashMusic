@@ -27,7 +27,7 @@ import java.util.*;
 public class Followers extends HttpServlet {
 
     Cluster cluster = null;
-    
+
     public void init(ServletConfig config) throws ServletException {
         // TODO Auto-generated method stub
         cluster = CassandraHosts.getCluster();
@@ -44,21 +44,34 @@ public class Followers extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         HttpSession session = request.getSession();
         Users us = new Users();
         us.setCluster(cluster);
         UUID user = (UUID) session.getAttribute("userID");
-         System.out.println(user);
-        java.util.LinkedList<UUID> usersForFollowers = us.getUserForFollower(user);
-        java.util.LinkedList<UUID> followersForUser = us.getFollowerForUser(user);
-
-        session.setAttribute("Followers",usersForFollowers);
-        session.setAttribute("Followers",followersForUser );
-        //System.out.println(usersForFollowers.size());
+       
+        java.util.LinkedList<UUID> UUIDOfFollowing = us.getUserForFollower(user);
+        java.util.LinkedList<UUID> followersUUID = us.getFollowerForUser(user);
+        
+        java.util.LinkedList<String> uNamesOfFollowing = new java.util.LinkedList<>();
+        java.util.LinkedList<String> uNamesofFollowers = new java.util.LinkedList<>();
+        for(int i = 0;i < UUIDOfFollowing.size(); i++){
+     
+          uNamesOfFollowing = us.getUnameFromUUID(UUIDOfFollowing.get(i));
+           System.out.println(uNamesOfFollowing);
+        }
+        for(int i = 0;i < followersUUID.size(); i++){
+     
+          uNamesofFollowers = us.getUnameFromUUID(followersUUID.get(i));
+           System.out.println(uNamesofFollowers);
+        }
+     
+        session.setAttribute("Followers", uNamesOfFollowing);
+        session.setAttribute("Followers", uNamesofFollowers);
+        
         RequestDispatcher rd = request.getRequestDispatcher("viewFollowers.jsp");
         rd.forward(request, response);
-        
+
     }
 
     /**
@@ -72,7 +85,7 @@ public class Followers extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         HttpSession session = request.getSession(true);
         UUID user = (UUID) session.getAttribute("userID");
         UUID user1 = (UUID) session.getAttribute("userID");
@@ -82,12 +95,10 @@ public class Followers extends HttpServlet {
         Date dateFollowed = new Date();
         System.out.println(dateFollowed);
         us.addFollower(user, user1, dateFollowed);
-        
 
-        
         RequestDispatcher rd = request.getRequestDispatcher("UserView.jsp");
         rd.forward(request, response);
-        
+
     }
-    
+
 }

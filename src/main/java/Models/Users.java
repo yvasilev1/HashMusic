@@ -92,7 +92,7 @@ public class Users {
             return true;
         }
         java.util.LinkedList<UUID> follows = new java.util.LinkedList<>();
-        Session session = cluster.connect("yvinstagrim");
+        Session session = cluster.connect("HashMusic");
 
         Statement statement = QueryBuilder.select("followingUser_ID")
                 .from("HashMusic", "followers")
@@ -120,10 +120,11 @@ public class Users {
 
     public java.util.LinkedList<UUID> getUserForFollower(UUID user) {
         java.util.LinkedList<UUID> usersForFollowers = new java.util.LinkedList<>();
-        Session session = cluster.connect("yvinstagrim");
+        Session session = cluster.connect("HashMusic");
 
         Statement statement = QueryBuilder.select("followingUser_ID")
                 .from("HashMusic", "followers")
+                .allowFiltering()
                 .where(eq("followerUser_ID", user));
         ResultSet rs = session.execute(statement);
         if (rs.isExhausted()) {
@@ -141,7 +142,7 @@ public class Users {
 
     public java.util.LinkedList<UUID> getFollowerForUser(UUID user1) {
         java.util.LinkedList<UUID> followerForUser = new java.util.LinkedList<>();
-        Session session = cluster.connect("yvinstagrim");
+        Session session = cluster.connect("HashMusic");
 
         Statement statement = QueryBuilder.select("followerUser_ID")
                 .from("HashMusic", "followers")
@@ -159,6 +160,26 @@ public class Users {
         }
 
         return followerForUser;
+    }
+    public java.util.LinkedList<String> getUnameFromUUID(UUID userID){
+         java.util.LinkedList<String> usernames = new java.util.LinkedList<>();
+         Session session = cluster.connect("HashMusic");
+         
+         Statement statement = QueryBuilder.select("username")
+                 .from("HashMusic", "users")
+                 .where(eq("userid",userID));
+           ResultSet rs = session.execute(statement);
+            if (rs.isExhausted()) {
+            System.out.println("No users returned");
+            return null;
+        } else {
+            for (Row row : rs) {
+
+              usernames.add(row.getString("username"));
+            }
+        }
+         
+         return usernames;
     }
 
     public void setCluster(Cluster cluster) {
