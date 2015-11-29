@@ -181,6 +181,34 @@ public class Users {
          
          return usernames;
     }
+     public java.util.LinkedList<String> getSearchedUname(String user){
+         java.util.LinkedList<String> seachedUName = new java.util.LinkedList<>();
+         Session session = cluster.connect("HashMusic");
+         
+         Statement statement = QueryBuilder.select()
+                 .all()
+                 .from("HashMusic", "users");
+           ResultSet rs = session.execute(statement);
+            if (rs.isExhausted()) {
+            System.out.println("No users returned");
+            return null;
+        } else {
+            for (Row row : rs) {
+              String userName = row.getString("username");
+              if(user.equals(userName)){
+                    seachedUName.add(row.getString("username"));
+                    System.out.println("User found");
+              }else{
+                  System.out.println("User not found");
+              }
+            
+            }
+        }
+         
+         return seachedUName;
+    }
+    
+    
 
     public void setCluster(Cluster cluster) {
         this.cluster = cluster;

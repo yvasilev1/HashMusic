@@ -47,6 +47,12 @@
             <input type ="text" name ="user">
             <input type ="submit" value ="Search">
         </form>
-        
+        <p>Search</p>
+        <c:set var = "searchedUName" value = "${sessionScope.Search}"/>
+        <c:forEach items="${searchedUName}" var = "searchedUName">
+            <h2><c:out value = "${searchedUName}"/></h2></br>
+  
+            </br></br>
+        </c:forEach>
     </body>
 </html>

@@ -5,6 +5,7 @@
  */
 package Servlets;
 
+import Models.Users;
 import com.datastax.driver.core.Cluster;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -47,9 +48,13 @@ public class Search extends HttpServlet {
         HttpSession session = request.getSession();
         String searchedUser = request.getParameter("user");
         System.out.println(searchedUser);
+        Users us = new Users();
+        us.setCluster(cluster);
         
+        java.util.LinkedList<String> searchedUName = us.getSearchedUname(searchedUser);
         
-
+        session.setAttribute("Search",searchedUName );
+        
         RequestDispatcher rd = request.getRequestDispatcher("UserView.jsp");
         rd.forward(request, response);
 
