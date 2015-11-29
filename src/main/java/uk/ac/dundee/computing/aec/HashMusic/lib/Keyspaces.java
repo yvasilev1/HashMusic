@@ -22,7 +22,7 @@ public final class Keyspaces {
                     + "artist text, "
                     + "album text, "
                     + "genre text, "
-                    + "directory text, "
+                    + "song blob, "
                     + " PRIMARY KEY (song_id)"
                     + ")";
 

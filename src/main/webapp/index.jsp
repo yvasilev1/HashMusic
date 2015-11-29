@@ -21,7 +21,18 @@
         <c:if test="${sessionScope.userStatus == true}">
             <h2><li><a href = "UserView.jsp">Feed</a></li></h2>
                 </c:if>
+              <form method ="post" enctype="multipart/form-data" action ="Songs">
+                <input type ="file" name ="song">
+                <input type ="text" name ="title" placeholder ="title">
+                <input type ="text" name ="artist" placeholder ="artist">
+                <input type ="text" name ="genre" placeholder ="genre">
+                <input type ="text" name ="duration" placeholder="duration (seconds)">
+                <input type ="text" name ="album" placeholder ="album">
+                
+                <input type ="submit" value ="Add Song">
+            </form>
 
+            <a href ="Songs">Get Da Songz</a>
 
 
     </body>
