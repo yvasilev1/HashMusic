@@ -43,10 +43,11 @@ public class Users {
         return false;
     }
 
-    public UUID isUserValid(String userName) {
+    public UUID isUserValid(String userName, String password) {
 
         Session session = cluster.connect("HashMusic");
         UUID storedUUID = null;
+        String storedPass = null;
         Statement statement = QueryBuilder.select()
                 .all()
                 .from("HashMusic", "users");
@@ -59,12 +60,16 @@ public class Users {
                 String username = row.getString("username");
 
                 if (username.equals(userName)) {
-                    storedUUID = row.getUUID("userid");
-                    if (storedUUID != null) {
-                        return storedUUID;
-                    } else {
-                        System.out.println("Wrong password!");
-                        return null;
+                    storedPass = row.getString("password");
+                    if (password.equals(storedPass)) {
+                        storedUUID = row.getUUID("userid");
+                        if (storedUUID != null) {
+                            return storedUUID;
+                        } else {
+                            System.out.println("Wrong password!");
+                            return null;
+
+                        }
 
                     }
 
@@ -161,54 +166,54 @@ public class Users {
 
         return followerForUser;
     }
-    public java.util.LinkedList<String> getUnameFromUUID(UUID userID){
-         java.util.LinkedList<String> usernames = new java.util.LinkedList<>();
-         Session session = cluster.connect("HashMusic");
-         
-         Statement statement = QueryBuilder.select("username")
-                 .from("HashMusic", "users")
-                 .where(eq("userid",userID));
-           ResultSet rs = session.execute(statement);
-            if (rs.isExhausted()) {
+
+    public java.util.LinkedList<String> getUnameFromUUID(UUID userID) {
+        java.util.LinkedList<String> usernames = new java.util.LinkedList<>();
+        Session session = cluster.connect("HashMusic");
+
+        Statement statement = QueryBuilder.select("username")
+                .from("HashMusic", "users")
+                .where(eq("userid", userID));
+        ResultSet rs = session.execute(statement);
+        if (rs.isExhausted()) {
             System.out.println("No users returned");
             return null;
         } else {
             for (Row row : rs) {
 
-              usernames.add(row.getString("username"));
+                usernames.add(row.getString("username"));
             }
         }
-         
-         return usernames;
+
+        return usernames;
     }
-     public java.util.LinkedList<String> getSearchedUname(String user){
-         java.util.LinkedList<String> seachedUName = new java.util.LinkedList<>();
-         Session session = cluster.connect("HashMusic");
-         
-         Statement statement = QueryBuilder.select()
-                 .all()
-                 .from("HashMusic", "users");
-           ResultSet rs = session.execute(statement);
-            if (rs.isExhausted()) {
+
+    public java.util.LinkedList<String> getSearchedUname(String user) {
+        java.util.LinkedList<String> seachedUName = new java.util.LinkedList<>();
+        Session session = cluster.connect("HashMusic");
+
+        Statement statement = QueryBuilder.select()
+                .all()
+                .from("HashMusic", "users");
+        ResultSet rs = session.execute(statement);
+        if (rs.isExhausted()) {
             System.out.println("No users returned");
             return null;
         } else {
             for (Row row : rs) {
-              String userName = row.getString("username");
-              if(user.equals(userName)){
+                String userName = row.getString("username");
+                if (user.equals(userName)) {
                     seachedUName.add(row.getString("username"));
                     System.out.println("User found");
-              }else{
-                  System.out.println("User not found");
-              }
-            
+                } else {
+                    System.out.println("User not found");
+                }
+
             }
         }
-         
-         return seachedUName;
+
+        return seachedUName;
     }
-    
-    
 
     public void setCluster(Cluster cluster) {
         this.cluster = cluster;

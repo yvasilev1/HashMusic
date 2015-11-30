@@ -140,6 +140,12 @@ public final class Keyspaces {
             } catch (Exception et) {
                 System.out.println("Can't create CreateFollowerList table " + et);
             }
+              try {
+                SimpleStatement cqlQuery = new SimpleStatement(CreateHashTags);
+                session.execute(cqlQuery);
+            } catch (Exception et) {
+                System.out.println("Can't create CreateHashTags table " + et);
+            }
 
         } catch (Exception et) {
 

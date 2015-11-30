@@ -63,11 +63,6 @@ public class PlaySong extends HttpServlet {
       
         outputSong(songBytes, response);
         
-       // long length = songBytes.length;
-       // String test = new String(songBytes);
-       // System.out.println("Test... " + test);
-       // System.out.println("Length of byteArray is.. " + length);
-        //System.out.println("Song id is.. " + songID);
     }
     
     private void outputSong(byte[] songBytes, HttpServletResponse response) throws ServletException, IOException
