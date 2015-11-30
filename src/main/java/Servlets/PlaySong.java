@@ -9,6 +9,7 @@ import Models.NewSong;
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.utils.Bytes;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import static java.net.Proxy.Type.HTTP;
 import java.nio.ByteBuffer;
@@ -60,13 +61,24 @@ public class PlaySong extends HttpServlet {
         
         byte[] songBytes = Bytes.getArray(song);
       
-        long length = songBytes.length;
-        String test = new String(songBytes);
-        System.out.println("Test... " + test);
-        System.out.println("Length of byteArray is.. " + length);
+        outputSong(songBytes, response);
+        
+       // long length = songBytes.length;
+       // String test = new String(songBytes);
+       // System.out.println("Test... " + test);
+       // System.out.println("Length of byteArray is.. " + length);
         //System.out.println("Song id is.. " + songID);
     }
-
+    
+    private void outputSong(byte[] songBytes, HttpServletResponse response) throws ServletException, IOException
+    {  
+          OutputStream songOut = response.getOutputStream();
+          
+          songOut.write(songBytes);
+          songOut.close();
+          songOut.flush();
+        
+    }
 
     /**
      * Returns a short description of the servlet.
