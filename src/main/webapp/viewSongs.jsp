@@ -13,6 +13,7 @@
     </head>
     <body>
         <h1>Hello World!</h1>
+ 
         
         <!--http://www.coderanch.com/t/293396/JSP/java/Iterating-list-session for this loopz incase any of ya'll interested-->
         <c:set var = "songs" value = "${sessionScope.Songs}"/>
@@ -25,13 +26,16 @@
             <h2><c:out value = "${songs.getDuration()}"/></h2></br>
             </br></br>
             
-            <a href ="PlaySong?id=<c:out value = "${songs.getSongID()}"/>">Click here</a>
-        </c:forEach>
-            
+             
             <audio controls>
-            <source src="PlaySong?id=<c:out value = "${songs.getSongID()}"/>" type="audio/Wav">
+            <source src="PlaySong?id=<c:out value = "${songs.getSongID()}"/>" type="audio/wav">
             </audio>
             
+            
+          
+        </c:forEach>
+            
+       
                  <h2> Create a Playlist </h2>
             
           
