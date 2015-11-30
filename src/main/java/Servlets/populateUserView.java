@@ -44,13 +44,15 @@ public class populateUserView extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
       HttpSession session = request.getSession();
-        Feed feed = new Feed();
+       
+      Feed feed = new Feed();
         feed.setCluster(cluster);
         java.util.LinkedList<String> comments = feed.getComments();
         session.setAttribute("NewsFeed", comments);
       
-      RequestDispatcher rd = request.getRequestDispatcher("UserView.jsp");
+      RequestDispatcher rd = request.getRequestDispatcher("livefeed.jsp");
       rd.forward(request, response);
     }
     /**

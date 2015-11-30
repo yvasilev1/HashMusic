@@ -7,6 +7,8 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <!-- JSTL -->
+        <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
         <!-- CSS -->
         <link rel="stylesheet" href="css/styles.css">
 
@@ -62,6 +64,7 @@
                     <div class="panel panel-default">
                         <c:set var = "comments" value = "${sessionScope.NewsFeed}"/>
                         <c:forEach items="${comments}" var = "comments">
+                          
                             <div class="panel-body">
                                 <c:out value="${comments}"/>
                             </div>
