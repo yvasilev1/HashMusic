@@ -5,6 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+  <!-- JSTL -->
+        <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -56,31 +58,31 @@
                                 <label for="title">
                                     Song Name
                                 </label>
-                                <input type="text" class="form-control" id="title" />
+                                <input type="text" class="form-control" name="title" />
                             </div>
                             <div class="form-group">
                                 <label for="artist">
                                     Artist
                                 </label>
-                                <input type="text" class="form-control" id="artist" />
+                                <input type="text" class="form-control" name="artist" />
                             </div>
                             <div class="form-group">
                                 <label for="album">
                                     Album
                                 </label>
-                                <input type="text" class="form-control" id="album" />
+                                <input type="text" class="form-control" name="album" />
                             </div>
                             <div class="form-group">
                                 <label for="genre">
                                     Genre
                                 </label>
-                                <input type="text" class="form-control" id="genre" />
+                                <input type="text" class="form-control" name="genre" />
                             </div>
                             <div class="form-group">
                                 <label for="duration">
                                     Duration (seconds)
                                 </label>
-                                <input type="text" class="form-control" id="duration" />
+                                <input type="text" class="form-control" name="duration" />
                             </div>
                             <div class="form-group">
                                 <label for="audioInputFile">
