@@ -28,6 +28,10 @@
             <a href ="PlaySong?id=<c:out value = "${songs.getSongID()}"/>">Click here</a>
         </c:forEach>
             
+            <audio controls>
+            <source src="PlaySong?id=<c:out value = "${songs.getSongID()}"/>" type="audio/Wav">
+            </audio>
+            
                  <h2> Create a Playlist </h2>
             
           

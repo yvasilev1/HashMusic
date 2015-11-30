@@ -41,12 +41,12 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
 
         String username = request.getParameter("username");
-
+         String password = request.getParameter("password");
 
         Users us = new Users();
         us.setCluster(cluster);
 
-        UUID isUserValid = us.isUserValid(username);
+        UUID isUserValid = us.isUserValid(username,password);
         System.out.println(isUserValid);
         if (isUserValid != null) {
                       
