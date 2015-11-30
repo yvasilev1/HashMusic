@@ -34,11 +34,13 @@ public final class Keyspaces {
                     + "PRIMARY KEY (userid)"
                     + ")";
 
+                    
             String CreatePlayList = "CREATE TABLE if not exists HashMusic.PlayList (\n"
-                    + "playList uuid, "
-                    + "song_id uuid, "
-                    + "username text, "
-                    + "PRIMARY KEY (playList)"
+                    + "playlist_id uuid, "
+                    + "user_id uuid, "
+                    + "playlist_name text, "
+                    + "song_ids list<uuid>, "
+                    + "PRIMARY KEY (playlist_id)"
                     + ")";
             
             String CreatePostsTable = "CREATE TABLE if not exists HashMusic.Posts ("
@@ -65,7 +67,7 @@ public final class Keyspaces {
                     + "PRIMARY KEY (followerUser_ID, followingUser_ID, date_followed)\n"
                     + ") WITH CLUSTERING ORDER BY (followingUser_ID asc, date_followed desc);";
 
-            String CreateSecondaryIndex = "CREATE INDEX user ON HashMusic.PlayList (username);";
+             String CreateSecondaryIndex = "CREATE INDEX user_id ON HashMusic.PlayList (user_id);";
 
             Session session = c.connect();
 

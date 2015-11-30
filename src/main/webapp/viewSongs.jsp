@@ -27,5 +27,15 @@
             
             <a href ="PlaySong?id=<c:out value = "${songs.getSongID()}"/>">Click here</a>
         </c:forEach>
+            
+                 <h2> Create a Playlist </h2>
+            
+          
+            <form method ="post" action ="PlayList">
+                <input type ="text" name ="playlist" placeholder ="PlayList Name">
+                <input type ="submit" value ="Create">
+            </form>
+            
+            <h1><a href ="PlayList">Get PlayLists</a></h1>
     </body>
 </html>
