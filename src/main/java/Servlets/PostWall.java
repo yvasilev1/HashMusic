@@ -6,10 +6,13 @@
 package Servlets;
 
 import Models.Feed;
+import Models.Users;
 import com.datastax.driver.core.Cluster;
+import static java.io.FileDescriptor.out;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
+import java.util.*;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -36,6 +39,21 @@ public class PostWall extends HttpServlet {
     }
 
     /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+    
+
+    }
+
+    /**
      * Handles the HTTP <code>POST</code> method.
      *
      * @param request servlet request
@@ -46,38 +64,32 @@ public class PostWall extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        PrintWriter out = response.getWriter();
+
         String comment = request.getParameter("postContent");
-     //   out.println(comment);
-        
+        //   out.println(comment);
+
         Date datePosted = new Date();
         //Need to get postedTo ID. Set as usersID for sake of it working. Will change it so it takes the ID of the user being viewed.
         HttpSession session = request.getSession(true);
-        
+
         Convertors convertor = new Convertors();
         java.util.UUID postID = convertor.getTimeUUID();
-        
-        java.util.UUID postedBy = (java.util.UUID)session.getAttribute("userID");
-        java.util.UUID postedTo = (java.util.UUID)session.getAttribute("userID");
-        
+
+        java.util.UUID postedBy = (java.util.UUID) session.getAttribute("userID");
+        java.util.UUID postedTo = (java.util.UUID) session.getAttribute("userID");
+
         Feed feed = new Feed();
         feed.setCluster(cluster);
-        
-        if(!comment.equals(""))
-        {
-             feed.insertPost(postID, postedTo, postedBy, datePosted, comment);
+
+        if (!comment.equals("")) {
+            feed.insertPost(postID, postedTo, postedBy, datePosted, comment);
         }
-     
-         java.util.LinkedList<String> comments = feed.getComments();
-        String printComment="";
-          for (int i = 0; i < comments.size(); i++) {
-              printComment=printComment+"<br>"+comments.get(i);
-            //out.println("<br>: " + comments.get(i));
-        }
-          out.println(printComment);
-      
-        out.close();
+
+        java.util.LinkedList<String> comments = feed.getComments();
+        session.setAttribute("NewsFeed", comments);
+
+        RequestDispatcher rd = request.getRequestDispatcher("UserView.jsp");
+        rd.forward(request, response);
     }
 
     /**
