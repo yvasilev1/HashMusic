@@ -88,7 +88,7 @@ public class PostWall extends HttpServlet {
         java.util.LinkedList<String> comments = feed.getComments();
         session.setAttribute("NewsFeed", comments);
 
-        RequestDispatcher rd = request.getRequestDispatcher("UserView.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("livefeed.jsp");
         rd.forward(request, response);
     }
 

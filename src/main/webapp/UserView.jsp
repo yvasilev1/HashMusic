@@ -8,18 +8,14 @@
 <!DOCTYPE html>
 <html>
     <head>
-
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title><c:out value = "${sessionScope.user}"/></title>
-
-
     </head>
     <body>
         <form method ="post" action ="PostWall"> 
             <input type ="text" name ="postContent">
             <input type="submit" value ="Post">
         </form>
-          
      
         <c:set var = "comments" value = "${sessionScope.NewsFeed}"/>
         <c:forEach items="${comments}" var = "comments">

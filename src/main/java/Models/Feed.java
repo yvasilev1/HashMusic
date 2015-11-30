@@ -48,7 +48,7 @@ public class Feed {
 
     public java.util.LinkedList<String> getComments() {
         java.util.LinkedList<String> comments = new java.util.LinkedList<>();
-        Session session = cluster.connect("yvinstagrim");
+        Session session = cluster.connect("HashMusic");
 
         Statement statement = QueryBuilder.select()
                 .all()
