@@ -47,7 +47,10 @@ public class PostWall extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        PrintWriter out = response.getWriter();
         String comment = request.getParameter("postContent");
+     //   out.println(comment);
+        
         Date datePosted = new Date();
         //Need to get postedTo ID. Set as usersID for sake of it working. Will change it so it takes the ID of the user being viewed.
         HttpSession session = request.getSession(true);
@@ -65,10 +68,16 @@ public class PostWall extends HttpServlet {
         {
              feed.insertPost(postID, postedTo, postedBy, datePosted, comment);
         }
-         
-        RequestDispatcher rd = request.getRequestDispatcher("/UserView.jsp");
-        rd.forward(request, response);
-        
+     
+         java.util.LinkedList<String> comments = feed.getComments();
+        String printComment="";
+          for (int i = 0; i < comments.size(); i++) {
+              printComment=printComment+"<br>"+comments.get(i);
+            //out.println("<br>: " + comments.get(i));
+        }
+          out.println(printComment);
+      
+        out.close();
     }
 
     /**
