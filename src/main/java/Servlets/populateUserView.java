@@ -5,15 +5,19 @@
  */
 package Servlets;
 
+import Models.Feed;
+import com.datastax.driver.core.Cluster;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import uk.ac.dundee.computing.aec.HashMusic.lib.CassandraHosts;
 
 /**
  *
@@ -21,6 +25,12 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(name = "populateUserView", urlPatterns = {"/populateUserView"})
 public class populateUserView extends HttpServlet {
+      Cluster cluster = null;
+
+    public void init(ServletConfig config) throws ServletException {
+        // TODO Auto-generated method stub
+        cluster = CassandraHosts.getCluster();
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -35,6 +45,10 @@ public class populateUserView extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
       HttpSession session = request.getSession();
+        Feed feed = new Feed();
+        feed.setCluster(cluster);
+        java.util.LinkedList<String> comments = feed.getComments();
+        session.setAttribute("NewsFeed", comments);
       
       RequestDispatcher rd = request.getRequestDispatcher("UserView.jsp");
       rd.forward(request, response);
