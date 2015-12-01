@@ -55,7 +55,7 @@ public class Search extends HttpServlet {
         
         session.setAttribute("Search",searchedUName );
         
-        RequestDispatcher rd = request.getRequestDispatcher("UserView.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("viewSearchedUsers.jsp");
         rd.forward(request, response);
 
     }

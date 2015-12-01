@@ -54,13 +54,15 @@
             </div>
             <div class="row">
                 <div class="col-md-4">
-                    <h3>
-                        Live Feed
-                    </h3>
+                    <form method ="GET" action ="Search">
+                        <input type ="text" name ="user">
+                        <button type="submit" class="btn btn-sm">Search for User</button></br>
+                        </br>
+                    </form>
                     <div class="form-group">
                         <form method ="post" action="PostWall">
                             <textarea class="form-control" rows="3" id="newPost" name="postContent"></textarea>
-                            <button type="submit" class="btn btn-default">Add Post</button>
+                            <button type="submit" class="btn btn-default ">Add Post</button>
                         </form>
                     </div>
                     <c:set var = "comments" value = "${sessionScope.NewsFeed}"/>

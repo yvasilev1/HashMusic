@@ -202,11 +202,9 @@ public class Users {
         } else {
             for (Row row : rs) {
                 String userName = row.getString("username");
-                if (user.equals(userName)) {
-                    seachedUName.add(row.getString("username"));
-                    System.out.println("User found");
-                } else {
-                    System.out.println("User not found");
+                 if (userName.toUpperCase().contains(user.toUpperCase()) || (user.toUpperCase().contains(userName.toUpperCase()))) 
+                {
+                    seachedUName.add(userName);
                 }
 
             }
