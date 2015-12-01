@@ -88,7 +88,7 @@
                                 <label for="audioInputFile">
                                     File input
                                 </label>
-                                <input type="file" id="audioInputFile" accept="audio/*"/>
+                                <input type="file" name="audioInputFile" accept="audio/*"/>
                                 <p class="help-block">
                                     Select an audio file to upload.
                                 </p>

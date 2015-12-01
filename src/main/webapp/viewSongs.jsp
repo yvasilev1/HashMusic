@@ -27,14 +27,14 @@
             </br></br>
             
              
-          
+            <audio controls>
+            <source src="PlaySong?id=<c:out value = "${songs.getSongID()}"/>" type="audio/mp3">
+            </audio>
             
             
           
         </c:forEach>
-              <audio controls>
-            <source src="PlaySong?id=<c:out value = "${songs.getSongID()}"/>" type="audio/wav">
-            </audio>
+            
        
                  <h2> Create a Playlist </h2>
             
