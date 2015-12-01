@@ -7,6 +7,7 @@ package Servlets;
 
 import Models.NewSong;
 import Stores.Song;
+import Stores.SongLibrary;
 import com.datastax.driver.core.Cluster;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -58,13 +59,14 @@ public class Songs extends HttpServlet {
 
         NewSong newSong = new NewSong();
         newSong.setCluster(cluster);
-
+        
         java.util.LinkedList<Song> songs = newSong.getSongs();
-
+      
         session.setAttribute("Songs", songs);
+       
 
        // System.out.println(songs.size());
-        RequestDispatcher rd = request.getRequestDispatcher("viewSongs.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("livefeed.jsp");
         rd.forward(request, response);
 
     }
@@ -98,7 +100,7 @@ public class Songs extends HttpServlet {
                 song.read(songBytes);
                 NewSong newSong = new NewSong();
                 newSong.setCluster(cluster);
-                newSong.insertSong(songId, songBytes);
+                newSong.insertSong(songId, songBytes,title,artist,genre,album,durationInt);
             }
         }
     }

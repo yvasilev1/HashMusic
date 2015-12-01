@@ -6,6 +6,7 @@
 package Models;
 
 import Stores.Song;
+import Stores.SongLibrary;
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
@@ -25,7 +26,7 @@ public class NewSong {
     
     public NewSong(){}
     
-    public void insertSong(java.util.UUID songID, byte[] songBytes)
+    public void insertSong(java.util.UUID songID, byte[] songBytes,String title,String artist,String genre,String album,int durationInt)
     {
         ByteBuffer buffer = ByteBuffer.wrap(songBytes);
         
@@ -33,7 +34,12 @@ public class NewSong {
 
         Statement statement = QueryBuilder.insertInto("SongList")
                 .value("song_id", songID)
-                .value("song", buffer);
+                .value("song", buffer)
+                .value("title", title)
+                .value("artist", artist)
+                .value("genre", genre)
+                .value("album", album)
+                .value("duration", durationInt);
         session.execute(statement);
         session.close();
     }
@@ -99,6 +105,45 @@ public class NewSong {
       
         
         return songBytes;
+    }
+    
+    
+    public SongLibrary getSongsInfo ()
+    {
+        SongLibrary songLibrary = new SongLibrary();
+        Session session = cluster.connect("HashMusic");
+      
+        Statement statement = QueryBuilder.select()
+                .all()
+                .from("HashMusic", "SongList");
+                
+        ResultSet rs = session.execute(statement);
+        if (rs.isExhausted()) {
+            System.out.println("No songs returned");
+            return null;
+        } else {
+            for (Row row : rs) {
+               java.util.HashSet<String>artist = new java.util.HashSet();
+               artist = songLibrary.getArtists();
+               artist.add(row.getString("artist"));
+               songLibrary.setArtists(artist);
+               
+               java.util.HashSet<String>albums = new java.util.HashSet();
+               albums = songLibrary.getAlbums();
+               albums.add(row.getString("album"));
+               songLibrary.setAlbums(albums);
+           
+               java.util.HashSet<String>genres = new java.util.HashSet();
+               genres = songLibrary.getGenres();
+               genres.add(row.getString("genre"));
+               songLibrary.setGenres(genres);
+               
+             
+            }
+        }
+      
+        
+        return songLibrary;
     }
     
     

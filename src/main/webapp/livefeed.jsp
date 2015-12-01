@@ -101,9 +101,10 @@
                                 </div>
                                 <div id="collapse1" class="panel-collapse collapse">
                                     <div class="list-group">
-                                        <a href="#" class="list-group-item">First item</a>
-                                        <a href="#" class="list-group-item">Second item</a>
-                                        <a href="#" class="list-group-item">Third item</a>
+                                        <c:set var = "songLibrary" value = "${sessionScope.SongLibrary.getArtists()}"/>
+                                        <c:forEach items="${songLibrary.getArtists()}" var = "songLibrary">
+                                                <a href="#" class="list-group-item"><c:out value = "${songLibrary.getArtists()}"/></a>
+                                        </c:forEach>
                                     </div>
                                 </div>
                             </div>
