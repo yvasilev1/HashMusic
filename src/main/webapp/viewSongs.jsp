@@ -13,8 +13,8 @@
     </head>
     <body>
         <h1>Hello World!</h1>
- 
-        
+
+
         <!--http://www.coderanch.com/t/293396/JSP/java/Iterating-list-session for this loopz incase any of ya'll interested-->
         <c:set var = "songs" value = "${sessionScope.Songs}"/>
         <c:forEach items="${songs}" var = "songs">
@@ -25,25 +25,22 @@
             <h2><c:out value = "${songs.getGenre()}"/></h2></br>
             <h2><c:out value = "${songs.getDuration()}"/></h2></br>
             </br></br>
-            
-             
+
+
             <audio controls>
-            <source src="PlaySong?id=<c:out value = "${songs.getSongID()}"/>" type="audio/mp3">
+                <source src="PlaySong?id=<c:out value = "${songs.getSongID()}"/>" type="audio/mp3">
             </audio>
-            
-            
-          
+
+
+
         </c:forEach>
-            
-       
-                 <h2> Create a Playlist </h2>
-            
-          
-            <form method ="post" action ="PlayList">
-                <input type ="text" name ="playlist" placeholder ="PlayList Name">
-                <input type ="submit" value ="Create">
-            </form>
-            
-            <h1><a href ="PlayList">Get PlayLists</a></h1>
+
+
+        <h2> Create a Playlist </h2>
+        <form method ="post" action ="PlayList">
+            <input type ="text" name ="playlist" placeholder ="PlayList Name">
+            <input type ="submit" value ="Create">
+        </form>
+        <h1><a href ="PlayList">Get PlayLists</a></h1>
     </body>
 </html>

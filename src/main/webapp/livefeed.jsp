@@ -61,15 +61,17 @@
                             <button type="submit" class="btn btn-default">Add Post</button>
                         </form>
                     </div>
-                    <div class="panel panel-default">
-                        <c:set var = "comments" value = "${sessionScope.NewsFeed}"/>
-                        <c:forEach items="${comments}" var = "comments">
-                          
+                    <c:set var = "comments" value = "${sessionScope.NewsFeed}"/>
+                    <c:forEach items="${comments}" var = "comments">
+                        <div class="panel panel-default">
+
+
                             <div class="panel-body">
                                 <c:out value="${comments}"/>
                             </div>
-                        </c:forEach>
-                    </div>
+
+                        </div>
+                    </c:forEach>
                 </div>
                 <div class="col-md-6">
                     <h3>
