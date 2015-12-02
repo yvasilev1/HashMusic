@@ -18,7 +18,7 @@ public final class Keyspaces {
             String CreateSongList = "CREATE TABLE if not exists HashMusic.SongList ("
                     + "song_id uuid,"
                     + "title text, "
-                    + "duration int, "
+                    + "duration text, "
                     + "artist text, "
                     + "album text, "
                     + "genre text, "

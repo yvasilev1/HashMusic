@@ -7,6 +7,7 @@ package Servlets;
 
 import Models.Feed;
 import Models.NewSong;
+import Stores.Song;
 import Stores.SongLibrary;
 import com.datastax.driver.core.Cluster;
 import java.io.IOException;
@@ -54,11 +55,16 @@ public class populateUserView extends HttpServlet {
         java.util.LinkedList<String> comments = feed.getComments();
         session.setAttribute("NewsFeed", comments);
         
-         NewSong newSong = new NewSong();
+        NewSong newSong = new NewSong();
         newSong.setCluster(cluster); 
-        
+       
          SongLibrary songLibrary = newSong.getSongsInfo();
-        System.out.println(songLibrary.getArtists());
+       // System.out.println(songLibrary.getArtists());
+       
+             
+        java.util.LinkedList<Song> songs = newSong.getSongs();
+      
+        session.setAttribute("Songs", songs);
        
         session.setAttribute("SongLibrary", songLibrary);
         

@@ -159,6 +159,8 @@
                                     <tr>
                                         <th>Song</th>
                                         <th>Artist</th>
+                                        <th>Album</th>
+                                        <th>Genre</th>
                                         <th>Duration</th>
                                     </tr>
                                 </thead>
@@ -168,6 +170,8 @@
                                         <tr>
                                             <td><c:out value = "${songs.getArtist()}"/></td>
                                             <td><c:out value = "${songs.getTitle()}"/></td>
+                                            <td><c:out value = "${songs.getAlbum()}"/></td>
+                                            <td><c:out value = "${songs.getGenre()}"/></td>
                                             <td><c:out value = "${songs.getDuration()}"/></td>
                                         </tr>
                                     </c:forEach>

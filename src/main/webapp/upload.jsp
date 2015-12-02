@@ -80,7 +80,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="duration">
-                                    Duration (seconds)
+                                    Duration (e.g. 1:30)
                                 </label>
                                 <input type="text" class="form-control" name="duration" />
                             </div>

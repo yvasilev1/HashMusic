@@ -42,34 +42,7 @@ public class Songs extends HttpServlet {
         cluster = CassandraHosts.getCluster();
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        HttpSession session = request.getSession();
-
-        NewSong newSong = new NewSong();
-        newSong.setCluster(cluster);
-        
-        java.util.LinkedList<Song> songs = newSong.getSongs();
-      
-        session.setAttribute("Songs", songs);
-       
-
-       // System.out.println(songs.size());
-        RequestDispatcher rd = request.getRequestDispatcher("livefeed.jsp");
-        rd.forward(request, response);
-
-    }
+  
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -90,7 +63,7 @@ public class Songs extends HttpServlet {
         String genre = request.getParameter("genre");
         String album = request.getParameter("album");
         String duration = request.getParameter("duration");
-        int durationInt = Integer.parseInt(duration);
+      
 
         for (Part part : request.getParts()) {
             InputStream song = request.getPart(part.getName()).getInputStream();
@@ -100,7 +73,7 @@ public class Songs extends HttpServlet {
                 song.read(songBytes);
                 NewSong newSong = new NewSong();
                 newSong.setCluster(cluster);
-                newSong.insertSong(songId, songBytes,title,artist,genre,album,durationInt);
+                newSong.insertSong(songId, songBytes,title,artist,genre,album,duration);
             }
         }
     }

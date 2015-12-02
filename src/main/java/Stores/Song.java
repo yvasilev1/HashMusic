@@ -19,11 +19,11 @@ public class Song {
     String album = null;
     String genre = null;
     String artist = null;
-    int duration = 0;
+    String duration = null;
     java.util.UUID songID = null;
     
     
-    public void setSongDetails(String title, String album, String genre, String artist, int duration, java.util.UUID songID)
+    public void setSongDetails(String title, String album, String genre, String artist, String duration, java.util.UUID songID)
     {
         this.title = title;
         this.album = album;
@@ -53,7 +53,7 @@ public class Song {
         return artist;
     }
     
-    public int getDuration()
+    public String getDuration()
     {
         return duration;
     }

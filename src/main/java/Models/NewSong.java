@@ -26,7 +26,7 @@ public class NewSong {
     
     public NewSong(){}
     
-    public void insertSong(java.util.UUID songID, byte[] songBytes,String title,String artist,String genre,String album,int durationInt)
+    public void insertSong(java.util.UUID songID, byte[] songBytes,String title,String artist,String genre,String album, String duration)
     {
         ByteBuffer buffer = ByteBuffer.wrap(songBytes);
         
@@ -39,7 +39,7 @@ public class NewSong {
                 .value("artist", artist)
                 .value("genre", genre)
                 .value("album", album)
-                .value("duration", durationInt);
+                .value("duration", duration);
         session.execute(statement);
         session.close();
     }
@@ -66,7 +66,7 @@ public class NewSong {
                 String artist = row.getString("artist");
                 String genre = row.getString("genre");
                 String album = row.getString("album");
-                int duration = row.getInt("duration");
+                String duration = row.getString("duration");
                 java.util.UUID songID = row.getUUID("song_id");
                 
                 song.setSongDetails(title, artist, genre, album, duration, songID);
