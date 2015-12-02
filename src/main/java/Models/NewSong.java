@@ -44,7 +44,23 @@ public class NewSong {
         session.close();
     }
     
-    public java.util.LinkedList<Song> getSongs()
+    public void insertUserSong(java.util.UUID userID, java.util.UUID songID, String artist, String album, String genre, String duration, String title)
+    {
+        Session session = cluster.connect("HashMusic");
+        
+        Statement statement = QueryBuilder.insertInto("UserSongs")
+                .value("user_id", userID)
+                .value("song_id", songID)
+                .value("album", album)
+                .value("genre", genre)
+                .value("artist", artist)
+                .value("duration", duration)
+                .value("title", title);
+        session.execute(statement);
+        session.close();
+    }
+    
+    public java.util.LinkedList<Song> getSongs(String songName)
     {
         java.util.LinkedList<Song> songs = new java.util.LinkedList<Song>();
         
@@ -69,12 +85,12 @@ public class NewSong {
                 String duration = row.getString("duration");
                 java.util.UUID songID = row.getUUID("song_id");
                 
-                song.setSongDetails(title, artist, genre, album, duration, songID);
+                if(title.contains(songName))
+                {
+                     song.setSongDetails(title, album, genre, artist, duration, songID);
+                     songs.add(song);
+                }
                 
-                songs.add(song);
-                
-                System.out.println("Title is.. " + title);
-            
             }
         }
         return songs;
@@ -107,15 +123,97 @@ public class NewSong {
         return songBytes;
     }
     
-    
-    public SongLibrary getSongsInfo ()
+    public SongLibrary getUserSongCategories (java.util.UUID userID)
     {
         SongLibrary songLibrary = new SongLibrary();
+        Session session = cluster.connect("HashMusic");
+         
+        Statement statement = QueryBuilder.select()
+                .all()
+                .from("HashMusic", "UserSongs")
+                .where(eq("user_id", userID));
+          ResultSet rs = session.execute(statement);
+        if (rs.isExhausted()) {
+            System.out.println("No songs returned");
+            return null;
+        } else {
+            for (Row row : rs) {
+           
+                java.util.UUID songID = row.getUUID("song_id");
+                songLibrary = getSongsInfo(songLibrary, songID);
+            }
+        }
+        
+        
+        return songLibrary;
+    }
+    
+    public java.util.LinkedList<Song> getUserSongs (java.util.UUID userID)
+    {
+        java.util.LinkedList<Song> songs = new java.util.LinkedList();
+        
+         Session session = cluster.connect("HashMusic");
+         
+         Statement statement = QueryBuilder.select()
+                .all()
+                .from("HashMusic", "UserSongs")
+                .where(eq("user_id", userID));
+          ResultSet rs = session.execute(statement);
+        if (rs.isExhausted()) {
+            System.out.println("No songs returned");
+            return null;
+        } else {
+            for (Row row : rs) {
+           
+                java.util.UUID songID = row.getUUID("song_id");
+                System.out.println("Song ID is.. " + songID);
+                songs.add(getUserSong(songID));
+            }
+        }
+        
+        return songs;
+    }
+    
+    public Song getUserSong(java.util.UUID songID)
+    {
+        Song songs = new Song();
+        
+        Session session = cluster.connect("HashMusic");
+        
+        Statement statement = QueryBuilder.select()
+                .all()
+                .from("HashMusic", "SongList")
+                .where(eq("song_id", songID));
+        ResultSet rs = session.execute(statement);
+        if (rs.isExhausted()) {
+            System.out.println("No songs returned");
+            return songs;
+        } else {
+            for (Row row : rs) {
+                
+                          
+                String title = row.getString("title");
+                String artist = row.getString("artist");
+                String genre = row.getString("genre");
+                String album = row.getString("album");
+                String duration = row.getString("duration");
+         
+                songs.setSongDetails(title, album, genre, artist, duration, songID);
+
+            }
+        }
+        return songs;
+    }
+    
+    public SongLibrary getSongsInfo (SongLibrary songLibrary, java.util.UUID songID)
+    {
+      
         Session session = cluster.connect("HashMusic");
       
         Statement statement = QueryBuilder.select()
                 .all()
-                .from("HashMusic", "SongList");
+                .from("HashMusic", "SongList")
+                .where(eq("song_id",songID));
                 
         ResultSet rs = session.execute(statement);
         if (rs.isExhausted()) {
@@ -128,11 +226,16 @@ public class NewSong {
                artist.add(row.getString("artist"));
                songLibrary.setArtists(artist);
                
+               System.out.println("Artist is: " + row.getString("artist"));
+              
+               
                java.util.HashSet<String>albums = new java.util.HashSet();
                albums = songLibrary.getAlbums();
                albums.add(row.getString("album"));
                songLibrary.setAlbums(albums);
            
+                System.out.println("Album is: " + row.getString("album"));
+                
                java.util.HashSet<String>genres = new java.util.HashSet();
                genres = songLibrary.getGenres();
                genres.add(row.getString("genre"));
@@ -146,7 +249,104 @@ public class NewSong {
         return songLibrary;
     }
     
+    public java.util.LinkedList<Song> filterByArtist (String artistSearched, java.util.UUID userID)
+    {
+         java.util.LinkedList<Song> songs = new java.util.LinkedList();
     
+         Session session = cluster.connect("HashMusic");
+         Statement statement = QueryBuilder.select()
+                .all()
+                .from("HashMusic", "UserSongs")
+                .where(eq("user_id", userID));
+         
+          ResultSet rs = session.execute(statement);
+        if (rs.isExhausted()) {
+            System.out.println("No songs returned");
+            return null;
+        } else {
+            for (Row row : rs) {
+                System.out.println("Searched" + artistSearched);
+                System.out.println("Row: " + row.getString("artist"));
+            if(row.getString("artist").equals(artistSearched))
+            {
+                Song song = new Song();
+                song.setSongDetails(row.getString("title"), row.getString("album"), row.getString("genre"), row.getString("artist"), row.getString("duration"), row.getUUID("song_id"));   
+                songs.add(song);
+            }
+                    
+            }
+        }
+        
+        return songs;
+    }
+    
+    
+    
+      
+    public java.util.LinkedList<Song> filterByGenre (String genreSearched, java.util.UUID userID)
+    {
+         java.util.LinkedList<Song> songs = new java.util.LinkedList();
+    
+         Session session = cluster.connect("HashMusic");
+         Statement statement = QueryBuilder.select()
+                .all()
+                .from("HashMusic", "UserSongs")
+                .where(eq("user_id", userID));
+         
+          ResultSet rs = session.execute(statement);
+        if (rs.isExhausted()) {
+            System.out.println("No songs returned");
+            return null;
+        } else {
+            for (Row row : rs) {
+             //   System.out.println("Searched" + artistSearched);
+                System.out.println("Row: " + row.getString("genre"));
+            if(row.getString("genre").equals(genreSearched))
+            {
+                Song song = new Song();
+                song.setSongDetails(row.getString("title"), row.getString("album"), row.getString("genre"), row.getString("artist"), row.getString("duration"), row.getUUID("song_id"));   
+                songs.add(song);
+            }
+                    
+            }
+        }
+        
+        return songs;
+    }
+   
+        
+    public java.util.LinkedList<Song> filterByAlbum (String album, java.util.UUID userID)
+    {
+         java.util.LinkedList<Song> songs = new java.util.LinkedList();
+    
+         Session session = cluster.connect("HashMusic");
+         Statement statement = QueryBuilder.select()
+                .all()
+                .from("HashMusic", "UserSongs")
+                .where(eq("user_id", userID));
+         
+          ResultSet rs = session.execute(statement);
+        if (rs.isExhausted()) {
+            System.out.println("No songs returned");
+            return null;
+        } else {
+            for (Row row : rs) {
+             //   System.out.println("Searched" + artistSearched);
+                System.out.println("Row: " + row.getString("genre"));
+            if(row.getString("album").equals(album))
+            {
+                Song song = new Song();
+                song.setSongDetails(row.getString("title"), row.getString("album"), row.getString("genre"), row.getString("artist"), row.getString("duration"), row.getUUID("song_id"));   
+                songs.add(song);
+            }
+                    
+            }
+        }
+        
+        return songs;
+    }
+
+   
     public void setCluster(Cluster cluster) {
         this.cluster = cluster;
     }

@@ -75,12 +75,16 @@ public final class Keyspaces {
                     + "date_followed timestamp,"
                     + "PRIMARY KEY (followerUser_ID, followingUser_ID, date_followed)\n"
                     + ") WITH CLUSTERING ORDER BY (followingUser_ID asc, date_followed desc);";
+            
             String CreateUserSongs = "CREATE TABLE if not exists HashMusic.UserSongs (\n"
-                    
                     + "user_id uuid, "
+                    + "title text, "
+                    + "duration text, "
+                    + "artist text, "
+                    + "album text, "
+                    + "genre text, "
                     + "song_id uuid, "
-                    + "playlist_id uuid, "
-                    + "PRIMARY KEY (user_id)"
+                    + "PRIMARY KEY (user_id, song_id)"
                     + ")";
 
             String CreateSecondaryIndex = "CREATE INDEX user_id ON HashMusic.PlayList (user_id);";

@@ -49,9 +49,9 @@ public class populateUserView extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-      HttpSession session = request.getSession();
+        HttpSession session = request.getSession();
        
-      Feed feed = new Feed();
+        Feed feed = new Feed();
         feed.setCluster(cluster);
        
         java.util.LinkedList<String> comments = feed.getComments();  
@@ -64,16 +64,22 @@ public class populateUserView extends HttpServlet {
         
         NewSong newSong = new NewSong();
         newSong.setCluster(cluster); 
+        
+        java.util.UUID userID = (java.util.UUID)session.getAttribute("userID");
        
-         SongLibrary songLibrary = newSong.getSongsInfo();
-       // System.out.println(songLibrary.getArtists());
-       
-             
-        java.util.LinkedList<Song> songs = newSong.getSongs();
-      
+        SongLibrary songLibrary = newSong.getUserSongCategories(userID);
+        
+        java.util.LinkedList<Song> songs = newSong.getUserSongs(userID);
+
         session.setAttribute("Songs", songs);
-       
+        
+        //System.out.println("Song ID is.. " + songs.get(0).getSongID());
+        //System.out.println("Size is: " + songs.size());
+        
+        //String listType = "user";
+
         session.setAttribute("SongLibrary", songLibrary);
+        //session.setAttribute("listType", listType);
         
         
       

@@ -7,33 +7,25 @@ package Servlets;
 
 import Models.NewSong;
 import Stores.Song;
-import Stores.SongLibrary;
 import com.datastax.driver.core.Cluster;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.Part;
 import uk.ac.dundee.computing.aec.HashMusic.lib.CassandraHosts;
-import uk.ac.dundee.computing.aec.HashMusic.lib.Convertors;
 
 /**
  *
  * @author Connor
  */
-@WebServlet(urlPatterns = {"/Songs"})
-@MultipartConfig
-
-public class Songs extends HttpServlet {
+@WebServlet(name = "SearchSong", urlPatterns = {"/SearchSong"})
+public class SearchSong extends HttpServlet {
 
     Cluster cluster = null;
 
@@ -42,10 +34,9 @@ public class Songs extends HttpServlet {
         cluster = CassandraHosts.getCluster();
     }
 
-  
-
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
-     * Handles the HTTP <code>POST</code> method.
+     * Handles the HTTP <code>GET</code> method.
      *
      * @param request servlet request
      * @param response servlet response
@@ -53,30 +44,21 @@ public class Songs extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-       
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String song = request.getParameter("song");
         HttpSession session = request.getSession();
-        Convertors convertor = new Convertors();
-        java.util.UUID songId = convertor.getTimeUUID();
 
-        String title = request.getParameter("title");
-        String artist = request.getParameter("artist");
-        String genre = request.getParameter("genre");
-        String album = request.getParameter("album");
-        String duration = request.getParameter("duration");
-      
+        NewSong newSong = new NewSong();
+        newSong.setCluster(cluster);
 
-        for (Part part : request.getParts()) {
-            InputStream song = request.getPart(part.getName()).getInputStream();
-            int i = song.available();
-            if (i > 0) {
-                byte[] songBytes = new byte[i + 1];
-                song.read(songBytes);
-                NewSong newSong = new NewSong();
-                newSong.setCluster(cluster);
-                newSong.insertSong(songId, songBytes,title,artist,genre,album,duration);
-            }
-        }
+        java.util.LinkedList<Song> songs = newSong.getSongs(song);
+
+        session.setAttribute("Songs", songs);
+
+        RequestDispatcher rd = request.getRequestDispatcher("livefeed.jsp");
+        rd.forward(request, response);
+
     }
 
     /**
