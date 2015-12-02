@@ -23,7 +23,7 @@
         <script src="resources/jquery-2.1.4.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-        <title>Live Feed</title>
+        <title>Home</title>
     </head>
     <body class="background">
         <div class="container-fluid">
@@ -104,7 +104,7 @@
                                         <c:set var = "songLibrary" value = "${sessionScope.SongLibrary.getArtists()}"/>
                                         <c:forEach items="${songLibrary}" var = "songLibrary">
                                                     
-                                            <a href="#" class="list-group-item"><c:out value = "${songLibrary}"/></a>
+                                            <a href="filterSongs?type=artist&id=<c:out value = "${songLibrary}"/>" class="list-group-item"><c:out value = "${songLibrary}"/></a>
                                         </c:forEach>
                                     </div>
                                 </div>
@@ -117,9 +117,10 @@
                                 </div>
                                 <div id="collapse2" class="panel-collapse collapse">
                                     <div class="list-group">
-                                        <a href="#" class="list-group-item">First item</a>
-                                        <a href="#" class="list-group-item">Second item</a>
-                                        <a href="#" class="list-group-item">Third item</a>
+                                        <c:set var = "songLibrary" value = "${sessionScope.SongLibrary.getAlbums()}"/>
+                                        <c:forEach items="${songLibrary}" var = "songLibrary">        
+                                            <a href="filterSongs?type=album&id=<c:out value = "${songLibrary}"/>" class="list-group-item"><c:out value = "${songLibrary}"/></a>
+                                        </c:forEach>
                                     </div>
                                 </div>
                             </div>
@@ -131,9 +132,10 @@
                                 </div>
                                 <div id="collapse3" class="panel-collapse collapse">
                                     <div class="list-group">
-                                        <a href="#" class="list-group-item">First item</a>
-                                        <a href="#" class="list-group-item">Second item</a>
-                                        <a href="#" class="list-group-item">Third item</a>
+                                        <c:set var = "songLibrary" value = "${sessionScope.SongLibrary.getGenres()}"/>
+                                        <c:forEach items="${songLibrary}" var = "songLibrary">        
+                                            <a href="filterSongs?type=genre&id=<c:out value = "${songLibrary}"/>" class="list-group-item"><c:out value = "${songLibrary}"/></a>
+                                        </c:forEach>
                                     </div>
                                 </div>
                             </div>
@@ -153,6 +155,12 @@
                                 </div>
                             </div>
                         </div> 
+                                        
+                    <form method ="GET" action ="SearchSong">
+                        <input type ="text" name ="song" placeholder = "Search Song">
+                        <button type="submit" class="btn btn-sm">Search</button></br>
+                        </br>
+                    </form>
                         <div class="col-md-8">
                             <table class="table table-striped table table-hover">
                                 <thead>
@@ -162,17 +170,31 @@
                                         <th>Album</th>
                                         <th>Genre</th>
                                         <th>Duration</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <c:set var = "songs" value = "${sessionScope.Songs}"/>
                                     <c:forEach items="${songs}" var = "songs">
                                         <tr>
-                                            <td><c:out value = "${songs.getArtist()}"/></td>
                                             <td><c:out value = "${songs.getTitle()}"/></td>
+                                            <td><c:out value = "${songs.getArtist()}"/></td>
                                             <td><c:out value = "${songs.getAlbum()}"/></td>
                                             <td><c:out value = "${songs.getGenre()}"/></td>
                                             <td><c:out value = "${songs.getDuration()}"/></td>
+                                            <td>
+                                               
+                                                <form method ="post" action ="addUserSong">
+                                                    <input type ="hidden" name ="id" value = "<c:out value = "${songs.getSongID()}"/>">
+                                                    <input type ="hidden" name ="artist" value = "<c:out value = "${songs.getArtist()}"/>">
+                                                    <input type ="hidden" name ="genre" value = "<c:out value = "${songs.getGenre()}"/>">
+                                                    <input type ="hidden" name ="album" value = "<c:out value = "${songs.getAlbum()}"/>">
+                                                    <input type ="hidden" name ="duration" value = "<c:out value = "${songs.getDuration()}"/>">
+                                                    <input type ="hidden" name ="title" value = "<c:out value = "${songs.getTitle()}"/>">
+                                                    <input type ="submit" value ="Get Song">
+                                                </form>
+                                                
+                                            </td>
                                         </tr>
                                     </c:forEach>
                                 </tbody>
