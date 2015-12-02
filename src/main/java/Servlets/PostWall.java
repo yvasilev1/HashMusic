@@ -77,17 +77,27 @@ public class PostWall extends HttpServlet {
 
         java.util.UUID postedBy = (java.util.UUID) session.getAttribute("userID");
         java.util.UUID postedTo = (java.util.UUID) session.getAttribute("userID");
-
+        String postedByUname = (String)session.getAttribute("user");
+                
         Feed feed = new Feed();
         feed.setCluster(cluster);
 
         if (!comment.equals("")) {
-            feed.insertPost(postID, postedTo, postedBy, datePosted, comment);
+            feed.insertPost(postID, postedTo, postedBy,postedByUname, datePosted, comment);
         }
 
-        java.util.LinkedList<String> comments = feed.getComments();
-        session.setAttribute("NewsFeed", comments);
-
+        java.util.LinkedList<String> comments = feed.getComments();  
+        java.util.LinkedList<String> usernames= feed.getPostedByUname();
+        java.util.LinkedList<Date> dates= feed.getDatePosted();
+       
+        session.setAttribute("Comments", comments);
+        session.setAttribute("Users", usernames);
+        session.setAttribute("Dates", dates);
+   
+            System.out.println(comments);
+        System.out.println(usernames);
+        System.out.println(dates);
+        
         RequestDispatcher rd = request.getRequestDispatcher("livefeed.jsp");
         rd.forward(request, response);
     }

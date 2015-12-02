@@ -12,6 +12,7 @@ import Stores.SongLibrary;
 import com.datastax.driver.core.Cluster;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -52,8 +53,14 @@ public class populateUserView extends HttpServlet {
        
       Feed feed = new Feed();
         feed.setCluster(cluster);
-        java.util.LinkedList<String> comments = feed.getComments();
+       
+        java.util.LinkedList<String> comments = feed.getComments();  
+        java.util.LinkedList<String> usernames= feed.getPostedByUname();
+        java.util.LinkedList<Date> dates= feed.getDatePosted();
+       
         session.setAttribute("NewsFeed", comments);
+        session.setAttribute("Users", usernames);
+        session.setAttribute("Dates", dates);
         
         NewSong newSong = new NewSong();
         newSong.setCluster(cluster); 

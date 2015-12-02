@@ -65,17 +65,30 @@
                             <button type="submit" class="btn btn-default ">Add Post</button>
                         </form>
                     </div>
-                    <c:set var = "comments" value = "${sessionScope.NewsFeed}"/>
-                    <c:forEach items="${comments}" var = "comments">
-                        <div class="panel panel-default">
+                      <c:set var = "dates"  value = "${sessionScope.Dates}"/>
+                     <c:set var = "usernames" value = "${sessionScope.Users}"/>
+                     <c:set var = "comments" value = "${sessionScope.Comments}"/>
+                     <c:forEach items="${comments}" var = "comments">
+                        
+                        <c:forEach items="${usernames}" var = "usernames">
+                           
+                            <c:forEach items="${dates}" var = "dates">
+                                <a href="#"><c:out value = "${usernames}"/></a></br>
+                                <c:out value="${dates}"/>
+                                <div class="panel panel-default">
 
 
-                            <div class="panel-body">
-                                <c:out value="${comments}"/>
-                            </div>
+                                    <div class="panel-body">
+                                        <c:out value="${comments}"/></br>
+                                    </div>
 
-                        </div>
-                    </c:forEach>
+                                </div>
+                            </c:forEach>
+                        </c:forEach>
+                       </c:forEach>
+                   
+                   
+
                 </div>
                 <div class="col-md-8">
                     <h3>
@@ -103,7 +116,7 @@
                                     <div class="list-group">
                                         <c:set var = "songLibrary" value = "${sessionScope.SongLibrary.getArtists()}"/>
                                         <c:forEach items="${songLibrary}" var = "songLibrary">
-                                                    
+
                                             <a href="#" class="list-group-item"><c:out value = "${songLibrary}"/></a>
                                         </c:forEach>
                                     </div>

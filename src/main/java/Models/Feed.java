@@ -32,7 +32,7 @@ public class Feed {
     }
 
     //Inserting posts
-    public void insertPost(java.util.UUID postID, java.util.UUID postedTo, java.util.UUID postedBy, Date datePosted, String postContent) {
+    public void insertPost(java.util.UUID postID, java.util.UUID postedTo, java.util.UUID postedBy, String postedByUName, Date datePosted, String postContent) {
 
         Session session = cluster.connect("HashMusic");
 
@@ -40,20 +40,20 @@ public class Feed {
                 .value("post_id", postID)
                 .value("postedTo_id", postedTo)
                 .value("postedBy_id", postedBy)
+                .value("postedBy_uName", postedByUName)
                 .value("date_posted", datePosted)
                 .value("content", postContent);
         session.execute(statement);
         session.close();
     }
-
-    public java.util.LinkedList<String> getComments() {
+     public java.util.LinkedList<String> getComments() {
         java.util.LinkedList<String> comments = new java.util.LinkedList<>();
         Session session = cluster.connect("HashMusic");
 
         Statement statement = QueryBuilder.select()
                 .all()
                 .from("HashMusic", "posts");
-           
+
         ResultSet rs = session.execute(statement);
         if (rs.isExhausted()) {
             System.out.println("No users returned");
@@ -65,6 +65,48 @@ public class Feed {
             }
         }
         return comments;
+    }
+
+    
+    public java.util.LinkedList<String> getPostedByUname() {
+        java.util.LinkedList<String> usernames = new java.util.LinkedList<>();
+        Session session = cluster.connect("HashMusic");
+
+        Statement statement = QueryBuilder.select()
+                .all()
+                .from("HashMusic", "posts");
+
+        ResultSet rs = session.execute(statement);
+        if (rs.isExhausted()) {
+            System.out.println("No users returned");
+            return null;
+        } else {
+            for (Row row : rs) {
+
+                usernames.add(row.getString("postedBy_uName"));
+            }
+        }
+        return usernames;
+    }
+     public java.util.LinkedList<Date> getDatePosted() {
+        java.util.LinkedList<Date> dates = new java.util.LinkedList<>();
+        Session session = cluster.connect("HashMusic");
+
+        Statement statement = QueryBuilder.select()
+                .all()
+                .from("HashMusic", "posts");
+
+        ResultSet rs = session.execute(statement);
+        if (rs.isExhausted()) {
+            System.out.println("No users returned");
+            return null;
+        } else {
+            for (Row row : rs) {
+
+                dates.add(row.getDate("date_posted"));
+            }
+        }
+        return dates;
     }
 
     public void setCluster(Cluster cluster) {

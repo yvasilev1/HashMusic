@@ -46,6 +46,7 @@ public final class Keyspaces {
                     + "post_id uuid, "
                     + "postedTo_id uuid, "
                     + "postedBy_id uuid, "
+                    + "postedBy_uName text,"
                     + "date_posted timestamp, "
                     + "content text, "
                     + "PRIMARY KEY ((post_id), date_posted)"
