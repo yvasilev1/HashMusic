@@ -28,7 +28,15 @@ import uk.ac.dundee.computing.aec.HashMusic.lib.CassandraHosts;
  *
  * @author Connor
  */
-@WebServlet(name = "populateUserView", urlPatterns = {"/populateUserView"})
+@WebServlet(name = "populateUserView",
+        urlPatterns = {
+            "/populateUserView",
+            "/populateUserView/",
+            "/populateUserView/*"
+            
+                    
+        
+        })
 public class populateUserView extends HttpServlet {
       Cluster cluster = null;
 
@@ -55,16 +63,9 @@ public class populateUserView extends HttpServlet {
         Feed feed = new Feed();
         feed.setCluster(cluster);
        
-       // PostDetails ps = new PostDetails();
+  
         java.util.LinkedList<PostDetails> ps = feed.getPostDetails();
-      //  ps=feed.getPostDetails();
-       
-       
-        System.out.println("Test1: " + ps.get(0).getPostContent());
-         System.out.println("Test1: " + ps.get(0).getDatePosted());
          
-         // System.out.println("Test1: " + ps.get(1).getPostContent());
-         //System.out.println("Test1: " + ps.get(1).getDatePosted());
         session.setAttribute("NewsFeed", ps);
        
         
@@ -72,7 +73,7 @@ public class populateUserView extends HttpServlet {
         newSong.setCluster(cluster); 
         
         java.util.UUID userID = (java.util.UUID)session.getAttribute("userID");
-       
+        
         SongLibrary songLibrary = newSong.getUserSongCategories(userID);
         
         java.util.LinkedList<Song> songs = newSong.getUserSongs(userID);
@@ -83,7 +84,7 @@ public class populateUserView extends HttpServlet {
         //System.out.println("Size is: " + songs.size());
         
         String listType = "user";
-
+        String username = (String)session.getAttribute("user");
         session.setAttribute("SongLibrary", songLibrary);
         session.setAttribute("listType", listType);
        

@@ -77,6 +77,8 @@ public class Songs extends HttpServlet {
                 newSong.insertSong(songId, songBytes,title,artist,genre,album,duration);
             }
         }
+        RequestDispatcher rd = request.getRequestDispatcher("livefeed.jsp");
+        rd.forward(request, response);
     }
 
     /**

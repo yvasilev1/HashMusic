@@ -56,7 +56,7 @@
                     </h3>
                     <div class="panel panel-default">
                         <div class="panel-body">
-                            <c:set var = "uNamesOfFollowing" value = "${sessionScope.Followers}"/>
+                            <c:set var = "uNamesOfFollowing" value = "${sessionScope.Following}"/>
                             <c:forEach items="${uNamesOfFollowing}" var = "uNamesOfFollowing">
                                 <p>
                                     <a href="#"><c:out value = "${uNamesOfFollowing}"/></a>
