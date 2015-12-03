@@ -7,6 +7,7 @@ package Servlets;
 
 import Models.Feed;
 import Models.Users;
+import Stores.PostDetails;
 import com.datastax.driver.core.Cluster;
 import static java.io.FileDescriptor.out;
 import java.io.IOException;
@@ -86,17 +87,14 @@ public class PostWall extends HttpServlet {
             feed.insertPost(postID, postedTo, postedBy,postedByUname, datePosted, comment);
         }
 
-        java.util.LinkedList<String> comments = feed.getComments();  
-        java.util.LinkedList<String> usernames= feed.getPostedByUname();
-        java.util.LinkedList<Date> dates= feed.getDatePosted();
+        //java.util.LinkedList<String> comments = feed.getComments();
+        PostDetails ps = feed.getPostDetails();
+        
+        session.setAttribute("NewsFeed", ps);
        
-        session.setAttribute("Comments", comments);
-        session.setAttribute("Users", usernames);
-        session.setAttribute("Dates", dates);
    
-            System.out.println(comments);
-        System.out.println(usernames);
-        System.out.println(dates);
+           
+    
         
         RequestDispatcher rd = request.getRequestDispatcher("livefeed.jsp");
         rd.forward(request, response);

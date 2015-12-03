@@ -5,6 +5,7 @@
  */
 package Models;
 
+import Stores.PostDetails;
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.Cluster;
@@ -46,7 +47,8 @@ public class Feed {
         session.execute(statement);
         session.close();
     }
-     public java.util.LinkedList<String> getComments() {
+
+    public java.util.LinkedList<String> getComments() {
         java.util.LinkedList<String> comments = new java.util.LinkedList<>();
         Session session = cluster.connect("HashMusic");
 
@@ -67,9 +69,9 @@ public class Feed {
         return comments;
     }
 
-    
-    public java.util.LinkedList<String> getPostedByUname() {
-        java.util.LinkedList<String> usernames = new java.util.LinkedList<>();
+    public PostDetails getPostDetails() {
+        PostDetails ps = new PostDetails();
+
         Session session = cluster.connect("HashMusic");
 
         Statement statement = QueryBuilder.select()
@@ -82,31 +84,18 @@ public class Feed {
             return null;
         } else {
             for (Row row : rs) {
-
-                usernames.add(row.getString("postedBy_uName"));
+                
+                String postedByUName = row.getString("postedBy_uName");
+                Date datePosted= row.getDate("date_posted");
+                String content = row.getString("content");
+                
+                ps.setPostDetails(postedByUName, datePosted,content);
+                
+                
             }
         }
-        return usernames;
-    }
-     public java.util.LinkedList<Date> getDatePosted() {
-        java.util.LinkedList<Date> dates = new java.util.LinkedList<>();
-        Session session = cluster.connect("HashMusic");
 
-        Statement statement = QueryBuilder.select()
-                .all()
-                .from("HashMusic", "posts");
-
-        ResultSet rs = session.execute(statement);
-        if (rs.isExhausted()) {
-            System.out.println("No users returned");
-            return null;
-        } else {
-            for (Row row : rs) {
-
-                dates.add(row.getDate("date_posted"));
-            }
-        }
-        return dates;
+        return ps;
     }
 
     public void setCluster(Cluster cluster) {

@@ -7,6 +7,7 @@ package Servlets;
 
 import Models.Feed;
 import Models.NewSong;
+import Stores.PostDetails;
 import Stores.Song;
 import Stores.SongLibrary;
 import com.datastax.driver.core.Cluster;
@@ -54,13 +55,12 @@ public class populateUserView extends HttpServlet {
         Feed feed = new Feed();
         feed.setCluster(cluster);
        
-        java.util.LinkedList<String> comments = feed.getComments();  
-        java.util.LinkedList<String> usernames= feed.getPostedByUname();
-        java.util.LinkedList<Date> dates= feed.getDatePosted();
+        PostDetails ps = new PostDetails();
+        ps=feed.getPostDetails();
        
-        session.setAttribute("NewsFeed", comments);
-        session.setAttribute("Users", usernames);
-        session.setAttribute("Dates", dates);
+       
+        session.setAttribute("NewsFeed", ps);
+       
         
         NewSong newSong = new NewSong();
         newSong.setCluster(cluster); 

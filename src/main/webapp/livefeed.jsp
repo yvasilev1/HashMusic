@@ -65,29 +65,21 @@
                             <button type="submit" class="btn btn-default ">Add Post</button>
                         </form>
                     </div>
-                      <c:set var = "dates"  value = "${sessionScope.Dates}"/>
-                     <c:set var = "usernames" value = "${sessionScope.Users}"/>
-                     <c:set var = "comments" value = "${sessionScope.Comments}"/>
-                     <c:forEach items="${comments}" var = "comments">
-                        
-                        <c:forEach items="${usernames}" var = "usernames">
-                           
-                            <c:forEach items="${dates}" var = "dates">
-                                <a href="#"><c:out value = "${usernames}"/></a></br>
-                                <c:out value="${dates}"/>
-                                <div class="panel panel-default">
+                    
+                    <c:set var = "details"  value = "${sessionScope.NewsFeed}"/>
+                    <c:forEach items="${details}" var = "details">
+
+                         
+                        <div class="panel panel-default">
 
 
-                                    <div class="panel-body">
-                                        <c:out value="${comments}"/></br>
-                                    </div>
+                            <div class="panel-body">
+                                <c:out value="${details}"/>
+                            </div>
 
-                                </div>
-                            </c:forEach>
-                        </c:forEach>
-                       </c:forEach>
-                   
-                   
+                        </div>
+
+                    </c:forEach>
 
                 </div>
                 <div class="col-md-8">
@@ -116,7 +108,7 @@
                                     <div class="list-group">
                                         <c:set var = "songLibrary" value = "${sessionScope.SongLibrary.getArtists()}"/>
                                         <c:forEach items="${songLibrary}" var = "songLibrary">
-                                                    
+
                                             <a href="filterSongs?type=artist&id=<c:out value = "${songLibrary}"/>" class="list-group-item"><c:out value = "${songLibrary}"/></a>
                                         </c:forEach>
                                     </div>
@@ -168,12 +160,12 @@
                                 </div>
                             </div>
                         </div> 
-                                        
-                    <form method ="GET" action ="SearchSong">
-                        <input type ="text" name ="song" placeholder = "Search Song">
-                        <button type="submit" class="btn btn-sm">Search</button></br>
-                        </br>
-                    </form>
+
+                        <form method ="GET" action ="SearchSong">
+                            <input type ="text" name ="song" placeholder = "Search Song">
+                            <button type="submit" class="btn btn-sm">Search</button></br>
+                            </br>
+                        </form>
                         <div class="col-md-8">
                             <table class="table table-striped table table-hover">
                                 <thead>
@@ -196,7 +188,7 @@
                                             <td><c:out value = "${songs.getGenre()}"/></td>
                                             <td><c:out value = "${songs.getDuration()}"/></td>
                                             <td>
-                                               
+
                                                 <form method ="post" action ="addUserSong">
                                                     <input type ="hidden" name ="id" value = "<c:out value = "${songs.getSongID()}"/>">
                                                     <input type ="hidden" name ="artist" value = "<c:out value = "${songs.getArtist()}"/>">
@@ -206,7 +198,7 @@
                                                     <input type ="hidden" name ="title" value = "<c:out value = "${songs.getTitle()}"/>">
                                                     <input type ="submit" value ="Get Song">
                                                 </form>
-                                                
+
                                             </td>
                                         </tr>
                                     </c:forEach>
