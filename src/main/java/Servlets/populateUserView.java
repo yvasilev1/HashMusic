@@ -12,11 +12,10 @@ import Stores.Song;
 import Stores.SongLibrary;
 import com.datastax.driver.core.Cluster;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Date;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -33,10 +32,9 @@ import uk.ac.dundee.computing.aec.HashMusic.lib.CassandraHosts;
             "/populateUserView",
             "/populateUserView/",
             "/populateUserView/*"
-            
-                    
-        
+         
         })
+@MultipartConfig
 public class populateUserView extends HttpServlet {
       Cluster cluster = null;
 

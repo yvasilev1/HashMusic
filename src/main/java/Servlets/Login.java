@@ -21,12 +21,18 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import uk.ac.dundee.computing.aec.HashMusic.lib.CassandraHosts;
 import java.util.*;
+import javax.servlet.annotation.MultipartConfig;
 
 /**
  *
  * @author Yulian
  */
-@WebServlet(name = "Login", urlPatterns = {"/Login"})
+@WebServlet(name = "Login", urlPatterns = {
+    "/Login",
+   
+    
+})
+@MultipartConfig
 public class Login extends HttpServlet {
 
     Cluster cluster = null;
@@ -41,22 +47,22 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
 
         String username = request.getParameter("username");
-         String password = request.getParameter("password");
+        String password = request.getParameter("password");
 
         Users us = new Users();
         us.setCluster(cluster);
 
-        UUID isUserValid = us.isUserValid(username,password);
+        UUID isUserValid = us.isUserValid(username, password);
         System.out.println(isUserValid);
         if (isUserValid != null) {
-                      
+
             HttpSession session = request.getSession(true);
             boolean loggedIn = true;
             session.setAttribute("userStatus", loggedIn);
             session.setAttribute("userID", isUserValid);
             session.setAttribute("user", username);
             System.out.println("Success");
-            response.sendRedirect("populateUserView");
+            response.sendRedirect("populateUserView/");
 
         } else {
             System.out.println("Wrong Password");
