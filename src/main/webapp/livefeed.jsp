@@ -50,22 +50,26 @@
                         </div>
                     </div>
                 </nav>
+                <form method ="GET" action ="Search" style="float:right">
+                    <input type ="text" name ="user" placeholder="Search User">
+                        <button type="submit" class="btn btn-sm">Search</button>
+                </form>
+                <h3>${sessionScope.user}'s Music</h3>
             </div>
             <div class="row">
+                
+                
                 <div class="col-md-4">
-                    <form method ="GET" action ="Search">
-                        <input type ="text" name ="user">
-                        <button type="submit" class="btn btn-sm">Search</button></br>
-                        </br>
-                    </form>
+                    
+            
                     <form name="input" action="Followers" method="POST">
-                        <input type="text" name="user" value="${sessionScope.userID}" hidden>
+                        <input type="text" name="user" value="" hidden>
                         <input type="text" name="user1" value="" hidden>
-                        <button type="submit" class="btn btn-sm">Follow</button></br>
-                    </form>
+                        <button type="submit" class="btn btn-sm">Follow ${sessionScope.user} </button></br>
+                    </form></br>
                     <div class="form-group">
                         <form method ="post" action="PostWall">
-                            <textarea class="form-control" rows="3" id="newPost" name="postContent"></textarea>
+                            <textarea class="form-control" rows="3" id="newPost" name="postContent" placeholder="Add Post"></textarea>
                             <button type="submit" class="btn btn-default ">Add Post</button>
                         </form>
                     </div>
