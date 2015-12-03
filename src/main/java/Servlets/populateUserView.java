@@ -55,10 +55,16 @@ public class populateUserView extends HttpServlet {
         Feed feed = new Feed();
         feed.setCluster(cluster);
        
-        PostDetails ps = new PostDetails();
-        ps=feed.getPostDetails();
+       // PostDetails ps = new PostDetails();
+        java.util.LinkedList<PostDetails> ps = feed.getPostDetails();
+      //  ps=feed.getPostDetails();
        
        
+        System.out.println("Test1: " + ps.get(0).getPostContent());
+         System.out.println("Test1: " + ps.get(0).getDatePosted());
+         
+         // System.out.println("Test1: " + ps.get(1).getPostContent());
+         //System.out.println("Test1: " + ps.get(1).getDatePosted());
         session.setAttribute("NewsFeed", ps);
        
         

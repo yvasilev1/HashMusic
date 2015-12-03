@@ -74,7 +74,8 @@
 
 
                             <div class="panel-body">
-                                <c:out value="${details}"/>
+                                <c:out value="${details.getPostContent()}"/>
+                                <c:out value="${details.getDatePosted()}"/>
                             </div>
 
                         </div>
@@ -208,11 +209,16 @@
                                          
                                          <input type ="submit" value ="test">
                                       </form> 
+                                     
+                                    <c:set var = "index" value = "0"/>
                                     <c:forEach items="${songs}" var = "songs">
+                                    <c:set var = "index" value = "${index + 1}"/>
+                                    
+                                            
                                         
                                         <tr>
                                             <td>
-                                                <input type ="checkBox" form = "playListForm" name = "song" value ="<c:out value = "${songs.getSongID()}"/>">
+                                                <input type ="checkBox" form = "playListForm" name = "song" value ="<c:out value = "${index}"/>">
                                             </td>
                                        
                                             <td>

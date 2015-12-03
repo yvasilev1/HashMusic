@@ -88,14 +88,10 @@ public class PostWall extends HttpServlet {
         }
 
         //java.util.LinkedList<String> comments = feed.getComments();
-        PostDetails ps = feed.getPostDetails();
+        //PostDetails ps = feed.getPostDetails();
         
-        session.setAttribute("NewsFeed", ps);
+       // session.setAttribute("NewsFeed", ps);
        
-   
-           
-    
-        
         RequestDispatcher rd = request.getRequestDispatcher("livefeed.jsp");
         rd.forward(request, response);
     }

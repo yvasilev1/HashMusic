@@ -69,9 +69,11 @@ public class Feed {
         return comments;
     }
 
-    public PostDetails getPostDetails() {
-        PostDetails ps = new PostDetails();
+    public java.util.LinkedList<PostDetails> getPostDetails() {
+    
 
+        java.util.LinkedList<PostDetails> details = new java.util.LinkedList();
+        
         Session session = cluster.connect("HashMusic");
 
         Statement statement = QueryBuilder.select()
@@ -84,18 +86,19 @@ public class Feed {
             return null;
         } else {
             for (Row row : rs) {
-                
+                PostDetails ps = new PostDetails();
                 String postedByUName = row.getString("postedBy_uName");
                 Date datePosted= row.getDate("date_posted");
                 String content = row.getString("content");
                 
                 ps.setPostDetails(postedByUName, datePosted,content);
                 
+                details.add(ps);
                 
             }
         }
 
-        return ps;
+        return details;
     }
 
     public void setCluster(Cluster cluster) {
