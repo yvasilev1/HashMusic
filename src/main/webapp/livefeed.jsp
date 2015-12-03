@@ -167,6 +167,17 @@
                             <button type="submit" class="btn btn-sm">Search</button></br>
                             </br>
                         </form>
+
+                                       
+                                            
+
+                        <h6 style = "margin-left: 30%" id = "songPlayTitle">No Song Selected</h6>                                
+                        <audio controls style = "margin-left: 20%" id = "songPlayer">
+
+                            <source src="#" type="audio/mp3">
+                        </audio>
+
+
                         <div class="col-md-8">
                             <table class="table table-striped table table-hover">
                                 <thead>
