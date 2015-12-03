@@ -32,7 +32,6 @@ import javax.servlet.annotation.MultipartConfig;
    
     
 })
-@MultipartConfig
 public class Login extends HttpServlet {
 
     Cluster cluster = null;
