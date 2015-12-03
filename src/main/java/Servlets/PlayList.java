@@ -55,7 +55,6 @@ public class PlayList extends HttpServlet {
         Playlist playlist = new Playlist();
         playlist.setCluster(cluster);
        
-        
         java.util.LinkedList<PlayLists> playLists = new java.util.LinkedList();
         
         playLists = playlist.getPlayLists(userID);
@@ -89,11 +88,12 @@ public class PlayList extends HttpServlet {
         HttpSession session = request.getSession();
         
         java.util.UUID userID = (java.util.UUID)session.getAttribute("userID");
-     
-        Convertors convertor = new Convertors();
-        java.util.UUID playListID = convertor.getTimeUUID();
+        String[] songs = request.getParameterValues("song");
+  
+        playlist.createPlayList(userID,playListName, songs);
         
-        playlist.createPlayList(playListID,userID,playListName);
+        RequestDispatcher rd = request.getRequestDispatcher("livefeed.jsp");
+        rd.forward(request, response);
     }
 
     /**

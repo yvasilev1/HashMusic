@@ -234,7 +234,7 @@ public class NewSong {
                albums.add(row.getString("album"));
                songLibrary.setAlbums(albums);
            
-                System.out.println("Album is: " + row.getString("album"));
+               System.out.println("Album is: " + row.getString("album"));
                 
                java.util.HashSet<String>genres = new java.util.HashSet();
                genres = songLibrary.getGenres();

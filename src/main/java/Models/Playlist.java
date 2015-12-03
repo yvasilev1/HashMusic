@@ -24,15 +24,23 @@ public class Playlist {
       
     public Playlist(){}
     
-    public void createPlayList(java.util.UUID playListID, java.util.UUID userID, String playListName)
+    public void createPlayList(java.util.UUID userID, String playListName, String[] songs)
     {
+        
         Session session = cluster.connect("HashMusic");
+        
+        for(int i = 0; i < songs.length; i++)
+        {
+         java.util.UUID songID = java.util.UUID.fromString(songs[i]);
 
          Statement statement = QueryBuilder.insertInto("PlayList")
-                .value("playlist_id", playListID)
                 .value("user_id", userID)
-                .value("playlist_name", playListName);
+                .value("playlist_name", playListName)
+                .value("song_id", songID);
          session.execute(statement);
+        
+         
+        }
          session.close();
     }
     

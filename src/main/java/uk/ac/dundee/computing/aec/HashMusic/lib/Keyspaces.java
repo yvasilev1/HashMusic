@@ -34,13 +34,7 @@ public final class Keyspaces {
                     + "PRIMARY KEY (userid)"
                     + ")";
 
-            String CreatePlayList = "CREATE TABLE if not exists HashMusic.PlayList (\n"
-                    + "playlist_id uuid, "
-                    + "user_id uuid, "
-                    + "playlist_name text, "
-                    + "song_ids list<uuid>, "
-                    + "PRIMARY KEY (playlist_id)"
-                    + ")";
+           
 
             String CreatePostsTable = "CREATE TABLE if not exists HashMusic.Posts ("
                     + "post_id uuid, "
@@ -55,10 +49,9 @@ public final class Keyspaces {
 
             String CreateHashList = "CREATE TABLE if not exists HashMusic.HashList (\n"
                     + "user_id uuid, "
-                    + "hash text, "
+                    + "hashTag text, "
                     + "song_id uuid, "
-                    + "playList_id uuid, "
-                    + "PRIMARY KEY (user_id, hash)"
+                    + "PRIMARY KEY (user_id, song_id)"
                     + ")";
 
             String CreateHashTags = "CREATE TABLE if not exists HashMusic.HashTags (\n"
@@ -86,7 +79,19 @@ public final class Keyspaces {
                     + "song_id uuid, "
                     + "PRIMARY KEY (user_id, song_id)"
                     + ")";
-
+            
+             String CreatePlayList = "CREATE TABLE if not exists HashMusic.PlayList (\n"
+                    + "user_id uuid, "
+                    + "playlist_name text, "
+                    + "song_id uuid, "
+                    + "title text, "
+                    + "duration text, "
+                    + "artist text, "
+                    + "album text, "
+                    + "genre text, "
+                    + "PRIMARY KEY (user_id, song_id)"
+                    + ")";
+            
             String CreateSecondaryIndex = "CREATE INDEX user_id ON HashMusic.PlayList (user_id);";
 
             Session session = c.connect();

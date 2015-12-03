@@ -152,10 +152,11 @@
                                 </div>
                                 <div id="collapse4" class="panel-collapse collapse">
                                     <div class="list-group">
+                                        <form method ="post" class ="list-group-item" action ="PlayList">
+                                            <input type ="text" name ="playlist" placeholder ="Create New" style = "width: 100%">
+                                        </form>
                                         <a href="#" class="list-group-item">Add New Playlist</a>
-                                        <a href="#" class="list-group-item">First item</a>
-                                        <a href="#" class="list-group-item">Second item</a>
-                                        <a href="#" class="list-group-item">Third item</a>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -170,23 +171,53 @@
                             <table class="table table-striped table table-hover">
                                 <thead>
                                     <tr>
+                                        <th></th>
+                                        <th></th>
                                         <th>Song</th>
                                         <th>Artist</th>
                                         <th>Album</th>
                                         <th>Genre</th>
                                         <th>Duration</th>
-                                        <th></th>
+                                      
+                                        <th>
+
+                                            <c:choose>
+                                                <c:when test ="${sessionScope.listType == 'user'}">
+
+                                                    <c:out value = "HashTag"/>
+                                                </c:when>
+                                            </c:choose>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <c:set var = "songs" value = "${sessionScope.Songs}"/>
+                                     <form method ="post" action ="PlayList" id = "playListForm">
+                                         <input type ="text" name ="playlist" placeholder ="New PlayList">
+                                         
+                                         <input type ="submit" value ="test">
+                                      </form> 
                                     <c:forEach items="${songs}" var = "songs">
+                                        
                                         <tr>
+                                            <td>
+                                                <input type ="checkBox" form = "playListForm" name = "song" value ="<c:out value = "${songs.getSongID()}"/>">
+                                            </td>
+                                       
+                                            <td>
+                                                <!-- http://stackoverflow.com/questions/18014639/passing-jstl-value-to-javascript  if interested in how this parameter pass works... 03/12/2015 00:00 -->
+                                                <button onclick = "playSong('${songs.getSongID()}', '${songs.getTitle()}')">Play</button>
+                                            </td>
+                                            
                                             <td><c:out value = "${songs.getTitle()}"/></td>
+                                            
+                                            
+                                            
                                             <td><c:out value = "${songs.getArtist()}"/></td>
                                             <td><c:out value = "${songs.getAlbum()}"/></td>
                                             <td><c:out value = "${songs.getGenre()}"/></td>
                                             <td><c:out value = "${songs.getDuration()}"/></td>
+                                         
                                             <td>
 
                                                 <form method ="post" action ="addUserSong">
@@ -209,5 +240,31 @@
                 </div>
             </div>
         </div>
+
+        <h1 id = "test">
+
+        </h1>
+
+        <script>
+            function playSong(songID, songTitle)
+            {
+                var audio = document.getElementById("songPlayer");
+                document.getElementById("songPlayTitle").innerHTML = "Now Playing: " + songTitle;
+
+                audio.src = "PlaySong?id=" + songID;
+                audio.load();
+                audio.play();
+
+            }
+        </script>
+
+        <style>
+            audio
+            {
+                width: 400px;
+            }
+        </style>
     </body>
+
+
 </html>

@@ -5,8 +5,7 @@
  */
 package Servlets;
 
-import Models.NewSong;
-import Stores.Song;
+import Models.HashTags;
 import com.datastax.driver.core.Cluster;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -24,19 +23,19 @@ import uk.ac.dundee.computing.aec.HashMusic.lib.CassandraHosts;
  *
  * @author Connor
  */
-@WebServlet(name = "SearchSong", urlPatterns = {"/SearchSong"})
-public class SearchSong extends HttpServlet {
+@WebServlet(name = "userHashTag", urlPatterns = {"/userHashTag"})
+public class userHashTag extends HttpServlet {
 
-    Cluster cluster = null;
+      Cluster cluster = null;
 
     public void init(ServletConfig config) throws ServletException {
         // TODO Auto-generated method stub
         cluster = CassandraHosts.getCluster();
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+
     /**
-     * Handles the HTTP <code>GET</code> method.
+     * Handles the HTTP <code>POST</code> method.
      *
      * @param request servlet request
      * @param response servlet response
@@ -44,24 +43,20 @@ public class SearchSong extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String song = request.getParameter("song");
-        HttpSession session = request.getSession();
-
-        NewSong newSong = new NewSong();
-        newSong.setCluster(cluster);
-
-        java.util.LinkedList<Song> songs = newSong.getSongs(song);
-        
-        String listType = "search";
-
-        session.setAttribute("Songs", songs);
-        session.setAttribute("listType", listType);
-
-        RequestDispatcher rd = request.getRequestDispatcher("livefeed.jsp");
-        rd.forward(request, response);
-
+       String hashTag = request.getParameter("hashTag");
+       HttpSession session = request.getSession();
+       
+       java.util.UUID userID = (java.util.UUID)session.getAttribute("userID");
+       java.util.UUID songID = java.util.UUID.fromString(request.getParameter("songID"));
+       
+       HashTags hashtags = new HashTags();
+       hashtags.setCluster(cluster);
+       
+       hashtags.insertHash(hashTag, userID, songID);
+       RequestDispatcher rd = request.getRequestDispatcher("livefeed.jsp");
+       rd.forward(request, response);
     }
 
     /**
