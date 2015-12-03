@@ -36,8 +36,7 @@
                         <div>
                             <ul class="nav navbar-nav">
                                 <li><a href="populateUserView">Live Feed</a></li>
-                                <li><a href="createplaylist.jsp">Create Playlist</a></li>
-                                <li><a href="upload.jsp">Upload Music</a></li>
+                                <li><a href="Songs">Upload Music</a></li>
                                 <li><a href="Followers">Followers</a></li>
                             </ul>
                             <ul class="nav navbar-nav navbar-right">
@@ -51,17 +50,26 @@
                         </div>
                     </div>
                 </nav>
+                <form method ="GET" action ="Search" style="float:right">
+                    <input type ="text" name ="user" placeholder="Search User">
+                        <button type="submit" class="btn btn-sm">Search</button>
+                </form>
+                <h3>${sessionScope.user}'s Music</h3>
             </div>
             <div class="row">
+                
+                
                 <div class="col-md-4">
-                    <form method ="GET" action ="Search">
-                        <input type ="text" name ="user">
-                        <button type="submit" class="btn btn-sm">Search for User</button></br>
-                        </br>
-                    </form>
+                    
+            
+                    <form name="input" action="Followers" method="POST">
+                        <input type="text" name="user" value="" hidden>
+                        <input type="text" name="user1" value="" hidden>
+                        <button type="submit" class="btn btn-sm">Follow ${sessionScope.user} </button></br>
+                    </form></br>
                     <div class="form-group">
                         <form method ="post" action="PostWall">
-                            <textarea class="form-control" rows="3" id="newPost" name="postContent"></textarea>
+                            <textarea class="form-control" rows="3" id="newPost" name="postContent" placeholder="Add Post"></textarea>
                             <button type="submit" class="btn btn-default ">Add Post</button>
                         </form>
                     </div>
@@ -226,57 +234,57 @@
                                 <c:set var = "index" value = "0"/>
                                 <c:forEach items="${songs}" var = "songs">
                                     <c:set var = "index" value = "${index + 1}"/>
-                                    
-                                            
-                                        
-                                        <tr>
-                                            <td>
-                                                <input type ="checkBox" form = "playListForm" name = "song" value ="<c:out value = "${index}"/>">
-                                            </td>
-                                       
-                                            <td>
-                                                <!-- http://stackoverflow.com/questions/18014639/passing-jstl-value-to-javascript  if interested in how this parameter pass works... 03/12/2015 00:00 -->
-                                                <button onclick = "playSong('${songs.getSongID()}', '${songs.getTitle()}')">Play</button>
-                                            </td>
-                                            
-                                            <td><c:out value = "${songs.getTitle()}"/></td>
-                                            
-                                            
-                                            
-                                            <td><c:out value = "${songs.getArtist()}"/></td>
-                                            <td><c:out value = "${songs.getAlbum()}"/></td>
-                                            <td><c:out value = "${songs.getGenre()}"/></td>
-                                            <td><c:out value = "${songs.getDuration()}"/></td>
-                                         
-                                            <td>
-                                                
-                                                <c:choose>
+
+
+
+                                    <tr>
+                                        <td>
+                                            <input type ="checkBox" form = "playListForm" name = "song" value ="<c:out value = "${index}"/>">
+                                        </td>
+
+                                        <td>
+                                            <!-- http://stackoverflow.com/questions/18014639/passing-jstl-value-to-javascript  if interested in how this parameter pass works... 03/12/2015 00:00 -->
+                                            <button onclick = "playSong('${songs.getSongID()}', '${songs.getTitle()}')">Play</button>
+                                        </td>
+
+                                        <td><c:out value = "${songs.getTitle()}"/></td>
+
+
+
+                                        <td><c:out value = "${songs.getArtist()}"/></td>
+                                        <td><c:out value = "${songs.getAlbum()}"/></td>
+                                        <td><c:out value = "${songs.getGenre()}"/></td>
+                                        <td><c:out value = "${songs.getDuration()}"/></td>
+
+                                        <td>
+
+                                            <c:choose>
                                                 <c:when test ="${sessionScope.listType == 'user'}">
-                                                
+
                                                     <form method ="post" action ="userHashTag">
                                                         <input type ="text" name ="hashvalue" placeholder = "<c:out value = "${songs.getHashTag()}"/>">
                                                         <input type ="hidden" name ="songID" value ="<c:out value = "${songs.getSongID()}"/>">
                                                         <input type ="submit" style ="visibility:hidden">
                                                     </form>
                                                 </c:when>
-                                                    <c:otherwise>
-                                                        
-                                                <form method ="post" action ="addUserSong">
-                                                    <input type ="hidden" name ="id" value = "<c:out value = "${songs.getSongID()}"/>">
-                                                    <input type ="hidden" name ="artist" value = "<c:out value = "${songs.getArtist()}"/>">
-                                                    <input type ="hidden" name ="genre" value = "<c:out value = "${songs.getGenre()}"/>">
-                                                    <input type ="hidden" name ="album" value = "<c:out value = "${songs.getAlbum()}"/>">
-                                                    <input type ="hidden" name ="duration" value = "<c:out value = "${songs.getDuration()}"/>">
-                                                    <input type ="hidden" name ="title" value = "<c:out value = "${songs.getTitle()}"/>">
-                                                    <input type ="submit" value ="Get Song">
-                                                </form>
+                                                <c:otherwise>
 
-                                            </td>
-                                        </tr>
-                                            </c:otherwise>
-                                        
-                                             </c:choose>
-                                    </c:forEach>
+                                                    <form method ="post" action ="addUserSong">
+                                                        <input type ="hidden" name ="id" value = "<c:out value = "${songs.getSongID()}"/>">
+                                                        <input type ="hidden" name ="artist" value = "<c:out value = "${songs.getArtist()}"/>">
+                                                        <input type ="hidden" name ="genre" value = "<c:out value = "${songs.getGenre()}"/>">
+                                                        <input type ="hidden" name ="album" value = "<c:out value = "${songs.getAlbum()}"/>">
+                                                        <input type ="hidden" name ="duration" value = "<c:out value = "${songs.getDuration()}"/>">
+                                                        <input type ="hidden" name ="title" value = "<c:out value = "${songs.getTitle()}"/>">
+                                                        <input type ="submit" value ="Get Song">
+                                                    </form>
+
+                                                </td>
+                                            </tr>
+                                        </c:otherwise>
+
+                                    </c:choose>
+                                </c:forEach>
                                 </tbody>
                             </table>
                         </div>

@@ -41,8 +41,12 @@ public class Songs extends HttpServlet {
         // TODO Auto-generated method stub
         cluster = CassandraHosts.getCluster();
     }
-
-  
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        RequestDispatcher rd = request.getRequestDispatcher("upload.jsp");
+        rd.forward(request, response);
+    }
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -77,8 +81,7 @@ public class Songs extends HttpServlet {
                 newSong.insertSong(songId, songBytes,title,artist,genre,album,duration);
             }
         }
-        RequestDispatcher rd = request.getRequestDispatcher("livefeed.jsp");
-        rd.forward(request, response);
+       response.sendRedirect("populateUserView");
     }
 
     /**

@@ -123,7 +123,7 @@ public class PlayList extends HttpServlet {
             playlist.createPlayList(userID, playListName, songID, title, artist, album, genre, duration);
         }
         
-        
+        response.sendRedirect("populateUserView");
         
        // playlist.createPlayList(userID,playListName, songs);
         
