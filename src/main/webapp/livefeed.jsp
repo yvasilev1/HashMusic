@@ -74,21 +74,34 @@
                         </form>
                     </div>
 
+                    <c:set var = "commentNo" value = "0"/>
                     <c:set var = "details"  value = "${sessionScope.NewsFeed}"/>
                     <c:forEach items="${details}" var = "details">
                         <a href="#" ><c:out value="${details.getPostedByUName()}"/></a></br>
                         <c:out value="${details.getDatePosted()}"/>
 
                         <div class="panel panel-default">
+                            
+                            <div class="panel-body" id = "{$iteration}">
 
-                            <div class="panel-body">
-
-                                <c:out value="${details.getPostContent()}"/>
-
+                                   <h6 id = "${commentNo}">Test</h6>
+                                
+                                <script>
+                                   
+                                  comment = "${details.getPostContent()}";
+                                  
+                                  //http://stackoverflow.com/questions/4913555/find-twitter-hashtags-using-jquery-and-apply-a-link
+                                  //Above URL used as source for following 2 lines of code. Finds and attaches links to music hashtags.
+                                  //Accessed: 03/12/2015 19:41, Post Author: Reiner Gerecke
+                                  hashtag_regexp = /#!([a-zA-Z0-9]+)/g;
+                                  comment =  comment.replace(hashtag_regexp, '<a class="hashtag" href="#" value = "$1" onclick = "callHash(\'$1\',\'${commentNo}\');">#!$1</a>');
+                                  //--
+                                  document.getElementById("${commentNo}").innerHTML = comment;
+                                </script>
                             </div>
 
                         </div>
-
+                       <c:set var = "commentNo" value = "${commentNo + 1}"/>
                     </c:forEach>
 
                 </div>
@@ -183,7 +196,7 @@
                         <h6 style = "margin-left: 30%" id = "songPlayTitle">No Song Selected</h6>                                
                         <audio controls style = "margin-left: 20%" id = "songPlayer">
 
-                            <source src="#" type="audio/mp3">
+                            <source src="aud.wav" type="audio/mp3">
                         </audio>
 
 
@@ -295,8 +308,18 @@
                 audio.play();
 
             }
-        </script>
-
+            
+            function callHash(hashtag, commentNo)
+            {
+               
+               
+             
+                $("#"+commentNo).append('<audio controls>\n\
+                                        <source src ="PlayHashed?id='+hashtag+'" type="audio/wav">\n\
+                                        </audio>');
+              
+            }
+        </script
         <style>
             audio
             {

@@ -12,6 +12,7 @@ import com.datastax.driver.core.Session;
 import com.datastax.driver.core.Statement;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
 import static com.datastax.driver.core.querybuilder.QueryBuilder.eq;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -34,6 +35,33 @@ public class HashTags {
         session.close();
     }
     
+    public java.util.UUID getHashSongID(String hashTag, java.util.UUID userID)
+    {
+         java.util.UUID songID = null;
+        
+         Session session = cluster.connect("HashMusic");
+         
+         Statement statement = QueryBuilder.select()
+                .all()
+                .from("HashMusic", "HashList")
+                .where(eq("user_id", userID));
+          ResultSet rs = session.execute(statement);
+        if (rs.isExhausted()) {
+            System.out.println("No Hashes returned");
+            return null;
+        } else {
+            for (Row row : rs) 
+            {
+                if(row.getString("hashTag").equals(hashTag))
+                {
+                   songID = row.getUUID("song_id");  
+                }
+           }
+        }
+        return songID;
+    
+    }
+    
      public String getHashTag(java.util.UUID userID, java.util.UUID songID)
     {
         String hashtag = null;
@@ -43,8 +71,7 @@ public class HashTags {
          Statement statement = QueryBuilder.select()
                 .all()
                 .from("HashMusic", "HashList")
-                .where(eq("user_id", userID))
-                .and(eq("song_id", songID));
+                .where(eq("user_id", userID));
           ResultSet rs = session.execute(statement);
         if (rs.isExhausted()) {
             System.out.println("No Hashes returned");
@@ -52,7 +79,10 @@ public class HashTags {
         } else {
             for (Row row : rs) 
             {
-                hashtag = row.getString("hashTag");    
+                if(row.getUUID("song_id").equals(songID))
+                {
+                   hashtag = row.getString("hashTag");    
+                }
             }
         
         return hashtag;

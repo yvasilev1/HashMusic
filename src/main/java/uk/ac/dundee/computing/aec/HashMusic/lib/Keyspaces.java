@@ -51,7 +51,7 @@ public final class Keyspaces {
                     + "user_id uuid, "
                     + "hashTag text, "
                     + "song_id uuid, "
-                    + "PRIMARY KEY ((user_id, song_id))"
+                    + "PRIMARY KEY (user_id)"
                     + ")";
 
             String CreateHashTags = "CREATE TABLE if not exists HashMusic.HashTags (\n"
