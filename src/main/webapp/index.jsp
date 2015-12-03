@@ -31,10 +31,10 @@
                             <hr class="divider">
                             <ul class="list-inline social-buttons">
                                 <li>
-                                    <a href="Register.jsp" class="btn btn-default btn-lg"><span class="network-name">Sign Up</span></a>
+                                    <a href="Register" class="btn btn-default btn-lg"><span class="network-name">Sign Up</span></a>
                                 </li>
                                 <li>
-                                    <a href="Login.jsp" class="btn btn-default btn-lg"><span class="network-name">Login</span></a>
+                                    <a href="Login" class="btn btn-default btn-lg"><span class="network-name">Login</span></a>
                                 </li>
                             </ul>
                         </div>

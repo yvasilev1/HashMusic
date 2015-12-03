@@ -36,7 +36,7 @@
                             <input type="Submit" class="btn btn-lg btn-primary btn-block" value="Login" class="button"/>
                         </form>
                     </div>
-                    <a href="Register.jsp" class="text-center new-account">Create an account </a>
+                    <a href="Register" class="text-center new-account">Create an account </a>
                 </div>
             </div>
         </div>

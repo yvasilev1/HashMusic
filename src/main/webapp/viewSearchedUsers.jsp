@@ -31,9 +31,8 @@
                         </div>
                         <div>
                             <ul class="nav navbar-nav">
-                                <li><a href="livefeed.jsp">Live Feed</a></li>
-                                <li><a href="createplaylist.jsp">Create Playlist</a></li>
-                                <li><a href="upload.jsp">Upload Music</a></li>
+                                <li><a href="populateUserView">Live Feed</a></li>    
+                                <li><a href="Songs">Upload Music</a></li>
                                 <li><a href="Followers">Followers</a></li>
                             </ul>
                             <ul class="nav navbar-nav navbar-right">

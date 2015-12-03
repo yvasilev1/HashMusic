@@ -5,8 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-  <!-- JSTL -->
-        <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
+<!-- JSTL -->
+<%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -16,7 +16,7 @@
 
         <!-- Meta -->
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        
+
         <!-- Scripts -->
         <link rel="stylesheet" type="text/css" href="resources/bootstrap-3.3.5-dist/bootstrap-3.3.5-dist/css/bootstrap.css">
         <link rel="stylesheet" type="text/css" href="resources\bootstrap-3.3.5-dist\css\bootstrap.css">
@@ -33,9 +33,8 @@
                         </div>
                         <div>
                             <ul class="nav navbar-nav">
-                                <li><a href="livefeed.jsp">Live Feed</a></li>
-                                <li><a href="createplaylist.jsp">Create Playlist</a></li>
-                                <li><a href="upload.jsp">Upload Music</a></li>
+                                <li><a href="populateUserView">Live Feed</a></li>
+                                <li><a href="Songs">Upload Music</a></li>
                                 <li><a href="Followers">Followers</a></li>
                             </ul>
                             <ul class="nav navbar-nav navbar-right">

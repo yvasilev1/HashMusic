@@ -96,9 +96,7 @@ public class Followers extends HttpServlet {
         System.out.println(dateFollowed);
         us.addFollower(user, user1, dateFollowed);
 
-        RequestDispatcher rd = request.getRequestDispatcher("UserView.jsp");
-        rd.forward(request, response);
-
+        response.sendRedirect("populateUserView");
     }
 
 }
