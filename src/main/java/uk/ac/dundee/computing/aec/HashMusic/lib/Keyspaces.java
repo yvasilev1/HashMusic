@@ -83,7 +83,7 @@ public final class Keyspaces {
              String CreatePlayList = "CREATE TABLE if not exists HashMusic.PlayList (\n"
                     + "user_id uuid, "
                     + "playlist_name text, "
-                    + "song_id, "
+                    + "song_id uuid, "
                     + "title text, "
                     + "duration text, "
                     + "artist text, "

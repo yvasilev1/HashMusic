@@ -175,10 +175,8 @@
                             <button type="submit" class="btn btn-sm" style = "visibility: hidden">Search</button></br>
                             </br>
                         </form>
-                                        
-                                        <select id ="playlists">
-                                            <option id ="default" value ="Not Selected">Not Selected</option>  
-                                        </select>
+                                       
+                                            
 
                         <h6 style = "margin-left: 30%" id = "songPlayTitle">No Song Selected</h6>                                
                         <audio controls style = "margin-left: 20%" id = "songPlayer">
@@ -190,6 +188,7 @@
                             <table class="table table-striped table table-hover">
                                 <thead>
                                     <tr>
+                                        <th></th>
                                         <th></th>
                                         <th>Song</th>
                                         <th>Artist</th>
@@ -210,13 +209,27 @@
                                 </thead>
                                 <tbody>
                                     <c:set var = "songs" value = "${sessionScope.Songs}"/>
+                                     <form method ="post" action ="PlayList" id = "playListForm">
+                                         <input type ="text" name ="playlist" placeholder ="New PlayList">
+                                         
+                                         <input type ="submit" value ="test">
+                                      </form> 
                                     <c:forEach items="${songs}" var = "songs">
+                                        
                                         <tr>
+                                            <td>
+                                                <input type ="checkBox" form = "playListForm" name = "song" value ="<c:out value = "${songs.getSongID()}"/>">
+                                            </td>
+                                       
                                             <td>
                                                 <!-- http://stackoverflow.com/questions/18014639/passing-jstl-value-to-javascript  if interested in how this parameter pass works... 03/12/2015 00:00 -->
                                                 <button onclick = "playSong('${songs.getSongID()}', '${songs.getTitle()}')">Play</button>
                                             </td>
+                                            
                                             <td><c:out value = "${songs.getTitle()}"/></td>
+                                            
+                                            
+                                            
                                             <td><c:out value = "${songs.getArtist()}"/></td>
                                             <td><c:out value = "${songs.getAlbum()}"/></td>
                                             <td><c:out value = "${songs.getGenre()}"/></td>
