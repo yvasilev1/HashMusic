@@ -87,7 +87,7 @@ public class NewSong {
                 
                 if(title.contains(songName))
                 {
-                     song.setSongDetails(title, album, genre, artist, duration, songID);
+                     song.setSongDetails(title, album, genre, artist, duration, songID, null);
                      songs.add(song);
                 }
                 
@@ -139,6 +139,7 @@ public class NewSong {
         } else {
             for (Row row : rs) {
            
+                
                 java.util.UUID songID = row.getUUID("song_id");
                 songLibrary = getSongsInfo(songLibrary, songID);
             }
@@ -148,7 +149,7 @@ public class NewSong {
         return songLibrary;
     }
     
-    public java.util.LinkedList<Song> getUserSongs (java.util.UUID userID)
+    public java.util.LinkedList<Song> getUserSongs (java.util.UUID userID, HashTags ht)
     {
         java.util.LinkedList<Song> songs = new java.util.LinkedList();
         
@@ -164,46 +165,27 @@ public class NewSong {
             return null;
         } else {
             for (Row row : rs) {
-           
+                Song song = new Song();
                 java.util.UUID songID = row.getUUID("song_id");
-                System.out.println("Song ID is.. " + songID);
-                songs.add(getUserSong(songID));
-            }
-        }
-        
-        return songs;
-    }
-    
-    public Song getUserSong(java.util.UUID songID)
-    {
-        Song songs = new Song();
-        
-        Session session = cluster.connect("HashMusic");
-        
-        Statement statement = QueryBuilder.select()
-                .all()
-                .from("HashMusic", "SongList")
-                .where(eq("song_id", songID));
-        ResultSet rs = session.execute(statement);
-        if (rs.isExhausted()) {
-            System.out.println("No songs returned");
-            return songs;
-        } else {
-            for (Row row : rs) {
-                
-                          
+              
                 String title = row.getString("title");
                 String artist = row.getString("artist");
                 String genre = row.getString("genre");
                 String album = row.getString("album");
                 String duration = row.getString("duration");
+                
+                String hashtag = ht.getHashTag(userID, songID);
          
-                songs.setSongDetails(title, album, genre, artist, duration, songID);
-
+                song.setSongDetails(title, album, genre, artist, duration, songID, hashtag);
+                songs.add(song);
+                
             }
         }
+        
         return songs;
     }
+   
+  
     
     public SongLibrary getSongsInfo (SongLibrary songLibrary, java.util.UUID songID)
     {
@@ -249,7 +231,7 @@ public class NewSong {
         return songLibrary;
     }
     
-    public java.util.LinkedList<Song> filterByArtist (String artistSearched, java.util.UUID userID)
+    public java.util.LinkedList<Song> filterByArtist (String artistSearched, java.util.UUID userID, HashTags ht)
     {
          java.util.LinkedList<Song> songs = new java.util.LinkedList();
     
@@ -270,7 +252,10 @@ public class NewSong {
             if(row.getString("artist").equals(artistSearched))
             {
                 Song song = new Song();
-                song.setSongDetails(row.getString("title"), row.getString("album"), row.getString("genre"), row.getString("artist"), row.getString("duration"), row.getUUID("song_id"));   
+                
+                String hashtag = ht.getHashTag(userID, row.getUUID("song_id"));
+         
+                song.setSongDetails(row.getString("title"), row.getString("album"), row.getString("genre"), row.getString("artist"), row.getString("duration"), row.getUUID("song_id"), hashtag);
                 songs.add(song);
             }
                     
@@ -283,7 +268,7 @@ public class NewSong {
     
     
       
-    public java.util.LinkedList<Song> filterByGenre (String genreSearched, java.util.UUID userID)
+    public java.util.LinkedList<Song> filterByGenre (String genreSearched, java.util.UUID userID, HashTags ht)
     {
          java.util.LinkedList<Song> songs = new java.util.LinkedList();
     
@@ -304,7 +289,10 @@ public class NewSong {
             if(row.getString("genre").equals(genreSearched))
             {
                 Song song = new Song();
-                song.setSongDetails(row.getString("title"), row.getString("album"), row.getString("genre"), row.getString("artist"), row.getString("duration"), row.getUUID("song_id"));   
+                
+                String hashtag = ht.getHashTag(userID, row.getUUID("song_id"));
+         
+                song.setSongDetails(row.getString("title"), row.getString("album"), row.getString("genre"), row.getString("artist"), row.getString("duration"), row.getUUID("song_id"), hashtag);
                 songs.add(song);
             }
                     
@@ -315,7 +303,7 @@ public class NewSong {
     }
    
         
-    public java.util.LinkedList<Song> filterByAlbum (String album, java.util.UUID userID)
+    public java.util.LinkedList<Song> filterByAlbum (String album, java.util.UUID userID, HashTags ht)
     {
          java.util.LinkedList<Song> songs = new java.util.LinkedList();
     
@@ -336,7 +324,10 @@ public class NewSong {
             if(row.getString("album").equals(album))
             {
                 Song song = new Song();
-                song.setSongDetails(row.getString("title"), row.getString("album"), row.getString("genre"), row.getString("artist"), row.getString("duration"), row.getUUID("song_id"));   
+             
+                String hashtag = ht.getHashTag(userID, row.getUUID("song_id"));
+                
+                song.setSongDetails(row.getString("title"), row.getString("album"), row.getString("genre"), row.getString("artist"), row.getString("duration"), row.getUUID("song_id"), hashtag);
                 songs.add(song);
             }
                     

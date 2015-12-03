@@ -45,7 +45,7 @@ public class userHashTag extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       String hashTag = request.getParameter("hashTag");
+       String hashTag = request.getParameter("hashvalue");
        HttpSession session = request.getSession();
        
        java.util.UUID userID = (java.util.UUID)session.getAttribute("userID");

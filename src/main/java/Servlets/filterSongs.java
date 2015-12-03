@@ -5,6 +5,7 @@
  */
 package Servlets;
 
+import Models.HashTags;
 import Models.NewSong;
 import Stores.Song;
 import Stores.SongLibrary;
@@ -58,17 +59,20 @@ public class filterSongs extends HttpServlet {
         NewSong newSong = new NewSong();
         newSong.setCluster(cluster); 
         
+        HashTags ht = new HashTags();
+        ht.setCluster(cluster);
+        
         if(filterType.equals("artist"))
         {
-            songs = newSong.filterByArtist(filterValue, userID);
+            songs = newSong.filterByArtist(filterValue, userID, ht);
         }
         else if(filterType.equals("album"))
         {
-            songs = newSong.filterByAlbum(filterValue, userID);
+            songs = newSong.filterByAlbum(filterValue, userID, ht);
         }
         else if(filterType.equals("genre"))
         {
-           songs = newSong.filterByGenre(filterValue, userID);
+           songs = newSong.filterByGenre(filterValue, userID, ht);
         }
         
          session.setAttribute("Songs", songs);

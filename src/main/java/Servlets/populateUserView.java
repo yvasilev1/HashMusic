@@ -6,7 +6,9 @@
 package Servlets;
 
 import Models.Feed;
+import Models.HashTags;
 import Models.NewSong;
+import Models.Playlist;
 import Stores.PostDetails;
 import Stores.Song;
 import Stores.SongLibrary;
@@ -71,11 +73,22 @@ public class populateUserView extends HttpServlet {
         NewSong newSong = new NewSong();
         newSong.setCluster(cluster); 
         
+        Playlist playlist = new Playlist();
+        playlist.setCluster(cluster);
+        
+        HashTags ht = new HashTags();
+        ht.setCluster(cluster);
+        
         java.util.UUID userID = (java.util.UUID)session.getAttribute("userID");
        
         SongLibrary songLibrary = newSong.getUserSongCategories(userID);
+       // java.util.LinkedList<String> playLists = playlist.getPlayLists(userID);
+        java.util.HashSet<String> playLists = playlist.getPlayLists(userID);
         
-        java.util.LinkedList<Song> songs = newSong.getUserSongs(userID);
+        
+        System.out.println("Size of playlist is: " + playLists.size());
+        
+        java.util.LinkedList<Song> songs = newSong.getUserSongs(userID, ht);
 
         session.setAttribute("Songs", songs);
         
@@ -85,6 +98,7 @@ public class populateUserView extends HttpServlet {
         String listType = "user";
 
         session.setAttribute("SongLibrary", songLibrary);
+        session.setAttribute("playlists", playLists);
         session.setAttribute("listType", listType);
        
         RequestDispatcher rd = request.getRequestDispatcher("livefeed.jsp");

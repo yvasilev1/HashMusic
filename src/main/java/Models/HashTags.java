@@ -6,9 +6,12 @@
 package Models;
 
 import com.datastax.driver.core.Cluster;
+import com.datastax.driver.core.ResultSet;
+import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.core.Statement;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
+import static com.datastax.driver.core.querybuilder.QueryBuilder.eq;
 
 /**
  *
@@ -29,6 +32,31 @@ public class HashTags {
                 .value("song_id", songID);
         session.execute(statement);
         session.close();
+    }
+    
+     public String getHashTag(java.util.UUID userID, java.util.UUID songID)
+    {
+        String hashtag = null;
+        
+        Session session = cluster.connect("HashMusic");
+         
+         Statement statement = QueryBuilder.select()
+                .all()
+                .from("HashMusic", "HashList")
+                .where(eq("user_id", userID))
+                .and(eq("song_id", songID));
+          ResultSet rs = session.execute(statement);
+        if (rs.isExhausted()) {
+            System.out.println("No Hashes returned");
+            return null;
+        } else {
+            for (Row row : rs) 
+            {
+                hashtag = row.getString("hashTag");    
+            }
+        
+        return hashtag;
+    }
     }
     
       

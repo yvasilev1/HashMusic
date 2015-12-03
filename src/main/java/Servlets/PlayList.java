@@ -5,6 +5,8 @@
  */
 package Servlets;
 
+import Models.HashTags;
+import Models.NewSong;
 import Models.Playlist;
 import Stores.PlayLists;
 import Stores.Song;
@@ -50,22 +52,28 @@ public class PlayList extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+           
+        
+        String playList = request.getParameter("id");
         HttpSession session = request.getSession();
+       
+        java.util.LinkedList<Song> songs = new java.util.LinkedList();
+        
         java.util.UUID userID = (java.util.UUID)session.getAttribute("userID");
+         
         
         Playlist playlist = new Playlist();
+        HashTags ht = new HashTags();
+        ht.setCluster(cluster);
+        
         playlist.setCluster(cluster);
+        
+        songs = playlist.getSongs(userID, playList, ht);
        
-        java.util.LinkedList<PlayLists> playLists = new java.util.LinkedList();
+         session.setAttribute("Songs", songs);
         
-        playLists = playlist.getPlayLists(userID);
-        
-        System.out.println("Size of playlists is..: " + playLists.size());
-        
-        session.setAttribute("playLists", playLists);
-        
-        RequestDispatcher rd = request.getRequestDispatcher("PlayLists.jsp");
-        rd.forward(request, response);
+         RequestDispatcher rd = request.getRequestDispatcher("livefeed.jsp");
+         rd.forward(request, response);
         
     }
 

@@ -153,11 +153,10 @@
                                 </div>
                                 <div id="collapse4" class="panel-collapse collapse">
                                     <div class="list-group">
-                                        <form method ="post" class ="list-group-item" action ="PlayList">
-                                            <input type ="text" name ="playlist" placeholder ="Create New" style = "width: 100%">
-                                        </form>
-                                        <a href="#" class="list-group-item">Add New Playlist</a>
-                                        
+                                        <c:set var = "playLists" value = "${sessionScope.playlists}"/>
+                                        <c:forEach items="${playLists}" var = "playLists">        
+                                            <a href="PlayList?id=<c:out value = "${playLists}"/>" class="list-group-item"><c:out value = "${playLists}"/></a>
+                                        </c:forEach>
                                     </div>
                                 </div>
                             </div>
@@ -236,7 +235,18 @@
                                             <td><c:out value = "${songs.getDuration()}"/></td>
                                          
                                             <td>
-
+                                                
+                                                <c:choose>
+                                                <c:when test ="${sessionScope.listType == 'user'}">
+                                                
+                                                    <form method ="post" action ="userHashTag">
+                                                        <input type ="text" name ="hashvalue" placeholder = "<c:out value = "${songs.getHashTag()}"/>">
+                                                        <input type ="hidden" name ="songID" value ="<c:out value = "${songs.getSongID()}"/>">
+                                                        <input type ="submit" style ="visibility:hidden">
+                                                    </form>
+                                                </c:when>
+                                                    <c:otherwise>
+                                                        
                                                 <form method ="post" action ="addUserSong">
                                                     <input type ="hidden" name ="id" value = "<c:out value = "${songs.getSongID()}"/>">
                                                     <input type ="hidden" name ="artist" value = "<c:out value = "${songs.getArtist()}"/>">
@@ -249,6 +259,9 @@
 
                                             </td>
                                         </tr>
+                                            </c:otherwise>
+                                        
+                                             </c:choose>
                                     </c:forEach>
                                 </tbody>
                             </table>

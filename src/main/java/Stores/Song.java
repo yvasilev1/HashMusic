@@ -21,9 +21,10 @@ public class Song {
     String artist = null;
     String duration = null;
     java.util.UUID songID = null;
+    String hashtag = null;
     
     
-    public void setSongDetails(String title, String album, String genre, String artist, String duration, java.util.UUID songID)
+    public void setSongDetails(String title, String album, String genre, String artist, String duration, java.util.UUID songID, String hashtag)
     {
         this.title = title;
         this.album = album;
@@ -31,6 +32,12 @@ public class Song {
         this.artist = artist;
         this.duration = duration;
         this.songID = songID;
+        this.hashtag = hashtag;
+    }
+    
+    public String getHashTag()
+    {
+        return hashtag;
     }
     
     public String getTitle()
@@ -62,6 +69,8 @@ public class Song {
     {
         return songID;
     }
+    
+   
     
     
     
