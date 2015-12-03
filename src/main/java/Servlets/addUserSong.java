@@ -60,8 +60,8 @@ public class addUserSong extends HttpServlet {
         
         newSong.insertUserSong(userID, songUUID, artist, album, genre, duration, title);
 
-       // RequestDispatcher rd = request.getRequestDispatcher("livefeed.jsp");
-       // rd.forward(request, response);
+        RequestDispatcher rd = request.getRequestDispatcher("livefeed.jsp");
+        rd.forward(request, response);
     }
 
     /**

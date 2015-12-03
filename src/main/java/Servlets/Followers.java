@@ -66,7 +66,7 @@ public class Followers extends HttpServlet {
            System.out.println(uNamesofFollowers);
         }
      
-        session.setAttribute("Followers", uNamesOfFollowing);
+        session.setAttribute("Following", uNamesOfFollowing);
         session.setAttribute("Followers", uNamesofFollowers);
         
         RequestDispatcher rd = request.getRequestDispatcher("viewFollowers.jsp");
