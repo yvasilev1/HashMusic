@@ -33,11 +33,14 @@ import uk.ac.dundee.computing.aec.HashMusic.lib.CassandraHosts;
         urlPatterns = {
             "/populateUserView",
             "/populateUserView/",
-            "/populateUserView/*"
+            "/populateUserView/*",
+            "/Images",
+            "/Images/*"
             
                     
         
         })
+@MultipartConfig
 public class populateUserView extends HttpServlet {
       Cluster cluster = null;
 
@@ -86,7 +89,7 @@ public class populateUserView extends HttpServlet {
         java.util.HashSet<String> playLists = playlist.getPlayLists(userID);
         
         
-        System.out.println("Size of playlist is: " + playLists.size());
+        //System.out.println("Size of playlist is: " + playLists.size());
         
         java.util.LinkedList<Song> songs = newSong.getUserSongs(userID, ht);
 

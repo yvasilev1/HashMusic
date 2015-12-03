@@ -89,7 +89,7 @@ public final class Keyspaces {
                     + "artist text, "
                     + "album text, "
                     + "genre text, "
-                    + "PRIMARY KEY ((user_id, playlist_name) song_id)"
+                    + "PRIMARY KEY ((user_id, playlist_name), song_id)"
                     + ")";
             
             String CreateSecondaryIndex = "CREATE INDEX user_id ON HashMusic.PlayList (user_id);";

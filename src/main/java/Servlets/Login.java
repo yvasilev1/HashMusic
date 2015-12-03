@@ -62,7 +62,7 @@ public class Login extends HttpServlet {
             session.setAttribute("userID", isUserValid);
             session.setAttribute("user", username);
             System.out.println("Success");
-            response.sendRedirect("populateUserView/");
+            response.sendRedirect("populateUserView");
 
         } else {
             System.out.println("Wrong Password");

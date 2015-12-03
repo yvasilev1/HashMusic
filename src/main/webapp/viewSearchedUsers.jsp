@@ -58,8 +58,8 @@
                             <c:set var = "searchedUName" value = "${sessionScope.Search}"/>
                             <c:forEach items="${searchedUName}" var = "searchedUName">
                                 <p>
-                                    <a href="populateUserView"><c:out value = "${searchedUName}"/></a>
-                                    <a href="populateUserView/"><c:out value = "${searchedUName}"/></a>
+                                    <a href="populateUserView"><c:out value = "${searchedUName}"/></a></br>
+                                    
                                 </p>
                             </c:forEach>
                         </div>
