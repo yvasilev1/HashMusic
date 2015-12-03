@@ -65,13 +65,13 @@
                             <button type="submit" class="btn btn-default ">Add Post</button>
                         </form>
                     </div>
-                      <c:set var = "dates"  value = "${sessionScope.Dates}"/>
-                     <c:set var = "usernames" value = "${sessionScope.Users}"/>
-                     <c:set var = "comments" value = "${sessionScope.Comments}"/>
-                     <c:forEach items="${comments}" var = "comments">
-                        
+                    <c:set var = "dates"  value = "${sessionScope.Dates}"/>
+                    <c:set var = "usernames" value = "${sessionScope.Users}"/>
+                    <c:set var = "comments" value = "${sessionScope.Comments}"/>
+                    <c:forEach items="${comments}" var = "comments">
+
                         <c:forEach items="${usernames}" var = "usernames">
-                           
+
                             <c:forEach items="${dates}" var = "dates">
                                 <a href="#"><c:out value = "${usernames}"/></a></br>
                                 <c:out value="${dates}"/>
@@ -85,9 +85,9 @@
                                 </div>
                             </c:forEach>
                         </c:forEach>
-                       </c:forEach>
-                   
-                   
+                    </c:forEach>
+
+
 
                 </div>
                 <div class="col-md-8">
@@ -116,7 +116,7 @@
                                     <div class="list-group">
                                         <c:set var = "songLibrary" value = "${sessionScope.SongLibrary.getArtists()}"/>
                                         <c:forEach items="${songLibrary}" var = "songLibrary">
-                                                    
+
                                             <a href="filterSongs?type=artist&id=<c:out value = "${songLibrary}"/>" class="list-group-item"><c:out value = "${songLibrary}"/></a>
                                         </c:forEach>
                                     </div>
@@ -160,53 +160,95 @@
                                 </div>
                                 <div id="collapse4" class="panel-collapse collapse">
                                     <div class="list-group">
+                                        <form method ="post" class ="list-group-item" action ="PlayList">
+                                            <input type ="text" name ="playlist" placeholder ="Create New" style = "width: 100%">
+                                        </form>
                                         <a href="#" class="list-group-item">Add New Playlist</a>
-                                        <a href="#" class="list-group-item">First item</a>
-                                        <a href="#" class="list-group-item">Second item</a>
-                                        <a href="#" class="list-group-item">Third item</a>
+                                        
                                     </div>
                                 </div>
                             </div>
                         </div> 
+
+                        <form method ="GET" action ="SearchSong">
+                            <input type ="text" name ="song" placeholder = "Search Song">
+                            <button type="submit" class="btn btn-sm" style = "visibility: hidden">Search</button></br>
+                            </br>
+                        </form>
                                         
-                    <form method ="GET" action ="SearchSong">
-                        <input type ="text" name ="song" placeholder = "Search Song">
-                        <button type="submit" class="btn btn-sm">Search</button></br>
-                        </br>
-                    </form>
+                                        <select id ="playlists">
+                                            <option id ="default" value ="Not Selected">Not Selected</option>  
+                                        </select>
+
+                        <h6 style = "margin-left: 30%" id = "songPlayTitle">No Song Selected</h6>                                
+                        <audio controls style = "margin-left: 20%" id = "songPlayer">
+
+                            <source src="#" type="audio/mp3">
+                        </audio>
+
                         <div class="col-md-8">
                             <table class="table table-striped table table-hover">
                                 <thead>
                                     <tr>
+                                        <th></th>
                                         <th>Song</th>
                                         <th>Artist</th>
                                         <th>Album</th>
                                         <th>Genre</th>
                                         <th>Duration</th>
-                                        <th></th>
+                                      
+                                        <th>
+
+                                            <c:choose>
+                                                <c:when test ="${sessionScope.listType == 'user'}">
+
+                                                    <c:out value = "HashTag"/>
+                                                </c:when>
+                                            </c:choose>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <c:set var = "songs" value = "${sessionScope.Songs}"/>
                                     <c:forEach items="${songs}" var = "songs">
                                         <tr>
+                                            <td>
+                                                <!-- http://stackoverflow.com/questions/18014639/passing-jstl-value-to-javascript  if interested in how this parameter pass works... 03/12/2015 00:00 -->
+                                                <button onclick = "playSong('${songs.getSongID()}', '${songs.getTitle()}')">Play</button>
+                                            </td>
                                             <td><c:out value = "${songs.getTitle()}"/></td>
                                             <td><c:out value = "${songs.getArtist()}"/></td>
                                             <td><c:out value = "${songs.getAlbum()}"/></td>
                                             <td><c:out value = "${songs.getGenre()}"/></td>
                                             <td><c:out value = "${songs.getDuration()}"/></td>
+                                         
                                             <td>
-                                               
-                                                <form method ="post" action ="addUserSong">
-                                                    <input type ="hidden" name ="id" value = "<c:out value = "${songs.getSongID()}"/>">
-                                                    <input type ="hidden" name ="artist" value = "<c:out value = "${songs.getArtist()}"/>">
-                                                    <input type ="hidden" name ="genre" value = "<c:out value = "${songs.getGenre()}"/>">
-                                                    <input type ="hidden" name ="album" value = "<c:out value = "${songs.getAlbum()}"/>">
-                                                    <input type ="hidden" name ="duration" value = "<c:out value = "${songs.getDuration()}"/>">
-                                                    <input type ="hidden" name ="title" value = "<c:out value = "${songs.getTitle()}"/>">
-                                                    <input type ="submit" value ="Get Song">
-                                                </form>
-                                                
+
+                                                <c:choose>
+                                                    <c:when test ="${sessionScope.listType != 'user'}">
+
+                                                        <form method ="post" action ="addUserSong">
+
+                                                            <input type ="hidden" name ="id" value = "<c:out value = "${songs.getSongID()}"/>">
+                                                            <input type ="hidden" name ="artist" value = "<c:out value = "${songs.getArtist()}"/>">
+                                                            <input type ="hidden" name ="genre" value = "<c:out value = "${songs.getGenre()}"/>">
+                                                            <input type ="hidden" name ="album" value = "<c:out value = "${songs.getAlbum()}"/>">
+                                                            <input type ="hidden" name ="duration" value = "<c:out value = "${songs.getDuration()}"/>">
+                                                            <input type ="hidden" name ="title" value = "<c:out value = "${songs.getTitle()}"/>">
+                                                            <input type ="submit" value ="Get Song">
+                                                        </form>
+
+                                                    </c:when>
+
+                                                    <c:otherwise>
+                                                        <form method = "post" action = "userHashTag">
+                                                            <input type = "text" name ="hashTag">
+                                                            <input type ="hidden" name ="songID" value = "<c:out value = "${songs.getSongID()}"/>">
+                                                        </form>
+
+                                                    </c:otherwise>
+                                                </c:choose>
+
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -217,5 +259,31 @@
                 </div>
             </div>
         </div>
+
+        <h1 id = "test">
+
+        </h1>
+
+        <script>
+            function playSong(songID, songTitle)
+            {
+                var audio = document.getElementById("songPlayer");
+                document.getElementById("songPlayTitle").innerHTML = "Now Playing: " + songTitle;
+
+                audio.src = "PlaySong?id=" + songID;
+                audio.load();
+                audio.play();
+
+            }
+        </script>
+
+        <style>
+            audio
+            {
+                width: 400px;
+            }
+        </style>
     </body>
+
+
 </html>

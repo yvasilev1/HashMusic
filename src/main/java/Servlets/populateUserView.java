@@ -76,15 +76,13 @@ public class populateUserView extends HttpServlet {
         //System.out.println("Song ID is.. " + songs.get(0).getSongID());
         //System.out.println("Size is: " + songs.size());
         
-        //String listType = "user";
+        String listType = "user";
 
         session.setAttribute("SongLibrary", songLibrary);
-        //session.setAttribute("listType", listType);
-        
-        
-      
-      RequestDispatcher rd = request.getRequestDispatcher("livefeed.jsp");
-      rd.forward(request, response);
+        session.setAttribute("listType", listType);
+       
+        RequestDispatcher rd = request.getRequestDispatcher("livefeed.jsp");
+        rd.forward(request, response);
     }
     /**
      * Returns a short description of the servlet.
