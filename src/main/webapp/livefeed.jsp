@@ -321,7 +321,7 @@
             }
         </script
         <style>
-            audio
+            audio;
             {
                 width: 400px;
             }

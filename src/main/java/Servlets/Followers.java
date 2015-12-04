@@ -56,6 +56,7 @@ public class Followers extends HttpServlet {
         
         java.util.LinkedList<String> uNamesOfFollowing = new java.util.LinkedList<>();
         java.util.LinkedList<String> uNamesofFollowers = new java.util.LinkedList<>();
+        
         for(int i = 0;i < UUIDOfFollowing.size(); i++){
      
           uNamesOfFollowing = us.getUnameFromUUID(UUIDOfFollowing.get(i));
@@ -69,8 +70,8 @@ public class Followers extends HttpServlet {
          
         }
      
-        session.setAttribute("Following", uNamesOfFollowing);
-         session.setAttribute("Followers", uNamesofFollowers);
+          session.setAttribute("Following", UUIDOfFollowing);
+          session.setAttribute("Followers", followersUUID);
         
         RequestDispatcher rd = request.getRequestDispatcher("viewFollowers.jsp");
         rd.forward(request, response);
