@@ -88,12 +88,17 @@ public class PlayList extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        String playListName = request.getParameter("playlist");
+  
         
         Playlist playlist = new Playlist();
         playlist.setCluster(cluster);
+        String playListName = request.getParameter("playlist");
+        if(playListName.equals(""))
+        {
+            playListName = request.getParameter("playListSelected");
+        }
         
+     
         HttpSession session = request.getSession();
         
         java.util.UUID userID = (java.util.UUID)session.getAttribute("userID");
@@ -109,8 +114,7 @@ public class PlayList extends HttpServlet {
         String genre;
         String duration;
         
-        System.out.println("Song.. " + songList.get(0).getTitle());
-        System.out.println("song size is: " + songs.length);
+       
         for(int i = 0; i < songs.length; i++)
         {
             int id = Integer.parseInt(songs[i]);
@@ -123,6 +127,7 @@ public class PlayList extends HttpServlet {
             album = songList.get(id).getAlbum();
             genre = songList.get(id).getGenre();
             duration = songList.get(id).getDuration();
+            
             
             playlist.createPlayList(userID, playListName, songID, title, artist, album, genre, duration);
         }

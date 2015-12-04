@@ -225,17 +225,25 @@
                                 </thead>
                                 <tbody>
                                     <c:set var = "songs" value = "${sessionScope.Songs}"/>
-                                <form method ="post" action ="PlayList" id = "playListForm">
+                                    <form method ="post" action ="PlayList?type=create" id = "playListForm">
                                     <input type ="text" name ="playlist" placeholder ="New PlayList">
+                                    <select name ="playListSelected" id = "playListSelected">
+                                    <c:set var = "playLists" value = "${sessionScope.playlists}"/>
+                                    <c:forEach items="${playLists}" var = "playLists">        
+                                   <option value ="<c:out value = "${playLists}"/>"><c:out value = "${playLists}"/></option>
+                                     </c:forEach>
+                                    </select>
 
-                                    <input type ="submit" value ="test">
+                                    <input type ="submit" value ="Continue">
                                 </form> 
-
+                                
+                           <form method ="post" action ="PlayList?type=add" id = "updateList">
+                           </form>       
+                           
+                                
                                 <c:set var = "index" value = "0"/>
                                 <c:forEach items="${songs}" var = "songs">
                               
-
-
 
                                     <tr>
                                         <td>
