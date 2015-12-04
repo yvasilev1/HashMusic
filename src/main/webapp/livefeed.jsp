@@ -70,7 +70,7 @@
                         <button type="submit" class="btn btn-default ">Follow ${sessionScope.user} </button><br/><br/>
                     </form>
                     <div class="form-group">
-                        <form method ="post" action="PostWall">
+                        <form method ="post" action="PostWall?user=<c:out value="${sessionScope.selectedUser}"/>">
                             <textarea class="form-control" rows="3" id="newPost" name="postContent" placeholder="Add Post"></textarea>
                             <button type="submit" class="btn btn-default ">Add Post</button>
                         </form>
@@ -79,6 +79,7 @@
                     <c:set var = "details"  value = "${sessionScope.NewsFeed}"/>
                     <c:forEach items="${details}" var = "details">
                         <a href="#" ><c:out value="${details.getPostedByUName()}"/></a></br>
+                        <a href="#" ><c:out value="${details.getPostedBy()}"/></a></br>
                         <c:out value="${details.getDatePosted()}"/>
 
                         <div class="panel panel-default">
@@ -297,7 +298,7 @@
         </h1>
 
         <script>
-            function playSong(songID, songTitle)
+            function playSong(songID, songTitle, userID)
             {
                 var audio = document.getElementById("songPlayer");
                 document.getElementById("songPlayTitle").innerHTML = "Now Playing: " + songTitle;
