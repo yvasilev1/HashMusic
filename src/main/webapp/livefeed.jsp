@@ -48,32 +48,33 @@
                                 </li>
                             </ul>
                         </div>
+                        <div class="nav navbar-nav">
+                            <form method="GET" class="navbar-form" action="Search">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Search user" name="user" id="srch-term">
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </nav>
-                <form method ="GET" action ="Search" style="float:right">
-                    <input type ="text" name ="user" placeholder="Search User">
-                    <button type="submit" class="btn btn-sm">Search</button>
-                </form>
-                <h3>${sessionScope.user}'s Music</h3>
             </div>
+            <h3>${sessionScope.user}'s Music</h3>
             <div class="row">
-
-
                 <div class="col-md-4">
-
-
                     <form name="input" action="Followers" method="POST">
                         <input type="text" name="user" value="" hidden>
                         <input type="text" name="user1" value="" hidden>
-                        <button type="submit" class="btn btn-sm">Follow ${sessionScope.user} </button></br>
-                    </form></br>
+                        <button type="submit" class="btn btn-default ">Follow ${sessionScope.user} </button><br/><br/>
+                    </form>
                     <div class="form-group">
                         <form method ="post" action="PostWall">
                             <textarea class="form-control" rows="3" id="newPost" name="postContent" placeholder="Add Post"></textarea>
                             <button type="submit" class="btn btn-default ">Add Post</button>
                         </form>
                     </div>
-
                     <c:set var = "commentNo" value = "0"/>
                     <c:set var = "details"  value = "${sessionScope.NewsFeed}"/>
                     <c:forEach items="${details}" var = "details">
@@ -81,39 +82,43 @@
                         <c:out value="${details.getDatePosted()}"/>
 
                         <div class="panel panel-default">
-                            
+
                             <div class="panel-body" id = "{$iteration}">
 
-                                   <h6 id = "${commentNo}">Test</h6>
-                                
+                                <h6 id = "${commentNo}">Test</h6>
+
                                 <script>
-                                   
-                                  comment = "${details.getPostContent()}";
-                                  
-                                  //http://stackoverflow.com/questions/4913555/find-twitter-hashtags-using-jquery-and-apply-a-link
-                                  //Above URL used as source for following 2 lines of code. Finds and attaches links to music hashtags.
-                                  //Accessed: 03/12/2015 19:41, Post Author: Reiner Gerecke
-                                  hashtag_regexp = /#!([a-zA-Z0-9]+)/g;
-                                  comment =  comment.replace(hashtag_regexp, '<a class="hashtag" href="#" value = "$1" onclick = "callHash(\'$1\',\'${commentNo}\');">#!$1</a>');
-                                  //--
-                                  document.getElementById("${commentNo}").innerHTML = comment;
+
+                                    comment = "${details.getPostContent()}";
+
+                                    //http://stackoverflow.com/questions/4913555/find-twitter-hashtags-using-jquery-and-apply-a-link
+                                    //Above URL used as source for following 2 lines of code. Finds and attaches links to music hashtags.
+                                    //Accessed: 03/12/2015 19:41, Post Author: Reiner Gerecke
+                                    hashtag_regexp = /#!([a-zA-Z0-9]+)/g;
+                                    comment = comment.replace(hashtag_regexp, '<a class="hashtag" href="#" value = "$1" onclick = "callHash(\'$1\',\'${commentNo}\');">#!$1</a>');
+                                    //--
+                                    document.getElementById("${commentNo}").innerHTML = comment;
                                 </script>
                             </div>
 
                         </div>
-                       <c:set var = "commentNo" value = "${commentNo + 1}"/>
+                        <c:set var = "commentNo" value = "${commentNo + 1}"/>
                     </c:forEach>
-
                 </div>
                 <div class="col-md-8">
-                    <h3>
-                        [Playlist Name]
-                    </h3>
                     <div>
                         <div class="panel-group col-md-4" id="accordion">
-                            <h4>
-                                Filter songs
-                            </h4>
+                            <div>
+                                <form method ="GET" action ="SearchSong">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name ="song" placeholder = "Search Song">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                </form>
+                            </div>
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
@@ -182,25 +187,12 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> 
-
-                        <form method ="GET" action ="SearchSong">
-                            <input type ="text" name ="song" placeholder = "Search Song">
-                            <button type="submit" class="btn btn-sm">Search</button></br>
-                            </br>
-                        </form>
-
-
-
-
-                        <h6 style = "margin-left: 30%" id = "songPlayTitle">No Song Selected</h6>                                
-                        <audio controls style = "margin-left: 20%" id = "songPlayer">
-
-                            <source src="aud.wav" type="audio/mp3">
-                        </audio>
-
-
+                        </div>
                         <div class="col-md-8">
+                            <h6 id = "songPlayTitle">No Song Selected</h6>                           
+                            <audio style="align-center" controls style = "margin-left: 30%" id = "songPlayer">
+                                <source src="aud.wav" type="audio/mp3">
+                            </audio>
                             <table class="table table-striped table table-hover">
                                 <thead>
                                     <tr>
@@ -211,9 +203,7 @@
                                         <th>Album</th>
                                         <th>Genre</th>
                                         <th>Duration</th>
-
                                         <th>
-
                                             <c:choose>
                                                 <c:when test ="${sessionScope.listType == 'user'}">
 
@@ -225,25 +215,25 @@
                                 </thead>
                                 <tbody>
                                     <c:set var = "songs" value = "${sessionScope.Songs}"/>
-                                    <form method ="post" action ="PlayList?type=create" id = "playListForm">
+                                <form method ="post" action ="PlayList?type=create" id = "playListForm">
                                     <input type ="text" name ="playlist" placeholder ="New PlayList">
                                     <select name ="playListSelected" id = "playListSelected">
-                                    <c:set var = "playLists" value = "${sessionScope.playlists}"/>
-                                    <c:forEach items="${playLists}" var = "playLists">        
-                                   <option value ="<c:out value = "${playLists}"/>"><c:out value = "${playLists}"/></option>
-                                     </c:forEach>
+                                        <c:set var = "playLists" value = "${sessionScope.playlists}"/>
+                                        <c:forEach items="${playLists}" var = "playLists">        
+                                            <option value ="<c:out value = "${playLists}"/>"><c:out value = "${playLists}"/></option>
+                                        </c:forEach>
                                     </select>
 
                                     <input type ="submit" value ="Continue">
                                 </form> 
-                                
-                           <form method ="post" action ="PlayList?type=add" id = "updateList">
-                           </form>       
-                           
-                                
+
+                                <form method ="post" action ="PlayList?type=add" id = "updateList">
+                                </form>       
+
+
                                 <c:set var = "index" value = "0"/>
                                 <c:forEach items="${songs}" var = "songs">
-                              
+
 
                                     <tr>
                                         <td>
@@ -292,7 +282,7 @@
                                         </c:otherwise>
 
                                     </c:choose>
-                                        <c:set var = "index" value = "${index + 1}"/>
+                                    <c:set var = "index" value = "${index + 1}"/>
                                 </c:forEach>
                                 </tbody>
                             </table>
@@ -317,27 +307,27 @@
                 audio.play();
 
             }
-            
+
             function callHash(hashtag, commentNo)
             {
                 divID = hashtag.concat(commentNo);
-                $("#"+commentNo).append('<div id = '+divID+'>\n\
+                $("#" + commentNo).append('<div id = ' + divID + '>\n\
                                         <audio controls>\n\
-                                        <source src ="PlayHashed?id='+hashtag+'" type="audio/wav">\n\
+                                        <source src ="PlayHashed?id=' + hashtag + '" type="audio/wav">\n\
                                         </audio>\n\
-                                        <button onclick = removeSongPlayer("'+divID+'")>Close</button>\n\
+                                        <button onclick = removeSongPlayer("' + divID + '")>Close</button>\n\
                                         </div>'
-                                        );
-              
+                        );
+
             }
-            
+
             function removeSongPlayer(divID)
             {
-                $("#"+divID).remove();
+                $("#" + divID).remove();
             }
         </script>
         <style>
-            audio;
+            audio
             {
                 width: 400px;
             }
