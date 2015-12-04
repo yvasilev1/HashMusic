@@ -85,8 +85,7 @@
                                 <div>
 
 
-                                    <a href="populateUserView?profileOf=<c:out value = "${following.getFollowerUName() }"/>"><c:out value = "${following.getFollowerUName() }"/></a>
-
+                                    <a href="populateUserView?profileOf=<c:out value = "${following.getFollowerUName()}"/>"><c:out value = "${following.getFollowerUName()}"/></a>
                                 </div>
                             </c:forEach>
                         </div>

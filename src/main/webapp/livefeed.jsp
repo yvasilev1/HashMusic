@@ -78,7 +78,6 @@
                     <c:set var = "details"  value = "${sessionScope.NewsFeed}"/>
                     <c:forEach items="${details}" var = "details">
                         <a href="#" ><c:out value="${details.getPostedByUName()}"/></a></br>
-                        <a href="#" ><c:out value="${details.getPostedBy()}"/></a></br>
                         <c:out value="${details.getDatePosted()}"/>
 
                         <div class="panel panel-default">
@@ -107,9 +106,7 @@
 
                 </div>
                 <div class="col-md-8">
-                    <h3>
-                        [Playlist Name]
-                    </h3>
+                   
                     <div>
                         <div class="panel-group col-md-4" id="accordion">
                             <h4>
@@ -194,7 +191,7 @@
 
 
 
-                        <h6 style = "margin-left: 30%" id = "songPlayTitle">No Song Selected</h6>                                
+                        <h6 style = "margin-left: 30%; float: right"   id = "songPlayTitle">No Song Selected</h6>                                
                         <audio controls style = "margin-left: 20%" id = "songPlayer">
 
                             <source src="#" type="audio/mp3">
