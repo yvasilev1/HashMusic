@@ -68,7 +68,7 @@
                         <button type="submit" class="btn btn-sm">Follow ${sessionScope.user} </button></br>
                     </form></br>
                     <div class="form-group">
-                        <form method ="post" action="PostWall">
+                        <form method ="post" action="PostWall?user=<c:out value="${sessionScope.selectedUser}"/>">
                             <textarea class="form-control" rows="3" id="newPost" name="postContent" placeholder="Add Post"></textarea>
                             <button type="submit" class="btn btn-default ">Add Post</button>
                         </form>
@@ -78,6 +78,7 @@
                     <c:set var = "details"  value = "${sessionScope.NewsFeed}"/>
                     <c:forEach items="${details}" var = "details">
                         <a href="#" ><c:out value="${details.getPostedByUName()}"/></a></br>
+                        <a href="#" ><c:out value="${details.getPostedBy()}"/></a></br>
                         <c:out value="${details.getDatePosted()}"/>
 
                         <div class="panel panel-default">
@@ -94,7 +95,7 @@
                                   //Above URL used as source for following 2 lines of code. Finds and attaches links to music hashtags.
                                   //Accessed: 03/12/2015 19:41, Post Author: Reiner Gerecke
                                   hashtag_regexp = /#!([a-zA-Z0-9]+)/g;
-                                  comment =  comment.replace(hashtag_regexp, '<a class="hashtag" href="#" value = "$1" onclick = "callHash(\'$1\',\'${commentNo}\');">#!$1</a>');
+                                  comment =  comment.replace(hashtag_regexp, '<a class="hashtag" href="#" value = "$1" onclick = "callHash(\'$1\',\'${commentNo}\',\'${details.getPostedBy()}\');">#!$1</a>');
                                   //--
                                   document.getElementById("${commentNo}").innerHTML = comment;
                                 </script>
@@ -307,7 +308,7 @@
         </h1>
 
         <script>
-            function playSong(songID, songTitle)
+            function playSong(songID, songTitle, userID)
             {
                 var audio = document.getElementById("songPlayer");
                 document.getElementById("songPlayTitle").innerHTML = "Now Playing: " + songTitle;
@@ -318,12 +319,14 @@
 
             }
             
-            function callHash(hashtag, commentNo)
+            function callHash(hashtag, commentNo, commenter)
             {
                 divID = hashtag.concat(commentNo);
+                
+               // window.location = "www.google.co.uk?id="+commenter;
                 $("#"+commentNo).append('<div id = '+divID+'>\n\
                                         <audio controls>\n\
-                                        <source src ="PlayHashed?id='+hashtag+'" type="audio/wav">\n\
+                                        <source src ="PlayHashed?id='+hashtag+'&userID='+commenter+'" type="audio/wav">\n\
                                         </audio>\n\
                                         <button onclick = removeSongPlayer("'+divID+'")>Close</button>\n\
                                         </div>'
@@ -337,7 +340,7 @@
             }
         </script>
         <style>
-            audio;
+            audio
             {
                 width: 400px;
             }

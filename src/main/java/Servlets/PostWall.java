@@ -77,7 +77,8 @@ public class PostWall extends HttpServlet {
         java.util.UUID postID = convertor.getTimeUUID();
 
         java.util.UUID postedBy = (java.util.UUID) session.getAttribute("userID");
-        java.util.UUID postedTo = (java.util.UUID) session.getAttribute("userID");
+        java.util.UUID postedTo = java.util.UUID.fromString(request.getParameter("user"));
+        
         String postedByUname = (String)session.getAttribute("user");
                 
         Feed feed = new Feed();
@@ -87,7 +88,7 @@ public class PostWall extends HttpServlet {
             feed.insertPost(postID, postedTo, postedBy,postedByUname, datePosted, comment);
         }
 
-        java.util.UUID userID = (java.util.UUID)session.getAttribute("userID");
+        java.util.UUID userID = (java.util.UUID)session.getAttribute("selectedUser");
         //java.util.LinkedList<String> comments = feed.getComments();
         java.util.LinkedList<PostDetails> ps = feed.getPostDetails(userID);
         

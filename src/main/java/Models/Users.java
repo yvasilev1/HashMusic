@@ -42,6 +42,32 @@ public class Users {
         session.close();
         return false;
     }
+    
+    public java.util.UUID userID(String username)
+    {
+        UUID userID = null;
+        
+        Session session = cluster.connect("HashMusic");
+         
+        Statement statement = QueryBuilder.select()
+                .all()
+                .from("HashMusic", "users");
+        ResultSet rs = session.execute(statement);
+        if (rs.isExhausted()) {
+            System.out.println("No users returned");
+            return null;
+        } else {
+            for (Row row : rs) {
+              
+                if (row.getString("username").equals(username))
+                {
+                    userID = row.getUUID("userid");
+                }
+            }
+        }
+    
+        return userID;
+    }
 
     public UUID isUserValid(String userName, String password) {
 

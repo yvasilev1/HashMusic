@@ -51,7 +51,7 @@ public class PlayHashed extends HttpServlet {
         HashTags ht = new HashTags();
         ht.setCluster(cluster);
         
-        java.util.UUID userID = (java.util.UUID)session.getAttribute("userID");
+        java.util.UUID userID = java.util.UUID.fromString(request.getParameter("userID"));
         
         java.util.UUID songID = ht.getHashSongID(hash, userID);
     

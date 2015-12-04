@@ -9,6 +9,7 @@ import Models.Feed;
 import Models.HashTags;
 import Models.NewSong;
 import Models.Playlist;
+import Models.Users;
 import Stores.PostDetails;
 import Stores.Song;
 import Stores.SongLibrary;
@@ -53,17 +54,12 @@ public class populateUserView extends HttpServlet {
             throws ServletException, IOException {
         
         HttpSession session = request.getSession();
-        
-       // String profileOf = request.getParameter("profileOf");
+        String profileOf = request.getParameter("profileOf");
        
         Feed feed = new Feed();
         feed.setCluster(cluster);
-       
-        java.util.UUID userID = (java.util.UUID)session.getAttribute("userID");
-        java.util.LinkedList<PostDetails> ps = feed.getPostDetails(userID);
-         
-        session.setAttribute("NewsFeed", ps);
-       
+        
+               
         NewSong newSong = new NewSong();
         newSong.setCluster(cluster); 
         
@@ -73,28 +69,34 @@ public class populateUserView extends HttpServlet {
         HashTags ht = new HashTags();
         ht.setCluster(cluster);
         
-       
+        java.util.LinkedList<PostDetails> ps = null;
         
-        SongLibrary songLibrary = newSong.getUserSongCategories(userID);
-       // java.util.LinkedList<String> playLists = playlist.getPlayLists(userID);
-        java.util.HashSet<String> playLists = playlist.getPlayLists(userID);
+        System.out.println("Here is: " + session.getAttribute("user"));
+        java.util.UUID selectedUser = (java.util.UUID)session.getAttribute("userID");
+        ps = feed.getPostDetails(selectedUser);
+        java.util.LinkedList<Song> songs = newSong.getUserSongs(selectedUser, ht);
+        SongLibrary songLibrary = newSong.getUserSongCategories(selectedUser);
+        java.util.HashSet<String> playLists = playlist.getPlayLists(selectedUser);
         
-        
-        //System.out.println("Size of playlist is: " + playLists.size());
-        
-        java.util.LinkedList<Song> songs = newSong.getUserSongs(userID, ht);
+        if(profileOf!=null)
+        {
+            Users users = new Users();
+            users.setCluster(cluster);
+            selectedUser = users.userID(profileOf);
+            System.out.println("SearchedProfileis...: " + selectedUser);
+            ps = feed.getPostDetails(selectedUser);
+            
+        }
 
-        session.setAttribute("Songs", songs);
-        
-        //System.out.println("Song ID is.. " + songs.get(0).getSongID());
-        //System.out.println("Size is: " + songs.size());
-        
         String listType = "user";
-        String username = (String)session.getAttribute("user");
+     
+        session.setAttribute("selectedUser", selectedUser);
         session.setAttribute("SongLibrary", songLibrary);
         session.setAttribute("playlists", playLists);
         session.setAttribute("listType", listType);
-       
+        session.setAttribute("Songs", songs);
+        session.setAttribute("NewsFeed", ps);
+        
         RequestDispatcher rd = request.getRequestDispatcher("livefeed.jsp");
         rd.forward(request, response);
     }

@@ -91,8 +91,9 @@ public class Feed {
                 String postedByUName = row.getString("postedBy_uName");
                 Date datePosted= row.getDate("date_posted");
                 String content = row.getString("content");
+                UUID postedBy = row.getUUID("postedBy_id");
                 
-                ps.setPostDetails(postedByUName, datePosted,content);
+                ps.setPostDetails(postedByUName, datePosted,content, postedBy);
                 
                 details.add(ps);
                 

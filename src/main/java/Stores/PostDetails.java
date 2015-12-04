@@ -17,15 +17,22 @@ public class PostDetails {
     String postedByUName = null;
     Date datePosted = null;
     String content = null;
+    java.util.UUID postedBy = null;
   
     
     
-    public void setPostDetails(String postedByUName, Date datePosted,String content)
+    public void setPostDetails(String postedByUName, Date datePosted,String content, java.util.UUID postedBy)
     {
         this.postedByUName = postedByUName;
         this.datePosted = datePosted;
         this.content = content;        
+        this.postedBy = postedBy;
         
+    }
+    
+    public java.util.UUID getPostedBy()
+    {
+        return postedBy;
     }
     
     public String getPostedByUName()
