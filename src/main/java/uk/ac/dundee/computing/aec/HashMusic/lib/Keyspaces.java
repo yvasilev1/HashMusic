@@ -45,13 +45,13 @@ public final class Keyspaces {
                     + "content text, "
                     + "PRIMARY KEY ((post_id), date_posted)"
                     + ") "
-                    + "WITH CLUSTERING ORDER BY (date_posted DESC);";
+                    + "WITH CLUSTERING ORDER BY (date_posted desc);";
 
             String CreateHashList = "CREATE TABLE if not exists HashMusic.HashList (\n"
                     + "user_id uuid, "
                     + "hashTag text, "
                     + "song_id uuid, "
-                    + "PRIMARY KEY (user_id)"
+                    + "PRIMARY KEY (user_id, song_id)"
                     + ")";
 
             String CreateHashTags = "CREATE TABLE if not exists HashMusic.HashTags (\n"

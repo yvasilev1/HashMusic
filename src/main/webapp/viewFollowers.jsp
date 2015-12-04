@@ -59,7 +59,7 @@
                             <div class="panel-body">
 
 
-                                <a href="#"><c:out value = "${uNamesOfFollowing}"/></a>
+                                <a href="#"> <c:out value = "${uNamesOfFollowing}"/></a>
                             </div>
                         </c:forEach>
                     </div>

@@ -70,8 +70,8 @@ public class Followers extends HttpServlet {
          
         }
      
-          session.setAttribute("Following", UUIDOfFollowing);
-          session.setAttribute("Followers", followersUUID);
+          session.setAttribute("Following", uNamesOfFollowing);
+          session.setAttribute("Followers", uNamesofFollowers);
         
         RequestDispatcher rd = request.getRequestDispatcher("viewFollowers.jsp");
         rd.forward(request, response);
