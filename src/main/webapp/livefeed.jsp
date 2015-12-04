@@ -61,7 +61,7 @@
 
                 <div class="col-md-4">
 
-
+                  
                     <form name="input" action="Followers" method="POST">
                         <input type="text" name="user" value="${sessionScope.user}" hidden>
                         <input type="text" name="user1" value="${sessionScope.user}" hidden>
@@ -197,7 +197,7 @@
                         <h6 style = "margin-left: 30%" id = "songPlayTitle">No Song Selected</h6>                                
                         <audio controls style = "margin-left: 20%" id = "songPlayer">
 
-                            <source src="aud.wav" type="audio/mp3">
+                            <source src="#" type="audio/mp3">
                         </audio>
 
 

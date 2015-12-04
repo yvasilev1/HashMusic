@@ -59,7 +59,7 @@
                             <div class="panel-body">
 
 
-                                <a href="#"> <c:out value = "${followers.getFollowingUName() }"/></a>
+                                <a href="populateUserView?profileOf=<c:out value = "${followers.getFollowingUName() }"/>"><c:out value = "${followers.getFollowingUName() }"/></a>
                             </div>
                         </c:forEach>
                     </div>
@@ -75,7 +75,7 @@
                                 <div>
 
 
-                                    <a href="#"><c:out value = "${following.getFollowerUName() }"/></a>
+                                    <a href="populateUserView?profileOf=<c:out value = "${following.getFollowerUName() }"/>"><c:out value = "${following.getFollowerUName() }"/></a>
 
                                 </div>
                             </c:forEach>

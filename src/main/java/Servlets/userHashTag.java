@@ -55,8 +55,7 @@ public class userHashTag extends HttpServlet {
        hashtags.setCluster(cluster);
        
        hashtags.insertHash(hashTag, userID, songID);
-       RequestDispatcher rd = request.getRequestDispatcher("livefeed.jsp");
-       rd.forward(request, response);
+       response.sendRedirect("populateUserView");
     }
 
     /**
