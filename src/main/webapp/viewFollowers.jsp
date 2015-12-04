@@ -45,6 +45,16 @@
                                 </li>
                             </ul>
                         </div>
+                        <div class="nav navbar-nav">
+                            <form method="GET" class="navbar-form" action="Search">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Search user" name="user" id="srch-term">
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </nav>
             </div>
