@@ -69,7 +69,7 @@ public class Feed {
         return comments;
     }
 
-    public java.util.LinkedList<PostDetails> getPostDetails() {
+    public java.util.LinkedList<PostDetails> getPostDetails(java.util.UUID userID) {
     
 
         java.util.LinkedList<PostDetails> details = new java.util.LinkedList();
@@ -78,7 +78,8 @@ public class Feed {
 
         Statement statement = QueryBuilder.select()
                 .all()
-                .from("HashMusic", "posts");
+                .from("HashMusic", "posts")
+                .where(eq("postedTo_id", userID));
 
         ResultSet rs = session.execute(statement);
         if (rs.isExhausted()) {

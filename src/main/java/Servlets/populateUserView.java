@@ -29,18 +29,8 @@ import uk.ac.dundee.computing.aec.HashMusic.lib.CassandraHosts;
  *
  * @author Connor
  */
-@WebServlet(name = "populateUserView",
-        urlPatterns = {
-            "/populateUserView",
-            "/populateUserView/",
-            "/populateUserView/*",
-            "/Images",
-            "/Images/*"
-            
-                    
-        
-        })
-@MultipartConfig
+@WebServlet(name = "populateUserView", urlPatterns = {"/populateUserView"})
+
 public class populateUserView extends HttpServlet {
       Cluster cluster = null;
 
@@ -63,16 +53,17 @@ public class populateUserView extends HttpServlet {
             throws ServletException, IOException {
         
         HttpSession session = request.getSession();
+        
+       // String profileOf = request.getParameter("profileOf");
        
         Feed feed = new Feed();
         feed.setCluster(cluster);
        
-  
-        java.util.LinkedList<PostDetails> ps = feed.getPostDetails();
+        java.util.UUID userID = (java.util.UUID)session.getAttribute("userID");
+        java.util.LinkedList<PostDetails> ps = feed.getPostDetails(userID);
          
         session.setAttribute("NewsFeed", ps);
        
-        
         NewSong newSong = new NewSong();
         newSong.setCluster(cluster); 
         
@@ -82,7 +73,7 @@ public class populateUserView extends HttpServlet {
         HashTags ht = new HashTags();
         ht.setCluster(cluster);
         
-        java.util.UUID userID = (java.util.UUID)session.getAttribute("userID");
+       
         
         SongLibrary songLibrary = newSong.getUserSongCategories(userID);
        // java.util.LinkedList<String> playLists = playlist.getPlayLists(userID);

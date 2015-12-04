@@ -52,16 +52,16 @@
                 </nav>
                 <form method ="GET" action ="Search" style="float:right">
                     <input type ="text" name ="user" placeholder="Search User">
-                        <button type="submit" class="btn btn-sm">Search</button>
+                    <button type="submit" class="btn btn-sm">Search</button>
                 </form>
                 <h3>${sessionScope.user}'s Music</h3>
             </div>
             <div class="row">
-                
-                
+
+
                 <div class="col-md-4">
-                    
-            
+
+
                     <form name="input" action="Followers" method="POST">
                         <input type="text" name="user" value="" hidden>
                         <input type="text" name="user1" value="" hidden>
@@ -337,7 +337,7 @@
             }
         </script>
         <style>
-            audio
+            audio;
             {
                 width: 400px;
             }

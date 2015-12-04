@@ -43,10 +43,9 @@ public final class Keyspaces {
                     + "postedBy_uName text,"
                     + "date_posted timestamp,"
                     + "content text,"
-                    + "PRIMARY KEY (post_id, date_posted)"
+                    + "PRIMARY KEY (postedTo_id, date_posted)"
                     + ") WITH CLUSTERING ORDER BY (date_posted desc);";
-
-
+              
 
             String CreateHashList = "CREATE TABLE if not exists HashMusic.HashList (\n"
                     + "user_id uuid, "
@@ -68,7 +67,7 @@ public final class Keyspaces {
                     + " followingUser_ID uuid, "
                     + "date_followed timestamp,"
                     + "PRIMARY KEY (followerUser_ID, followingUser_ID, date_followed)\n"
-                    + ") WITH CLUSTERING ORDER BY (followingUser_ID asc, date_followed desc);";
+                    + ") WITH CLUSTERING ORDER BY (followingUser_ID desc, date_followed desc);";
             
             String CreateUserSongs = "CREATE TABLE if not exists HashMusic.UserSongs (\n"
                     + "user_id uuid, "

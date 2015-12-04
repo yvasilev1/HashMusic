@@ -23,7 +23,7 @@ import uk.ac.dundee.computing.aec.HashMusic.lib.CassandraHosts;
  *
  * @author Yulian
  */
-@WebServlet(name = "Search", urlPatterns = {"/Search"})
+@WebServlet(name = "Search", urlPatterns = {"/Search/*"})
 public class Search extends HttpServlet {
 
     Cluster cluster = null;

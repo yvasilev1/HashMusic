@@ -54,14 +54,14 @@
                         Following
                     </h3>
                     <div class="panel panel-default">
-                        <div class="panel-body">
-                            <c:set var = "uNamesOfFollowing" value = "${sessionScope.Following}"/>
-                            <c:forEach items="${uNamesOfFollowing}" var = "uNamesOfFollowing">
-                                <p>
-                                    <a href="#"><c:out value = "${uNamesOfFollowing}"/></a>
-                                </p>
-                            </c:forEach>
-                        </div>
+                        <c:set var = "uNamesOfFollowing" value = "${sessionScope.Following}"/>
+                        <c:forEach items="${uNamesOfFollowing}" var = "uNamesOfFollowing">
+                            <div class="panel-body">
+
+
+                                <a href="#"> <c:out value = "${uNamesOfFollowing}"/></a>
+                            </div>
+                        </c:forEach>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -69,15 +69,16 @@
                         Followers
                     </h3>
                     <div class="panel panel-default">
-                        <div class="panel-body">
-                            <div>
-                                <c:set var = "uNamesofFollowers" value = "${sessionScope.Followers}"/>
-                                <c:forEach items="${uNamesofFollowers}" var = "uNamesofFollowers">
-                                    <p>
-                                        <a href="#"><c:out value = "${uNamesofFollowers}"/></a>
-                                    </p>
-                                </c:forEach>
-                            </div>
+                        <c:set var = "uNamesofFollowers" value = "${sessionScope.Followers}"/>
+                        <c:forEach items="${uNamesofFollowers}" var = "uNamesofFollowers">
+                            <div class="panel-body">
+                                <div>
+
+
+                                    <a href="#"><c:out value = "${uNamesofFollowers}"/></a>
+
+                                </div>
+                            </c:forEach>
                         </div>
                     </div>
                 </div>
