@@ -117,7 +117,7 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse0">All</a>
+                                        <a href ="populateUserView">All</a>
                                     </h4>
                                 </div>
                             </div>
@@ -233,7 +233,7 @@
 
                                 <c:set var = "index" value = "0"/>
                                 <c:forEach items="${songs}" var = "songs">
-                                    <c:set var = "index" value = "${index + 1}"/>
+                              
 
 
 
@@ -284,6 +284,7 @@
                                         </c:otherwise>
 
                                     </c:choose>
+                                        <c:set var = "index" value = "${index + 1}"/>
                                 </c:forEach>
                                 </tbody>
                             </table>
@@ -311,15 +312,22 @@
             
             function callHash(hashtag, commentNo)
             {
-               
-               
-             
-                $("#"+commentNo).append('<audio controls>\n\
+                divID = hashtag.concat(commentNo);
+                $("#"+commentNo).append('<div id = '+divID+'>\n\
+                                        <audio controls>\n\
                                         <source src ="PlayHashed?id='+hashtag+'" type="audio/wav">\n\
-                                        </audio>');
+                                        </audio>\n\
+                                        <button onclick = removeSongPlayer("'+divID+'")>Close</button>\n\
+                                        </div>'
+                                        );
               
             }
-        </script
+            
+            function removeSongPlayer(divID)
+            {
+                $("#"+divID).remove();
+            }
+        </script>
         <style>
             audio
             {

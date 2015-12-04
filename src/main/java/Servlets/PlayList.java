@@ -68,7 +68,7 @@ public class PlayList extends HttpServlet {
         
         playlist.setCluster(cluster);
         
-        songs = playlist.getSongs(userID, playList, ht);
+         songs = playlist.getSongs(userID, playList, ht);
        
          session.setAttribute("Songs", songs);
         
@@ -110,15 +110,19 @@ public class PlayList extends HttpServlet {
         String duration;
         
         System.out.println("Song.. " + songList.get(0).getTitle());
-        
-        for(int i = 0; i < songList.size(); i++)
+        System.out.println("song size is: " + songs.length);
+        for(int i = 0; i < songs.length; i++)
         {
-            songID = songList.get(i).getSongID();
-            title = songList.get(i).getTitle();
-            artist = songList.get(i).getArtist();
-            album = songList.get(i).getAlbum();
-            genre = songList.get(i).getGenre();
-            duration = songList.get(i).getDuration();
+            int id = Integer.parseInt(songs[i]);
+            
+            System.out.println("id is: " + id);
+            
+            songID = songList.get(id).getSongID();
+            title = songList.get(id).getTitle();
+            artist = songList.get(id).getArtist();
+            album = songList.get(id).getAlbum();
+            genre = songList.get(id).getGenre();
+            duration = songList.get(id).getDuration();
             
             playlist.createPlayList(userID, playListName, songID, title, artist, album, genre, duration);
         }
