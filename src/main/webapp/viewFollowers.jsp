@@ -54,12 +54,12 @@
                         Following
                     </h3>
                     <div class="panel panel-default">
-                        <c:set var = "uNamesOfFollowing" value = "${sessionScope.Following}"/>
-                        <c:forEach items="${uNamesOfFollowing}" var = "uNamesOfFollowing">
+                        <c:set var = "followers" value = "${sessionScope.Followers}"/>
+                        <c:forEach items="${followers}" var = "followers">
                             <div class="panel-body">
 
 
-                                <a href="#"> <c:out value = "${uNamesOfFollowing}"/></a>
+                                <a href="#"> <c:out value = "${followers.getFollowingUName() }"/></a>
                             </div>
                         </c:forEach>
                     </div>
@@ -69,13 +69,13 @@
                         Followers
                     </h3>
                     <div class="panel panel-default">
-                        <c:set var = "uNamesofFollowers" value = "${sessionScope.Followers}"/>
-                        <c:forEach items="${uNamesofFollowers}" var = "uNamesofFollowers">
+                        <c:set var = "following" value = "${sessionScope.Followers}"/>
+                        <c:forEach items="${following}" var = "following">
                             <div class="panel-body">
                                 <div>
 
 
-                                    <a href="#"><c:out value = "${uNamesofFollowers}"/></a>
+                                    <a href="#"><c:out value = "${following.getFollowerUName() }"/></a>
 
                                 </div>
                             </c:forEach>

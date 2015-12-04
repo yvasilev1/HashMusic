@@ -5,6 +5,7 @@
  */
 package Models;
 
+import Stores.FollowerList;
 import Stores.Song;
 import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.Cluster;
@@ -79,13 +80,15 @@ public class Users {
         return storedUUID;
     }
 
-    public void addFollower(UUID user, UUID user1, Date dateFollowed) {
+    public void addFollower(UUID userUUID, UUID user1UUID, String user, String user1, Date dateFollowed) {
 
         Session session = cluster.connect("HashMusic");
 
         Statement statement = QueryBuilder.insertInto("followers")
-                .value("followerUser_ID", user)
-                .value("followingUser_ID", user1)
+                .value("followerUser_ID", userUUID)
+                .value("followingUser_ID", user1UUID)
+                .value("follower_UName", user)
+                .value("following_UName", user1)
                 .value("date_followed", dateFollowed);
         session.execute(statement);
         session.close();
@@ -123,52 +126,10 @@ public class Users {
 
     }
 
-    public java.util.LinkedList<UUID> getUserForFollower(UUID user) {
-        java.util.LinkedList<UUID> usersForFollowers = new java.util.LinkedList<>();
-        Session session = cluster.connect("HashMusic");
-
-        Statement statement = QueryBuilder.select("followingUser_ID")
-                .from("HashMusic", "followers")
-                .allowFiltering()
-                .where(eq("followerUser_ID", user));
-        ResultSet rs = session.execute(statement);
-        if (rs.isExhausted()) {
-            System.out.println("No followers returned");
-            return null;
-        } else {
-            for (Row row : rs) {
-
-                usersForFollowers.add(row.getUUID("followingUser_ID"));
-            }
-        }
-
-        return usersForFollowers;
-    }
-
-    public java.util.LinkedList<UUID> getFollowerForUser(UUID user1) {
-        java.util.LinkedList<UUID> followerForUser = new java.util.LinkedList<>();
-        Session session = cluster.connect("HashMusic");
-
-        Statement statement = QueryBuilder.select("followerUser_ID")
-                .from("HashMusic", "followers")
-                .allowFiltering()
-                .where(eq("followingUser_ID", user1));
-        ResultSet rs = session.execute(statement);
-        if (rs.isExhausted()) {
-            System.out.println("No followers returned");
-            return null;
-        } else {
-            for (Row row : rs) {
-
-                followerForUser.add(row.getUUID("followerUser_ID"));
-            }
-        }
-
-        return followerForUser;
-    }
-
-    public java.util.LinkedList<String> getUnameFromUUID(UUID userID) {
+    
+    public java.util.LinkedList<String> getUnameFromUUID(java.util.LinkedList<UUID> userID) {
         java.util.LinkedList<String> usernames = new java.util.LinkedList<>();
+        String username = "";
         Session session = cluster.connect("HashMusic");
 
         Statement statement = QueryBuilder.select("username")
@@ -181,7 +142,6 @@ public class Users {
         } else {
             for (Row row : rs) {
 
-                usernames.add(row.getString("username"));
             }
         }
 
@@ -202,8 +162,7 @@ public class Users {
         } else {
             for (Row row : rs) {
                 String userName = row.getString("username");
-                 if (userName.toUpperCase().contains(user.toUpperCase()) || (user.toUpperCase().contains(userName.toUpperCase()))) 
-                {
+                if (userName.toUpperCase().contains(user.toUpperCase()) || (user.toUpperCase().contains(userName.toUpperCase()))) {
                     seachedUName.add(userName);
                 }
 
@@ -211,6 +170,34 @@ public class Users {
         }
 
         return seachedUName;
+    }
+
+    public java.util.LinkedList<FollowerList> getFollowersDetails() {
+        java.util.LinkedList<FollowerList> details = new java.util.LinkedList<>();
+
+        Session session = cluster.connect("HashMusic");
+
+        Statement statement = QueryBuilder.select()
+                .all()
+                .from("HashMusic", "followers");
+        ResultSet rs = session.execute(statement);
+        if (rs.isExhausted()) {
+            System.out.println("No users returned");
+            return null;
+        } else {
+            for (Row row : rs) {
+                FollowerList fl = new FollowerList();
+                UUID followingUserID = row.getUUID("followingUser_ID");
+                UUID followerUserID = row.getUUID("followerUser_ID");
+                String followerUName = row.getString("follower_UName");
+                String followingUname = row.getString("following_UName");
+                Date date_followed = row.getDate("date_followed");
+                
+                fl.setFollowerDetails(followerUserID, followingUserID, followerUName, followingUname, date_followed);
+                details.add(fl);
+            }
+        }
+        return details;
     }
 
     public void setCluster(Cluster cluster) {

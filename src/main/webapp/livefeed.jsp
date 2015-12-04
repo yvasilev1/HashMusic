@@ -63,8 +63,8 @@
 
 
                     <form name="input" action="Followers" method="POST">
-                        <input type="text" name="user" value="" hidden>
-                        <input type="text" name="user1" value="" hidden>
+                        <input type="text" name="user" value="${sessionScope.user}" hidden>
+                        <input type="text" name="user1" value="${sessionScope.user}" hidden>
                         <button type="submit" class="btn btn-sm">Follow ${sessionScope.user} </button></br>
                     </form></br>
                     <div class="form-group">
@@ -337,7 +337,7 @@
             }
         </script>
         <style>
-            audio;
+            audio
             {
                 width: 400px;
             }

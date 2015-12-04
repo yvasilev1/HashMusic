@@ -63,8 +63,10 @@ public final class Keyspaces {
                     + ")";
 
             String CreateFollowerList = "CREATE TABLE if not exists HashMusic.followers (\n"
-                    + " followerUser_ID uuid, "
-                    + " followingUser_ID uuid, "
+                    + " followerUser_ID uuid,"
+                    + " follower_UName text, "
+                    + " followingUser_ID uuid,"
+                    + "following_UName text, "
                     + "date_followed timestamp,"
                     + "PRIMARY KEY (followerUser_ID, followingUser_ID, date_followed)\n"
                     + ") WITH CLUSTERING ORDER BY (followingUser_ID desc, date_followed desc);";
