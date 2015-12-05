@@ -112,9 +112,7 @@ public class NewSong {
             return songBytes;
         } else {
             for (Row row : rs) {
-                
-                Song song = new Song();
-                
+   
                 songBytes = row.getBytes("song");
             }
         }

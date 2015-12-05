@@ -42,7 +42,7 @@
                             <ul class="nav navbar-nav navbar-right">
                                 <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">My Account<span class="caret"></span></a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="editprofile.jsp">Edit My Details</a></li>
+                                        <li><a href="LogoutServlet">Edit My Details</a></li>
                                         <li><a href="index.jsp">Logout</a></li>
                                     </ul>
                                 </li>
@@ -215,7 +215,7 @@
                                             <c:choose>
                                                 <c:when test ="${sessionScope.listType == 'user'}">
 
-                                                    <c:out value = "HashTag"/>
+                                                    <c:out value = "HashTag (#! To Access)"/>
                                                 </c:when>
                                             </c:choose>
                                         </th>
